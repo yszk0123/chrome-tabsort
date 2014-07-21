@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title TasSort
+    link(rel="stylesheet", href="../css/options.css")
+    script(src="../src/namespace.js")
+    script(src="../src/helpers.js")
+    script(src="../src/options.js")
+  body
+    div#container
+      div#status
+      ul
+        li
+          label 1ウィンドウあたりのタブ数の目安: 
+          input#tabs-per-window(type="number", min="1", max="100")
+        li
+          label グループ化フィルター: 
+          textarea#register-list []

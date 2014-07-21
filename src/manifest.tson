@@ -1,0 +1,18 @@
+
+manifest_version: 2
+
+name:        # TabSort
+version:     # 0.1.4
+description: # タブのソートとか
+permissions: -# tabs http://*/* https://*/* <all_urls> chrome://favicon/*
+
+background:
+  scripts:   -# src/namespace.js src/helpers.js src/divider.js src/main.js
+
+browser_action:
+  default_icon:
+    19: # images/icon19.png
+    38: # images/icon38.png
+  default_title: # TabSort
+
+options_page: # views/options.html

@@ -1,0 +1,12 @@
+bower_components/
+components/
+node_modules/
+
+backup/
+build/
+dist/
+
+*.log
+.sass-cache
+.tmp
+myke.history.json

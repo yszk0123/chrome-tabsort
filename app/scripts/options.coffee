@@ -13,8 +13,8 @@ saveOptions = (value) ->
   el = document.getElementById('tabs-per-window')
   localStorage.setItem 'tabsPerWindow', el.value
 
-  el = document.getElementById('register-list')
-  localStorage.setItem 'registerList', el.value
+  el = document.getElementById('rules')
+  localStorage.setItem 'rules', el.value
 
   notifyStatus('Options saved')
 
@@ -22,8 +22,8 @@ restoreOptions = () ->
   el = document.getElementById('tabs-per-window')
   el.value = localStorage.getItem('tabsPerWindow')
   
-  el = document.getElementById('register-list')
-  el.value = localStorage.getItem('registerList')
+  el = document.getElementById('rules')
+  el.value = localStorage.getItem('rules')
 
 document.addEventListener 'DOMContentLoaded', ->
   restoreOptions()
@@ -31,5 +31,5 @@ document.addEventListener 'DOMContentLoaded', ->
   el = document.getElementById('tabs-per-window')
   el.addEventListener 'blur', saveOptions
 
-  el = document.getElementById('register-list')
+  el = document.getElementById('rules')
   el.addEventListener 'blur', saveOptions

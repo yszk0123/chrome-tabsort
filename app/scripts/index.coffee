@@ -1,7 +1,10 @@
-{config, notify, error, validateId, moveToTail} = require './helpers'
+{error, moveToTail, notify, Storage, validateId} = require './helpers'
 {divideNode} = require './divider'
 
 activeTabId = null
+storage = new Storage
+  tabsPerWindow: type: 'number', default: 10
+  rules: type: 'array', default: []
 
 # ------------------------------------------------------------------------------
 # 補助関数
@@ -16,9 +19,9 @@ getActiveWindow = (groups, currentTabId) ->
 
 divide = (list, tabsPerWindow, oneWindow=false) ->
   try
-    groups = divideNode list, tabsPerWindow, JSON.parse(config.get('registerList'))
+    groups = divideNode list, tabsPerWindow, storage.get('rules')
   catch err
-    console.log 'error: invalid json string. please access options.html and correct registerList option'
+    console.log 'error: invalid json string. please access options.html and correct rules option'
     console.log err
     return
   return if oneWindow and groups.length is 1
@@ -81,19 +84,12 @@ setBadge = ->
 # 各種イベントハンドラ
 # ------------------------------------------------------------------------------
 
-# 初回起動時に各オプションを初期化
-chrome.runtime.onInstalled.addListener ->
-  config.set 'tabsPerWindow', 10 unless config.get('tabsPerWindow')
-  config.set 'registerList', '[]' unless config.get('registerList')
-  # CAUTION: 英語がとても怪しい
-  notify 'Unspecified options were defaulted'
-
 # ウィンドウにタブが追加された時にウィンドウ内のタブをソート
 # 今は、タブが新規作成された場合のみで
 # 別ウィンドウから持ってきた時などは無視している
 chrome.tabs.onCreated.addListener (tab) ->
   chrome.windows.getCurrent {populate: true}, (wnd) ->
-    tabsPerWindow = config.get('tabsPerWindow')
+    tabsPerWindow = storage.get('tabsPerWindow')
     if wnd.tabs.length > tabsPerWindow
       divide wnd.tabs, tabsPerWindow, true
   setBadge()
@@ -123,5 +119,5 @@ chrome.browserAction.onClicked.addListener (tab) ->
     for wnd in windows when wnd.type is 'normal'
       for tab in wnd.tabs
         list.push id: tab.id, url: tab.url
-    tabsPerWindow = config.get('tabsPerWindow')
+    tabsPerWindow = storage.get('tabsPerWindow')
     divide list, tabsPerWindow

@@ -1,9 +1,7 @@
 changed = require 'gulp-changed'
-concat = require 'gulp-concat'
 gulp = require 'gulp'
 gutil = require 'gulp-util'
 rename = require 'gulp-rename'
-{resolve} = require 'path'
 
 # 必要に応じて
 # process.chdir(__dirname)
@@ -12,11 +10,17 @@ settings =
   development: true
   watchOptions: interval: 3000, debounceDelay: 1000
   src: './app'
-  htmls: './app/*.{html,jade}'
-  json: './app/*.json'
-  # plugins: [ ]
-  scripts: './app/scripts/*.{js,coffee}'
-  styles: './app/styles/*.{css,styl}'
+  htmls: './app/{options}/*.{html,jade}'
+  manifest: './app/*.json'
+  styles: './app/{background,options}/*.{css,styl}'
+  background:
+    src: './app/background'
+    scripts: './app/background/*.{js,coffee}'
+    build: './dist/background/build'
+  options:
+    src: './app/options'
+    scripts: './app/options/*.{js,coffee}'
+    build: './dist/options/build'
   dest: './dist'
   build: './dist/build'
 
@@ -29,36 +33,36 @@ gulp
       .on 'error', gutil.log
       .pipe gulp.dest(settings.dest)
 
-  .task 'json', ->
-    gulp.src settings.json
+  .task 'manifest', ->
+    gulp.src settings.manifest
       .pipe gulp.dest(settings.dest)
 
-  # .task 'plugins', ->
-  #   gulp.src(settings.plugins)
-  #     .on 'error', gutil.log
-  #     .pipe concat('plugins.js')
-  #     .pipe gulp.dest(settings.build)
-
-  .task 'scripts:background', ->
+  .task 'background:scripts', ->
     browserify = require 'gulp-browserify'
-    gulp.src "#{settings.src}/scripts/index.coffee", { read: false }
+    gulp.src "#{settings.background.src}/index.coffee"
       .pipe browserify
         transform: ['coffeeify', 'jadify']
         extensions: ['.coffee']
         detectGlobals: false
       .on 'error', gutil.log
       .pipe rename('build.js')
-      .pipe gulp.dest(settings.build)
+      .pipe gulp.dest(settings.background.build)
 
-  .task 'scripts:options', ->
-    coffee = require 'gulp-coffee'
-    gulp.src "#{settings.src}/scripts/options.coffee"
-      .pipe coffee()
-      .pipe gulp.dest("#{settings.dest}/scripts")
+  .task 'options:scripts', ->
+    browserify = require 'gulp-browserify'
+    gulp.src "#{settings.options.src}/index.coffee"
+      .pipe browserify
+        transform: ['coffeeify', 'jadify']
+        extensions: ['.coffee']
+        detectGlobals: false
+      .on 'error', gutil.log
+      .pipe rename('build.js')
+      .pipe gulp.dest(settings.options.build)
 
-  .task 'styles:options', ->
+  .task 'styles', ->
     stylus = require 'gulp-stylus'
-    gulp.src("#{settings.src}/styles/options.styl")
+    gulp.src(settings.styles)
+      .pipe changed(settings.dest, { extension: '.css' })
       .pipe stylus()
       .on 'error', gutil.log
       .pipe gulp.dest(settings.dest)
@@ -66,12 +70,11 @@ gulp
   .task 'watch', ->
     options = settings.watchOptions
     gulp.watch settings.htmls, options, ['htmls']
-    # gulp.watch settings.plugins, options, ['plugins']
-    gulp.watch settings.scripts, options, ['scripts']
+    gulp.watch settings.background.scripts, options, ['background:scripts']
+    gulp.watch settings.options.scripts, options, ['options:scripts']
     gulp.watch settings.styles, options, ['styles']
 
-  .task 'scripts', ['scripts:background', 'scripts:options']
-  .task 'styles', ['styles:options']
-  # .task 'build', ['htmls', 'json', 'plugins', 'scripts', 'styles']
-  .task 'build', ['htmls', 'json', 'scripts', 'styles']
+  .task 'background', ['background:scripts']
+  .task 'options', ['options:scripts']
+  .task 'build', ['htmls', 'manifest', 'background', 'options', 'styles']
   .task 'default', ['watch']

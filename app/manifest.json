@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "TabSort",
-  "version": "0.1.4",
+  "version": "0.3.0",
   "description": "タブのソートとか",
   "permissions": [
     "tabs",
@@ -12,7 +12,7 @@
   ],
   "background": {
     "scripts": [
-      "build/build.js"
+      "background/build/build.js"
     ]
   },
   "browser_action": {
@@ -22,5 +22,5 @@
     },
     "default_title": "TabSort"
   },
-  "options_page": "options.html"
+  "options_page": "options/index.html"
 }

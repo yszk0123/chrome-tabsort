@@ -1,4 +1,4 @@
-{error, moveToTail, notify, Storage, validateId} = require './helpers'
+{error, moveToTail, notify, Storage, validateId} = require '../common/helpers'
 {divideNode} = require './divider'
 
 activeTabId = null

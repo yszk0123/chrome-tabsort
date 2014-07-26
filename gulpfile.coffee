@@ -10,9 +10,11 @@ settings =
   development: true
   watchOptions: interval: 3000, debounceDelay: 1000
   src: './app'
-  htmls: './app/{options}/*.{html,jade}'
+  htmls: './app/*.{html,jade}'
   manifest: './app/*.json'
-  styles: './app/{background,options}/*.{css,styl}'
+  styles:
+    src: './app/styles/*.{css,styl}'
+    dest: './dist/styles'
   background:
     src: './app/background'
     scripts: './app/background/*.{js,coffee}'
@@ -39,7 +41,7 @@ gulp
 
   .task 'background:scripts', ->
     browserify = require 'gulp-browserify'
-    gulp.src "#{settings.background.src}/index.coffee"
+    gulp.src "#{settings.background.src}/index.coffee", { read: false }
       .pipe browserify
         transform: ['coffeeify', 'jadify']
         extensions: ['.coffee']
@@ -50,7 +52,7 @@ gulp
 
   .task 'options:scripts', ->
     browserify = require 'gulp-browserify'
-    gulp.src "#{settings.options.src}/index.coffee"
+    gulp.src "#{settings.options.src}/index.coffee", { read: false }
       .pipe browserify
         transform: ['coffeeify', 'jadify']
         extensions: ['.coffee']
@@ -61,18 +63,18 @@ gulp
 
   .task 'styles', ->
     stylus = require 'gulp-stylus'
-    gulp.src(settings.styles)
-      .pipe changed(settings.dest, { extension: '.css' })
+    gulp.src(settings.styles.src)
+      .pipe changed(settings.styles.dest, { extension: '.css' })
       .pipe stylus()
       .on 'error', gutil.log
-      .pipe gulp.dest(settings.dest)
+      .pipe gulp.dest(settings.styles.dest)
 
   .task 'watch', ->
     options = settings.watchOptions
     gulp.watch settings.htmls, options, ['htmls']
     gulp.watch settings.background.scripts, options, ['background:scripts']
     gulp.watch settings.options.scripts, options, ['options:scripts']
-    gulp.watch settings.styles, options, ['styles']
+    gulp.watch settings.styles.src, options, ['styles']
 
   .task 'background', ['background:scripts']
   .task 'options', ['options:scripts']

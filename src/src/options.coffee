@@ -1,4 +1,3 @@
-
 TIMEOUT = 750
 
 notifyStatus = (s) ->
@@ -34,4 +33,3 @@ document.addEventListener 'DOMContentLoaded', ->
 
   el = document.getElementById('register-list')
   el.addEventListener 'blur', saveOptions
-

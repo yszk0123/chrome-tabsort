@@ -1,4 +1,3 @@
-
 {config, notify, error, validateId, moveToTail} = TabSort.Helpers
 {divideNode} = TabSort.Divider
 

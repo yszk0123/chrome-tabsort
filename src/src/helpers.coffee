@@ -1,4 +1,3 @@
-
 # 共通設定の取得/設定手段を提供
 config =
   get: (key) ->
@@ -26,4 +25,3 @@ moveToTail = (arr, target) ->
 
 # export
 TabSort.Helpers = {config, notify, error, validateId, moveToTail}
-

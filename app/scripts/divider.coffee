@@ -1,4 +1,3 @@
-
 DOMAIN = /// ^ [^:]+:/+([^/]+) ///
 
 # ルールに合致する場合はルール名を
@@ -80,6 +79,7 @@ flatten = (out) ->
 #   グループは正規表現による一致か、グループ名(文字列)のリストを指定できる
 #   例
 #   [ /\bdoc/, /game/, /^chrome|extensions/, ['http://docs.angularjs.org/', 'backbonejs.org'] ]
+exports.divideNode =
 divideNode = (input, size, rulesArray) ->
   rulesArray = rulesArray ? []
   rules = {}
@@ -92,6 +92,3 @@ divideNode = (input, size, rulesArray) ->
   groups = groups.sort (a, b) -> b.length - a.length
   groups = pack groups, size
   groups = (flatten(div).sort((a,b) -> a.url > b.url) for div in groups)
-
-#module.exports =
-TabSort.Divider = {divideNode}

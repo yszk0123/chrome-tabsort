@@ -15,7 +15,7 @@ settings =
   htmls: './app/*.{html,jade}'
   json: './app/*.json'
   plugins: [ ]
-  scripts: './app/scripts/**/*.{js,coffee}'
+  scripts: './app/scripts/*.{js,coffee}'
   styles: './app/styles/*.{css,styl}'
   dest: './dist'
   build: './dist/build'
@@ -39,15 +39,7 @@ gulp
       .pipe concat('plugins.js')
       .pipe gulp.dest(settings.build)
 
-  .task 'styles', ->
-    stylus = require 'gulp-stylus'
-    gulp.src(settings.styles)
-      .pipe stylus()
-      .on 'error', gutil.log
-      .pipe concat('build.css')
-      .pipe gulp.dest(settings.build)
-
-  .task 'scripts', ->
+  .task 'scripts:background', ->
     browserify = require 'gulp-browserify'
     gulp.src "#{settings.src}/scripts/index.coffee", { read: false }
       .pipe browserify
@@ -58,6 +50,17 @@ gulp
       .pipe rename('build.js')
       .pipe gulp.dest(settings.build)
 
+  .task 'scripts:options', ->
+    gulp.src "#{settings.src}/scripts/options.coffee", { read: false }
+      .pipe gulp.dest(settings.dest)
+
+  .task 'styles:options', ->
+    stylus = require 'gulp-stylus'
+    gulp.src("#{settings.src}/styles/options.styl")
+      .pipe stylus()
+      .on 'error', gutil.log
+      .pipe gulp.dest(settings.dest)
+
   .task 'watch', ->
     options = settings.watchOptions
     gulp.watch settings.htmls, options, ['htmls']
@@ -65,5 +68,7 @@ gulp
     gulp.watch settings.scripts, options, ['scripts']
     gulp.watch settings.styles, options, ['styles']
 
+  .task 'scripts', ['scripts:background', 'scripts:options']
+  .task 'styles', ['scripts:options']
   .task 'build', ['htmls', 'json', 'plugins', 'scripts', 'styles']
   .task 'default', ['watch']

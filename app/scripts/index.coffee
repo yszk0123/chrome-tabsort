@@ -1,5 +1,5 @@
-{config, notify, error, validateId, moveToTail} = TabSort.Helpers
-{divideNode} = TabSort.Divider
+{config, notify, error, validateId, moveToTail} = require './helpers'
+{divideNode} = require './divider'
 
 activeTabId = null
 

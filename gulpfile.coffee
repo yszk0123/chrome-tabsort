@@ -2,6 +2,8 @@ changed = require 'gulp-changed'
 gulp = require 'gulp'
 gutil = require 'gulp-util'
 rename = require 'gulp-rename'
+source = require 'vinyl-source-stream'
+{resolve} = require 'path'
 
 # 必要に応じて
 # process.chdir(__dirname)
@@ -9,6 +11,12 @@ rename = require 'gulp-rename'
 settings =
   development: true
   watchOptions: interval: 3000, debounceDelay: 1000
+  browserifyOptions:
+    extensions: '.coffee'
+    detectGlobals: false
+    basedir: __dirname
+    # Note: watchifyがcacheオブジェクトが存在すると仮定しているようで, これがないとエラーになる
+    cache: {}
   src: './app'
   htmls: './app/*.{html,jade}'
   manifest: './app/*.json'
@@ -16,12 +24,10 @@ settings =
     src: './app/styles/*.{css,styl}'
     dest: './dist/styles'
   background:
-    src: './app/background'
-    scripts: './app/background/*.{js,coffee}'
+    index: resolve './app/background/index.coffee'
     build: './dist/background/build'
   options:
-    src: './app/options'
-    scripts: './app/options/*.{js,coffee}'
+    index: resolve './app/options/index.coffee'
     build: './dist/options/build'
   dest: './dist'
   build: './dist/build'
@@ -40,25 +46,21 @@ gulp
       .pipe gulp.dest(settings.dest)
 
   .task 'background:scripts', ->
-    browserify = require 'gulp-browserify'
-    gulp.src "#{settings.background.src}/index.coffee", { read: false }
-      .pipe browserify
-        transform: ['coffeeify', 'jadify']
-        extensions: ['.coffee']
-        detectGlobals: false
-      .on 'error', gutil.log
-      .pipe rename('build.js')
+    browserify = require 'browserify'
+    browserify(settings.background.index, settings.browserifyOptions
+      .transform 'coffeeify'
+      .transform 'jadify'
+      .bundle()
+      .pipe source('build.js')
       .pipe gulp.dest(settings.background.build)
 
   .task 'options:scripts', ->
-    browserify = require 'gulp-browserify'
-    gulp.src "#{settings.options.src}/index.coffee", { read: false }
-      .pipe browserify
-        transform: ['coffeeify', 'jadify']
-        extensions: ['.coffee']
-        detectGlobals: false
-      .on 'error', gutil.log
-      .pipe rename('build.js')
+    browserify = require 'browserify'
+    browserify(settings.options.index, settings.browserifyOptions
+      .transform 'coffeeify'
+      .transform 'jadify'
+      .bundle()
+      .pipe source('build.js')
       .pipe gulp.dest(settings.options.build)
 
   .task 'styles', ->
@@ -70,11 +72,44 @@ gulp
       .pipe gulp.dest(settings.styles.dest)
 
   .task 'watch', ->
+    browserify = require 'browserify'
+    watchify = require 'watchify'
+
     options = settings.watchOptions
     gulp.watch settings.htmls, options, ['htmls']
-    gulp.watch settings.background.scripts, options, ['background:scripts']
-    gulp.watch settings.options.scripts, options, ['options:scripts']
     gulp.watch settings.styles.src, options, ['styles']
+
+    backgroundBundler = browserify(settings.background.index, settings.browserifyOptions
+      .transform 'coffeeify'
+      .transform 'jadify'
+
+    backgroundRebundle = ->
+      backgroundBundler.bundle()
+        .on 'error', (err) -> gutil.log 'Browserify error', err
+        .pipe source('build.js')
+        .pipe gulp.dest(settings.background.build)
+
+    watchify backgroundBundler
+      .on 'update', backgroundRebundle
+      .on 'log', (msg) -> gutil.log 'Browserify bundle', msg
+
+    backgroundRebundle()
+
+    optionsBundler = browserify(settings.options.index, settings.browserifyOptions
+      .transform 'coffeeify'
+      .transform 'jadify'
+
+    optionsRebundle = ->
+      optionsBundler.bundle()
+        .on 'error', (err) -> gutil.log 'Browserify error', err
+        .pipe source('build.js')
+        .pipe gulp.dest(settings.options.build)
+
+    watchify optionsBundler
+      .on 'update', optionsRebundle
+      .on 'log', (msg) -> gutil.log 'Browserify bundle', msg
+
+    optionsRebundle()
 
   .task 'background', ['background:scripts']
   .task 'options', ['options:scripts']

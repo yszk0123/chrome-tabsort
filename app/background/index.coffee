@@ -1,10 +1,10 @@
-{error, moveToTail, notify, Storage, validateId} = require '../common/helpers'
-{divideNode} = require './divider'
+{error, moveToTail, notify, validateId} = require '../common/helpers'
+{storage} = require '../common/storage'
+{Divider} = require './divider'
+
+divider = new Divider()
 
 activeTabId = null
-storage = new Storage
-  tabsPerWindow: type: 'number', default: 10
-  rules: type: 'array', default: []
 
 # ------------------------------------------------------------------------------
 # 補助関数
@@ -19,9 +19,10 @@ getActiveWindow = (groups, currentTabId) ->
 
 divide = (list, tabsPerWindow, oneWindow=false) ->
   try
-    groups = divideNode list, tabsPerWindow, storage.get('rules')
+    divider.updateRules storage.get('rules')
+    groups = divider.divide list, tabsPerWindow
   catch err
-    console.log 'error: invalid json string. please access options.html and correct rules option'
+    console.log 'error: maybe rules is invalid. please access options.html and correct rules'
     console.log err
     return
   return if oneWindow and groups.length is 1
@@ -48,7 +49,7 @@ divide = (list, tabsPerWindow, oneWindow=false) ->
 #           戻り値は次のような配列として返される
 #           [<カレントウィンドウのタブ数>, <全ウィンドウのタブ数>]
 getTabCount = (opts, cb) ->
-  return if typeof(cb) != 'function'
+  return if typeof(cb) isnt 'function'
 
   # デフォルトは全ウィンドウのタブ数
   opts = {multi: true} unless opts

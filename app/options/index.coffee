@@ -1,35 +1,36 @@
-TIMEOUT = 750
+{pull} = require '../common/helpers'
 
-notifyStatus = (s) ->
-  el = document.getElementById('status')
-  el.innerHTML = s
-  el.classList.add 'show' unless el.classList.contains 'show'
-  setTimeout ->
-    el.innerHTML = ''
-    el.classList.remove 'show'
-  , TIMEOUT
+angular.module 'app', ['ngSanitize']
 
-saveOptions = (value) ->
-  el = document.getElementById('tabs-per-window')
-  localStorage.setItem 'tabsPerWindow', el.value
+.factory 'storageService', ->
+  require('../common/storage').storage
 
-  el = document.getElementById('rules')
-  localStorage.setItem 'rules', el.value
+.constant 'optionsConfig',
+  timeout: 800
+  defaultRule:
+    regexp: ''
+    isolate: false
 
-  notifyStatus('Options saved')
+.controller 'OptionsController', class
+  @$inject: ['$timeout', 'storageService', 'optionsConfig']
+  constructor: ($timeout, storageService, optionsConfig) ->
+    @saved = false
 
-restoreOptions = () ->
-  el = document.getElementById('tabs-per-window')
-  el.value = localStorage.getItem('tabsPerWindow')
-  
-  el = document.getElementById('rules')
-  el.value = localStorage.getItem('rules')
+    @restore = ->
+      @tabsPerWindow = storageService.get 'tabsPerWindow'
+      @rules = storageService.get 'rules'
 
-document.addEventListener 'DOMContentLoaded', ->
-  restoreOptions()
+    @save = ->
+      storageService.set 'tabsPerWindow', @tabsPerWindow
+      storageService.set 'rules', @rules
+      @saved = true
+      $timeout (=> @saved = false), optionsConfig.timeout
 
-  el = document.getElementById('tabs-per-window')
-  el.addEventListener 'blur', saveOptions
+    @removeRule = (rule) ->
+      pull @rules, rule
 
-  el = document.getElementById('rules')
-  el.addEventListener 'blur', saveOptions
+    @addRules = ->
+      @rules ?= []
+      @rules.push angular.extend {}, optionsConfig.defaultRule
+
+    @restore()

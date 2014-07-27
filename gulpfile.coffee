@@ -47,7 +47,7 @@ gulp
 
   .task 'background:scripts', ->
     browserify = require 'browserify'
-    browserify(settings.background.index, settings.browserifyOptions
+    browserify(settings.background.index, settings.browserifyOptions)
       .transform 'coffeeify'
       .transform 'jadify'
       .bundle()
@@ -56,7 +56,7 @@ gulp
 
   .task 'options:scripts', ->
     browserify = require 'browserify'
-    browserify(settings.options.index, settings.browserifyOptions
+    browserify(settings.options.index, settings.browserifyOptions)
       .transform 'coffeeify'
       .transform 'jadify'
       .bundle()

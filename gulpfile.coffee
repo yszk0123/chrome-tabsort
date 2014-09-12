@@ -1,4 +1,5 @@
 changed = require 'gulp-changed'
+extend = require 'extend'
 gulp = require 'gulp'
 gutil = require 'gulp-util'
 rename = require 'gulp-rename'
@@ -10,13 +11,11 @@ source = require 'vinyl-source-stream'
 
 settings =
   development: true
-  watchOptions: interval: 3000, debounceDelay: 1000
+  watchOptions: {} # interval: 3000, debounceDelay: 1000
   browserifyOptions:
     extensions: '.coffee'
     detectGlobals: false
     basedir: __dirname
-    # Note: watchifyがcacheオブジェクトが存在すると仮定しているようで, これがないとエラーになる
-    cache: {}
   src: './app'
   htmls: './app/*.{html,jade}'
   manifest: './app/*.json'
@@ -48,8 +47,6 @@ gulp
   .task 'background:scripts', ->
     browserify = require 'browserify'
     browserify(settings.background.index, settings.browserifyOptions)
-      .transform 'coffeeify'
-      .transform 'jadify'
       .bundle()
       .pipe source('build.js')
       .pipe gulp.dest(settings.background.build)
@@ -57,8 +54,6 @@ gulp
   .task 'options:scripts', ->
     browserify = require 'browserify'
     browserify(settings.options.index, settings.browserifyOptions)
-      .transform 'coffeeify'
-      .transform 'jadify'
       .bundle()
       .pipe source('build.js')
       .pipe gulp.dest(settings.options.build)
@@ -74,14 +69,13 @@ gulp
   .task 'watch', ->
     browserify = require 'browserify'
     watchify = require 'watchify'
+    browserifyOptions = extend watchify.args, settings.browserifyOptions
 
     options = settings.watchOptions
     gulp.watch settings.htmls, options, ['htmls']
     gulp.watch settings.styles.src, options, ['styles']
 
-    backgroundBundler = browserify(settings.background.index, settings.browserifyOptions
-      .transform 'coffeeify'
-      .transform 'jadify'
+    backgroundBundler = browserify settings.background.index, browserifyOptions
 
     backgroundRebundle = ->
       backgroundBundler.bundle()
@@ -95,9 +89,7 @@ gulp
 
     backgroundRebundle()
 
-    optionsBundler = browserify(settings.options.index, settings.browserifyOptions
-      .transform 'coffeeify'
-      .transform 'jadify'
+    optionsBundler = browserify settings.options.index, settings.browserifyOptions
 
     optionsRebundle = ->
       optionsBundler.bundle()

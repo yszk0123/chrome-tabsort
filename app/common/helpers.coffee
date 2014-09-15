@@ -35,9 +35,13 @@ flatten = (src) ->
 exports.arrayGroupBy =
 arrayGroupBy = (items, getIndex) ->
   dest = []
+  maxIndex = -1
   for item in items
     i = getIndex item
+    maxIndex = i if i > maxIndex
     (dest[i] ?= []).push item
+  for i in [0...maxIndex] by 1
+    dest[i] ?= []
   dest
 
 exports.pull =

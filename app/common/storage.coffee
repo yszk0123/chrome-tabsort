@@ -1,5 +1,10 @@
 {identity} = require './helpers'
 
+stringifyFilter = (key, value) ->
+  if key[0] is '$' then undefined else value
+
+stringify = (data) -> JSON.stringify data, stringifyFilter
+
 # 共通設定の取得/設定手段を提供
 # schemaに渡せる形式は次の通り
 #   { <key>: <type> }
@@ -10,8 +15,8 @@ class Storage
   converterMap:
     number: [Number, String]
     string: [identity, identity]
-    object: [JSON.parse, JSON.stringify]
-    array: [JSON.parse, JSON.stringify]
+    object: [JSON.parse, stringify]
+    array: [JSON.parse, stringify]
 
   constructor: (schema) ->
     @typeInfoMap = {}

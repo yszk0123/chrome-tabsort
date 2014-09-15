@@ -15,11 +15,13 @@ html
           label.col-sm-8 パターン(正規表現)
           label.col-sm-4 ウィンドウを常に分離
         .form-group(ng-repeat="rule in options.rules")
-          .col-sm-8
+          .col-sm-6
             input.form-control(type="text", ng-model="rule.regexp", require="")
           .col-sm-3
             input.form-control(type="checkbox", ng-model="rule.isolate")
-          .col-sm-1
+          .col-sm-3.btn-group
+            .btn.btn-default(ng-click="options.upRule(rule)") ↑
+            .btn.btn-default(ng-click="options.downRule(rule)") ↓
             .btn.btn-default(ng-click="options.removeRule(rule)") 削除
         .form-group
           .btn.btn-default(ng-click="options.addRules()") ルールを追加

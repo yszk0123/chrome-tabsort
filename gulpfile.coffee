@@ -32,7 +32,7 @@ settings =
   build: './dist/build'
 
 gulp
-  .task 'htmls', ->
+  .task 'html', ->
     jade = require 'gulp-jade'
     gulp.src settings.htmls
       .pipe changed(settings.dest, { extension: '.html' })
@@ -44,21 +44,21 @@ gulp
     gulp.src settings.manifest
       .pipe gulp.dest(settings.dest)
 
-  .task 'background:scripts', ->
+  .task 'background:script', ->
     browserify = require 'browserify'
     browserify(settings.background.index, settings.browserifyOptions)
       .bundle()
       .pipe source('build.js')
       .pipe gulp.dest(settings.background.build)
 
-  .task 'options:scripts', ->
+  .task 'options:script', ->
     browserify = require 'browserify'
     browserify(settings.options.index, settings.browserifyOptions)
       .bundle()
       .pipe source('build.js')
       .pipe gulp.dest(settings.options.build)
 
-  .task 'styles', ->
+  .task 'style', ->
     stylus = require 'gulp-stylus'
     gulp.src(settings.styles.src)
       .pipe changed(settings.styles.dest, { extension: '.css' })
@@ -72,8 +72,8 @@ gulp
     browserifyOptions = extend watchify.args, settings.browserifyOptions
 
     options = settings.watchOptions
-    gulp.watch settings.htmls, options, ['htmls']
-    gulp.watch settings.styles.src, options, ['styles']
+    gulp.watch settings.htmls, options, ['html']
+    gulp.watch settings.styles.src, options, ['style']
 
     backgroundBundler = browserify settings.background.index, browserifyOptions
 
@@ -103,7 +103,7 @@ gulp
 
     optionsRebundle()
 
-  .task 'background', ['background:scripts']
-  .task 'options', ['options:scripts']
-  .task 'build', ['htmls', 'manifest', 'background', 'options', 'styles']
+  .task 'background', ['background:script']
+  .task 'options', ['options:script']
+  .task 'build', ['html', 'manifest', 'background', 'options', 'style']
   .task 'default', ['watch']

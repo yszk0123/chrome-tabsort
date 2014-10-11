@@ -54,7 +54,8 @@ class Divider
 
     # isolateオプションが付いているグループは
     # capacityによらず強制的に別個のグループに分ける
-    [groups, isolatedGroups] = arrayGroupBy _groups, (group) -> if group.isolate then 1 else 0
+    [groups, isolatedGroups] = arrayGroupBy _groups,
+      ((group) -> if group.isolate then 1 else 0), 2
 
     while groups.length
       newGroup = groups.pop()

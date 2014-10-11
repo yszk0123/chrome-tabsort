@@ -33,15 +33,14 @@ flatten = (src) ->
   dest
 
 exports.arrayGroupBy =
-arrayGroupBy = (items, getIndex) ->
+arrayGroupBy = (items, getIndex, maxSize) ->
   dest = []
-  maxIndex = -1
+  dest.length = maxSize
+  for i in [0...maxSize] by 1
+    dest[i] ?= []
   for item in items
     i = getIndex item
-    maxIndex = i if i > maxIndex
-    (dest[i] ?= []).push item
-  for i in [0...maxIndex] by 1
-    dest[i] ?= []
+    dest[i].push item
   dest
 
 exports.pull =

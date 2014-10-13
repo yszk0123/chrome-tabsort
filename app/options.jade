@@ -5,21 +5,25 @@ html
     title TasSort
     link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
     // link(rel="stylesheet", href="/styles/options.css")
-  body(ng-app="app", ng-csp="")
+  body(ng-app="app", ng-csp="", ng-cloak="")
     .container(ng-controller="OptionsController as options")
       form.form.form-horizontal(name="optionsForm")
         .form-group
           label 1ウィンドウあたりのタブ数の目安: 
           input.form-control(type="number", ng-model="options.tabsPerWindow", min="1", max="100")
         .form-group
-          label.col-sm-8 パターン(正規表現)
+          label.col-sm-6 パターン(正規表現)
+          label.col-sm-1 disable
+          label.col-sm-1 isolate
           label.col-sm-4 ウィンドウを常に分離
         .form-group(ng-repeat="rule in options.rules")
           .col-sm-6
             input.form-control(type="text", ng-model="rule.regexp", require="")
-          .col-sm-3
+          .col-sm-1
+            input.form-control(type="checkbox", ng-model="rule.disable")
+          .col-sm-1
             input.form-control(type="checkbox", ng-model="rule.isolate")
-          .col-sm-3.btn-group
+          .col-sm-4.btn-group
             .btn.btn-default(ng-click="options.upRule(rule)") ↑
             .btn.btn-default(ng-click="options.downRule(rule)") ↓
             .btn.btn-default(ng-click="options.removeRule(rule)") 削除

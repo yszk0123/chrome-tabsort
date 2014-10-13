@@ -9,6 +9,7 @@ angular.module 'app', ['ngSanitize']
   timeout: 800
   defaultRule:
     regexp: ''
+    disable: false
     isolate: false
 
 .controller 'OptionsController', class

@@ -14,7 +14,7 @@ class Divider
 
     rulesArray ?= []
     rules = {}
-    for rule, i in rulesArray
+    for rule, i in rulesArray when not rule.disable
       rules['_rule_' + i] =
         regexp:  new RegExp(rule.regexp)
         isolate: rule.isolate

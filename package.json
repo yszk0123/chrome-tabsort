@@ -8,7 +8,9 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "@echo nothing"
+    "test": "@echo nothing",
+    "build": "gulp build",
+    "watch": "gulp watch"
   },
   "browserify": {
     "transform": [ "coffeeify", "jadeify" ]

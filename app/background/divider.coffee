@@ -70,7 +70,7 @@ class Divider
             count += len
       newGroups.push newGroup
 
-    newGroups.concat isolatedGroups
+    isolatedGroups.concat newGroups
 
   # ここで言うgroupはchromeのウィンドウ、itemはchromeのタブに相当する
   #

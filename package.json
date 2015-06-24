@@ -3,7 +3,12 @@
   "name": "tab-sort",
   "version": "0.0.1",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-changed": "^1.2.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-util": "^3.0.4"
+  },
   "engines": {
     "node": ">=0.8.0"
   },

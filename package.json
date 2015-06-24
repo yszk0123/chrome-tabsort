@@ -14,8 +14,8 @@
   },
   "scripts": {
     "test": "@echo nothing",
-    "build": "gulp build",
-    "watch": "gulp watch"
+    "build": "gulp --require coffee-script/register build",
+    "watch": "gulp --require coffee-script/register watch"
   },
   "browserify": {
     "transform": [ "coffeeify", "jadeify" ]

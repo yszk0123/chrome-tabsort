@@ -4,10 +4,19 @@
   "version": "0.0.1",
   "dependencies": {},
   "devDependencies": {
+    "browserify": "^10.2.4",
+    "coffee-script": "^1.9.3",
+    "coffeeify": "^1.1.0",
+    "extend": "^2.0.1",
     "gulp": "^3.8.11",
     "gulp-changed": "^1.2.1",
-    "gulp-rename": "^1.2.0",
-    "gulp-util": "^3.0.4"
+    "gulp-jade": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-stylus": "^2.0.5",
+    "gulp-util": "^3.0.6",
+    "jade": "^1.11.0",
+    "jadeify": "^4.3.0",
+    "vinyl-source-stream": "^1.1.0"
   },
   "engines": {
     "node": ">=0.8.0"
@@ -18,6 +27,9 @@
     "watch": "gulp --require coffee-script/register watch"
   },
   "browserify": {
-    "transform": [ "coffeeify", "jadeify" ]
+    "transform": [
+      "coffeeify",
+      "jadeify"
+    ]
   }
 }

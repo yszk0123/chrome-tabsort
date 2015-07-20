@@ -2,8 +2,11 @@ doctype html
 html
   head
     meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title TasSort
-    link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
+    link(rel="stylesheet", href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css")
+    script(src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js")
+    link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
     // link(rel="stylesheet", href="/styles/options.css")
   body(ng-app="app", ng-csp="", ng-cloak="")
     .container(ng-controller="OptionsController as options")
@@ -30,7 +33,7 @@ html
         .form-group
           .btn.btn-default(ng-click="options.addRules()") ルールを追加
         .form-group
-          button.col-sm-3.btn.btn-primary(ng-click="options.save()") 設定を保存
+          button.col-sm-3.mdl-button.mdl-js-button.mdl-js-ripple-effect(ng-click="options.save()") 設定を保存
           p.col-sm-9.bg-success(ng-if="options.saved") 保存されました
 
     script(src="/bower_components/angular/angular.min.js")

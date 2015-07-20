@@ -1,4 +1,6 @@
-
+'use strict';
+import tape from 'tape';
+import {validateId} from '../app/lib';
 validateIds = (ids) ->
   for id in ids
     return false unless Number.isFinite id

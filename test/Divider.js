@@ -16,7 +16,7 @@ test('Divider', (tDivider) => {
         { id: 4, url: 'http://b.co.jp/4' },
       ];
       const divider = new Divider([]);
-      t.deepEqual(getIds(divider.divide(items, 3)), [1, 2, 3]);
+      t.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2, 3], [4]]);
       t.end();
     });
 
@@ -28,7 +28,7 @@ test('Divider', (tDivider) => {
         { id: 4, url: 'http://b.co.jp/4' },
       ];
       const divider = new Divider([]);
-      t.deepEqual(divider.divide(items, 2), {});
+      t.deepEqual(divider.divide(items, 2).map(getIds), [[1, 2], [3, 4]]);
       t.end();
     });
 
@@ -47,7 +47,7 @@ test('Divider', (tDivider) => {
         { regexp: '\\.com\\b' },
       ];
       const divider = new Divider(rules);
-      t.deepEqual(divider.divide(items, 3), {});
+      t.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2], [3, 4]]);
       t.end();
     });
 

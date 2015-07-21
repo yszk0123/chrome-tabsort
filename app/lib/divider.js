@@ -13,15 +13,15 @@ export default class Divider {
   }
 
   updateRules(rulesArray = []) {
-    return this.rules = rulesArray.reduce((rules, rule, i) => {
-      if (!rule.disable) {
-        rules[`_rule_${i}`] = {
-          regexp: new RegExp(rule.regexp, 'i'),
-          isolate: rule.isolate
-        };
-      }
-      return rules;
-    }, {});
+    return this.rules = rulesArray
+      .filter((rule) => !rule.disable)
+      .reduce((rules, rule, i) => {
+          rules[`_rule_${i}`] = {
+            regexp: new RegExp(rule.regexp, 'i'),
+            isolate: rule.isolate
+          };
+        return rules;
+      }, {});
   }
 
   // ルールに合致する場合はルール名を

@@ -76,7 +76,7 @@ export default class Divider {
           }
         }
       }
-      newGroups.push(newGroup);
+      newGroups.unshift(newGroup);
     }
 
     return isolatedGroups.concat(newGroups);

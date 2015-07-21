@@ -6,9 +6,9 @@ function getIds(array) {
   return array.map((element) => element.id).sort();
 }
 
-test('Divider', (tDivider) => {
-  tDivider.test('No rule', (tNoRule) => {
-    tNoRule.test('tabsPerWindow', (t) => {
+test('Divider#divide', (tDivider) => {
+  tDivider.test('without rules', (tNoRule) => {
+    tNoRule.test('including all tabs in one window', (t) => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://a.com/2' },
@@ -20,7 +20,7 @@ test('Divider', (tDivider) => {
       t.end();
     });
 
-    tNoRule.test('tabsPerWindow', (t) => {
+    tNoRule.test('too much tabs per window', (t) => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://a.com/2' },
@@ -35,7 +35,7 @@ test('Divider', (tDivider) => {
     tNoRule.end();
   });
 
-  tDivider.test('Rule', (tRule) => {
+  tDivider.test('with rules', (tRule) => {
     tRule.test('tabsPerWindow', (t) => {
       const items = [
         { id: 1, url: 'http://a.com/1' },

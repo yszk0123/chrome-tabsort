@@ -31,6 +31,7 @@
     "minimist": "^1.1.1",
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
+    "tape": "^4.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.3.0"
@@ -43,7 +44,7 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "gulp test",
+    "test": "babel-node test",
     "lint": "gulp lint",
     "build": "gulp build",
     "release": "NODE_ENV=production gulp build --release",

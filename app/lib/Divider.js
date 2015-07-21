@@ -8,10 +8,6 @@ export default class Divider {
     this.updateRules(rulesArray);
   }
 
-  canDivide() {
-    return !!this.rules;
-  }
-
   updateRules(rulesArray = []) {
     return this.rules = rulesArray
       .filter((rule) => !rule.disable)
@@ -104,12 +100,16 @@ export default class Divider {
   //   例
   //   [ /\bdoc/, /game/, /^chrome|extensions/, ['http://docs.angularjs.org/', 'backbonejs.org'] ]
   divide(input, size) {
-    if (!this.canDivide()) {
+    if (!this._canDivide()) {
       throw new Error('cannot divide');
     }
 
     const groups = this.groupByName(input).sort((a, b) => b.length - a.length);
     return this.pack(groups, size)
       .map((div) => flatten(div).sort((a,b) => a.url > b.url));
+  }
+
+  _canDivide() {
+    return !!this.rules;
   }
 }

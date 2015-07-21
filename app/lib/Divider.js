@@ -1,6 +1,6 @@
 'use strict';
-const {find, findKey, flatten} from 'lodash';
-const {arrayGroupBy} from '../lib/helpers';
+import {find, findKey, flatten} from 'lodash';
+import {arrayGroupBy} from '../lib/helpers';
 const DOMAIN_RE = /^[^:]+:\/+([^\/]+)/;
 
 export default class Divider {
@@ -109,7 +109,7 @@ export default class Divider {
     }
 
     const groups = this.groupByName(input).sort((a, b) => b.length - a.length);
-    this.pack(groups, size)
-      .map((div) => flatten(div).sort((a,b) -> a.url > b.url));
+    return this.pack(groups, size)
+      .map((div) => flatten(div).sort((a,b) => a.url > b.url));
   }
 }

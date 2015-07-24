@@ -1,11 +1,12 @@
 'use strict';
+import React from 'react';
 import test from 'tape';
 import Options from '../../app/components/Options';
-import createShallowElement from '../helpers/createShallowElement';
 
 test('Options', (assert) => {
   assert.test('', (assert) => {
-    createShallowElement('Hello');
+    const options = <Options key2="value2" />;
+    assert.equal(options.props.key2, 'value2');
     assert.end();
   });
 

@@ -1,6 +1,6 @@
 'use strict';
 import test from 'tape';
-import Divider from '../app/lib/Divider';
+import Divider from '../../app/lib/Divider';
 
 function getIds(array) {
   return array.map((element) => element.id).sort();

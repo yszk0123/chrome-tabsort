@@ -17,38 +17,35 @@ export const fixGroupProps = (props) => {
   return fixed;
 };
 
-export const groupTabs = (tabs, props, defaultGroupProps) => {
+export const groupTabs = (tabs, propsList, defaultGroupProps) => {
   const allTabInfoList = tabs.map((tab) => {
-    const windowGroup = findTabInWindowGroups(tab, props) || defaultGroupProps;
+    const groupProps = findTabInGroup(tab, propsList) || defaultGroupProps;
     return {
       tabId: tab.id,
       // windowId: tab.windowId,
-      windowGroupId: windowGroup.id,
-      windowGroup
+      groupId: groupProps.id,
+      groupProps
     };
   });
 
-  const p = partition(allTabInfoList, (info) => info.windowGroupId)
-  console.log(allTabInfoList);
-  console.log(p);
+  const p = partition(allTabInfoList, (info) => info.groupId)
   const windows = flatten(
       p
       .filter((windows) => windows.length)
-      .map((windows) => splitIntoBlock(windows, windows[0].windowGroup.tabsPerWindow))
+      .map((windows) => splitIntoBlock(windows, windows[0].groupProps.tabsPerWindow))
   );
 
-  console.log(windows);
   windows.sort((a, b) => a.priority - b.priority);
 
   return windows;
 };
 
-export const executeTabSort = (tabs, props) => {
-  const windows = groupTabs(tabs, props);
+export const executeTabSort = (tabs, propsList) => {
+  const windows = groupTabs(tabs, propsList);
 
   windows.forEach((tabInfoList) => {
     const tabIds = tabInfoList.map((info) => info.tabId);
-    const {position} = tabInfoList[0].windowGroup;
+    const {position} = tabInfoList[0].groupProps;
     const data = position ? {
       left: position.x,
       top: position.y,
@@ -102,6 +99,6 @@ const embedMatchFunctionIntoRules = (rules) => {
   });
 };
 
-const findTabInWindowGroups = (tab, props) => {
-  return find(props, (prop) => prop.rules.some((rule) => rule.match(tab)));
+const findTabInGroup = (tab, propsList) => {
+  return find(propsList, (props) => props.rules.some((rule) => rule.match(tab)));
 };

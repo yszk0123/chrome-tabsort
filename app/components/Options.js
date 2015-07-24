@@ -1,7 +1,8 @@
 'use strict';
-const React from 'react';
-const {pull} from '../lib/helpers';
-const appState from '../lib/appState';
+import React from 'react';
+import {pull} from '../lib/helpers';
+import appState from '../lib/appState';
+
 const optionsConfig = {
   timeout: 800,
   defaultRule: {
@@ -11,7 +12,7 @@ const optionsConfig = {
   }
 };
 
-export default class Options extends React.Components {
+export default class Options extends React.Component {
   save() {
     appState.update({
       store: {
@@ -21,7 +22,11 @@ export default class Options extends React.Components {
       saved: { $set: true },
     });
 
-    $timeout (=> @saved = false), optionsConfig.timeout
+    setTimeout(() => {
+      appState.update({
+        saved: { $set: false }
+      })
+    }, optionsConfig.timeout);
   }
 
   removeRule(rule) {
@@ -52,10 +57,12 @@ export default class Options extends React.Components {
   upRule(rule) {
     const rules = this.props.rules;
     const i = findIndex(rules, rule);
-    return unless i isnt -1 and i >= 1
     if (i >= 1) {
       swapInArray(rules, i, i - 1);
     }
+    appState.update({
+      $set: { rules }
+    });
   }
 
   downRule(rule) {
@@ -64,6 +71,9 @@ export default class Options extends React.Components {
     if (i >= 0 && i <= rules.length - 2) {
       swapInArray(rules, i, i + 1);
     }
+    appState.update({
+      $set: { rules }
+    });
   }
 }
 

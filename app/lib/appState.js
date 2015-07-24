@@ -4,7 +4,7 @@ const {update: updateHelper} = React.addons;
 
 export class AppState {
   constructor() {
-    this.state = {
+    this._state = {
       storage: {
         tabsPerWindow: 10,
         rules: [],
@@ -14,7 +14,11 @@ export class AppState {
   }
 
   update(command) {
-    this.state = updateHelper(this.state, command);
+    this._state = updateHelper(this._state, command);
+  }
+
+  getState() {
+    return this._state;
   }
 }
 

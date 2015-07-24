@@ -75,6 +75,12 @@ export default class Options extends React.Component {
       $set: { rules }
     });
   }
+
+  render() {
+    return (
+      <div>Hello</div>
+    );
+  }
 }
 
 function findIndex(array, element) {

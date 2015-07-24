@@ -3,8 +3,8 @@
 import React from 'react/addons';
 const TestUtils = React.addons.TestUtils;
 
-export default function createShallowElement(component, props, ...children) {
+export default function createShallowElement(element) {
   const shallowRenderer = TestUtils.createRenderer();
-  shallowRenderer.render(React.createElement(component, props, children.length > 1 ? children : children[0]));
+  shallowRenderer.render(element);
   return shallowRenderer.getRenderOutput();
 }

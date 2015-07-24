@@ -2,7 +2,7 @@
 import React from 'react/addons';
 const {update: updateHelper} = React.addons;
 
-class AppState {
+export class AppState {
   constructor() {
     this.state = {
       storage: {

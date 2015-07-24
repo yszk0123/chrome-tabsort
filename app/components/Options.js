@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import {pull} from '../lib/helpers';
+import {pull} from '../lib/utils';
 import appState from '../lib/appState';
 
 const optionsConfig = {

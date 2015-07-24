@@ -6,9 +6,9 @@ function getIds(array) {
   return array.map((element) => element.id).sort();
 }
 
-test('Divider#divide', (tDivider) => {
-  tDivider.test('without rules', (tNoRule) => {
-    tNoRule.test('including all tabs in one window', (t) => {
+test('Divider#divide', (assert) => {
+  assert.test('without rules', (assert) => {
+    assert.test('including all tabs in one window', (assert) => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://a.com/2' },
@@ -16,11 +16,11 @@ test('Divider#divide', (tDivider) => {
         { id: 4, url: 'http://b.co.jp/4' },
       ];
       const divider = new Divider([]);
-      t.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2, 3], [4]]);
-      t.end();
+      assert.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2, 3], [4]]);
+      assert.end();
     });
 
-    tNoRule.test('too much tabs per window', (t) => {
+    assert.test('too much tabs per window', (assert) => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://b.com/2' },
@@ -28,15 +28,15 @@ test('Divider#divide', (tDivider) => {
         { id: 4, url: 'http://d.com/4' },
       ];
       const divider = new Divider([]);
-      t.deepEqual(divider.divide(items, 2).map(getIds), [[1, 2], [3, 4]]);
-      t.end();
+      assert.deepEqual(divider.divide(items, 2).map(getIds), [[1, 2], [3, 4]]);
+      assert.end();
     });
 
-    tNoRule.end();
+    assert.end();
   });
 
-  tDivider.test('with rules', (tRule) => {
-    tRule.test('including all tabs in one window', (t) => {
+  assert.test('with rules', (assert) => {
+    assert.test('including all tabs in one window', (assert) => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://a.com/2' },
@@ -47,11 +47,11 @@ test('Divider#divide', (tDivider) => {
         { regexp: '\\.com\\b' },
       ];
       const divider = new Divider(rules);
-      t.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2], [3, 4]]);
-      t.end();
+      assert.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2], [3, 4]]);
+      assert.end();
     });
 
-    tRule.test('too much tabs per window', (t) => {
+    assert.test('too much tabs per window', (assert) => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://b.co.jp/c' },
@@ -64,12 +64,12 @@ test('Divider#divide', (tDivider) => {
         { regexp: '\\bdoc|\\bapi', isolate: true },
       ];
       const divider = new Divider(rules);
-      t.deepEqual(divider.divide(items, 3).map(getIds), [[5], [1, 3], [2, 4]]);
-      t.end();
+      assert.deepEqual(divider.divide(items, 3).map(getIds), [[5], [1, 3], [2, 4]]);
+      assert.end();
     });
 
-    tRule.end();
+    assert.end();
   });
 
-  tDivider.end();
+  assert.end();
 });

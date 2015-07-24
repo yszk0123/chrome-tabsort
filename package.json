@@ -44,7 +44,7 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "babel-node node_modules/tape/bin/tape test/**/*.js",
+    "test": "babel-node --stage 0 node_modules/tape/bin/tape test/**/*.js",
     "lint": "gulp lint",
     "build": "gulp build",
     "release": "NODE_ENV=production gulp build --release",

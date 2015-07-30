@@ -12,7 +12,6 @@ var merge = require('merge-stream');
 var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var babelify = require('babelify');
-var fs = require('fs');
 
 // 各種設定
 var RELEASE = !!argv.release;
@@ -37,12 +36,12 @@ var config = {
   styles: ['./app/styles/app.less'],
   background: {
     routeFile: null,
-    entryPath: './app/scripts/background.js',
+    entryPath: './app/scripts/background.js'
   },
   options: {
     routeFile: null,
-    entryPath: './app/scripts/options.js',
-  },
+    entryPath: './app/scripts/options.js'
+  }
 };
 
 function wrappedWatchify(opts) {
@@ -132,7 +131,7 @@ function makeJSBundler(customConfig) {
       .pipe($.if(argv.debug, $.sourcemaps.write('./')))
       .pipe(gulp.dest(customConfig.destDir))
       .pipe($.size({ title: 'scripts:' + name }));
-  };
+  }
 }
 
 // styles

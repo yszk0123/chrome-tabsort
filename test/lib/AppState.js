@@ -11,7 +11,7 @@ test('AppState', (assert) => {
     assert.deepEqual(appState.getState(), initialState);
 
     const additionalValue = {};
-    appState.update({ additionalKey: { $set: additionalValue } });
+    appState._update({ additionalKey: { $set: additionalValue } });
     assert.notEqual(appState.getState(), initialState);
     assert.equal(appState.getState().additionalKey, additionalValue);
 

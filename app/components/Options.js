@@ -1,16 +1,45 @@
 'use strict';
 import React from 'react';
+import FluxComponent from 'Flummox/component';
 import {pull} from '../lib/utils';
 import appState from '../lib/appState';
+import OptionsConfig from '../configs/OptionsConfig';
 
-const optionsConfig = {
-  timeout: 800,
-  defaultRule: {
-    regexp: '',
-    disable: false,
-    isolate: false
+export default class Options {
+  render() {
+    return (
+      <FluxComponent
+        connectToStores={{
+          options: flux.getStore('optionsStore')
+        }}
+        render={({groupPropsList}) =>
+          <div>
+            {groupPropsList.map((groupProps) =>
+              <Group groupProps={groupProps}
+                     optionsActions={optionsActions} />
+            )}
+          </div>
+        }
+      />;
+    );
   }
-};
+}
+
+class Group extends React.Component {
+  render() {
+    const {name, tabsPerWindow} = this.props.groupProps;
+
+    return (
+      <div>
+        <div>名前: {name}</div>
+        <div>ウィンドウ毎のタブ数: {tabsPerWindow}</div>
+      </div>
+    );
+  }
+}
+
+export default class OptionsActions {
+}
 
 export default class Options extends React.Component {
   save() {
@@ -21,12 +50,8 @@ export default class Options extends React.Component {
       },
       saved: { $set: true },
     });
-
-    setTimeout(() => {
-      appState.update({
-        saved: { $set: false }
-      })
-    }, optionsConfig.timeout);
+    this.props.viewState.save();
+    // this.context.cursors.groupPropsList.set(this.props.groupPropsList);
   }
 
   removeRule(rule) {
@@ -38,18 +63,16 @@ export default class Options extends React.Component {
   }
 
   restore() {
-    appState.update({
-      store: {
-        tabsPerWindow: { $set: this.props.tabsPerWindow },
-        rules: { $set: this.props.rules },
-      }
+    this.props.update({
+      tabsPerWindow: { $set: this.props.tabsPerWindow },
+      rules: { $set: this.props.rules },
     });
   }
 
   addRules() {
     appState.update({
       store: {
-        rules: { $push: assign({}, optionsConfig.defaultRule) }
+        rules: { $push: assign({}, OptionsConfig.defaultRule) }
       }
     });
   }

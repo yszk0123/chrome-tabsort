@@ -3,22 +3,19 @@ import React from 'react/addons';
 const {update: updateHelper} = React.addons;
 
 export class AppState {
-  constructor() {
+  constructor(defaultGroupProps) {
     this._state = {
-      storage: {
-        tabsPerWindow: 10,
-        rules: [],
-      },
-      saved: false
+      defaultGroupProps: fixGroupProps(defaultGroupProps),
+      groupPropsList: [].map(fixGroupProps),
     };
-  }
-
-  update(command) {
-    this._state = updateHelper(this._state, command);
   }
 
   getState() {
     return this._state;
+  }
+
+  _update(command) {
+    this._state = updateHelper(this._state, command);
   }
 }
 

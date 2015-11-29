@@ -1,5 +1,5 @@
 'use strict';
-import {identity} from 'lodash';
+import { identity } from 'lodash';
 
 // 共通設定の取得/設定手段を提供
 // schemaに渡せる形式は次の通り

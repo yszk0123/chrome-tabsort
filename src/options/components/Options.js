@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import FluxComponent from 'Flummox/component';
-import {pull} from '../lib/utils';
+import { pull } from '../lib/utils';
 import appState from '../lib/appState';
 import OptionsConfig from '../configs/OptionsConfig';
 
@@ -27,7 +27,7 @@ export default class Options {
 
 class Group extends React.Component {
   render() {
-    const {name, tabsPerWindow} = this.props.groupProps;
+    const { name, tabsPerWindow } = this.props.groupProps;
 
     return (
       <div>

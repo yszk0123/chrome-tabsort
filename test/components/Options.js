@@ -2,7 +2,7 @@
 import React from 'react/addons';
 import test from 'tape';
 import Options from '../../src/components/Options';
-const {TestUtils} = React.addons;
+const { TestUtils } = React.addons;
 
 test('Options', (assert) => {
   assert.test('', (assert) => {

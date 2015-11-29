@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react/addons';
 import OptionsConfig from '../configs/OptionsConfig';
-const {update: updateHelper} = React.addons;
+const { update: updateHelper } = React.addons;
 
 export class OptionsStore {
   constructor() {

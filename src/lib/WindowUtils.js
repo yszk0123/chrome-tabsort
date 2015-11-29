@@ -1,6 +1,6 @@
 'use strict';
 import assign from 'object-assign';
-import {find, flatten, partition} from 'lodash';
+import { find, flatten, partition } from 'lodash';
 
 const baseGroupProps = {
   priority: 0,
@@ -45,7 +45,7 @@ export const executeTabSort = (tabs, propsList) => {
 
   windows.forEach((tabInfoList) => {
     const tabIds = tabInfoList.map((info) => info.tabId);
-    const {position} = tabInfoList[0].groupProps;
+    const { position } = tabInfoList[0].groupProps;
     const data = position ? {
       left: position.x,
       top: position.y,

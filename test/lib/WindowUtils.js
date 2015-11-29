@@ -1,8 +1,8 @@
 'use strict';
 import test from 'tape';
 import assign from 'object-assign';
-import {fixGroupProps, groupTabs} from '../../src/lib/WindowUtils';
-import {cloneDeep} from 'lodash';
+import { fixGroupProps, groupTabs } from '../../src/lib/WindowUtils';
+import { cloneDeep } from 'lodash';
 
 const getIds = (array) => array.map((o) => o.tabId);
 

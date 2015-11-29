@@ -1,6 +1,6 @@
 'use strict';
-import {find, findKey, flatten} from 'lodash';
-import {arrayGroupBy} from '../lib/utils';
+import { find, findKey, flatten } from 'lodash';
+import { arrayGroupBy } from '../lib/utils';
 const DOMAIN_RE = /^[^:]+:\/+([^\/]+)/;
 
 export default class Divider {

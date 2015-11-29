@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react/addons';
 import test from 'tape';
-import Options from '../../app/components/Options';
+import Options from '../../src/components/Options';
 const {TestUtils} = React.addons;
 
 test('Options', (assert) => {

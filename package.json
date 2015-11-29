@@ -58,7 +58,7 @@
     "test": "babel-node --stage 2 node_modules/tape/bin/tape test/**/*.js",
     "lint": "gulp lint",
     "build": "gulp build",
-    "build-assets": "mkdir -p dist/ && cp app/*.{html,json} dist/",
+    "build-assets": "mkdir -p dist/ && cp src/*.{html,json} dist/",
     "build-scripts": "webpack --config webpack.js",
     "watch-scripts": "webpack --config webpack.js",
     "release": "NODE_ENV=production gulp build --release",

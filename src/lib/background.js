@@ -18,7 +18,7 @@ const divide = (list, tabsPerWindow, oneWindow = false) => {
   let groups
 
   try {
-    divider.updateRules storage.get('rules')
+    divider.updateRules(storage.get('rules'))
     groups = divider.divide(list, tabsPerWindow)
   }
   catch (err) {

@@ -1,19 +1,19 @@
 'use strict'
 import { identity } from 'lodash'
 
+const converterMap = {
+  number: [Number, String],
+  string: [identity, identity],
+  object: [JSON.parse, JSON.stringify],
+  array: [JSON.parse, JSON.stringify],
+}
+
 // 共通設定の取得/設定手段を提供
 // schemaに渡せる形式は次の通り
 //   { <key>: <type> }
 //   または
 //   { <key>: { type: <type>, default: <defaultValue> } }
 export class Storage {
-  static converterMap = {
-    number: [Number, String],
-    string: [identity, identity],
-    object: [JSON.parse, JSON.stringify],
-    array: [JSON.parse, JSON.stringify],
-  }
-
   constructor(schema) {
     this.typeInfoMap = {}
     this.cache = {}
@@ -23,10 +23,10 @@ export class Storage {
         [value, null] :
         [value.type, value.default]
       const type = _type.toLowerCase()
-      if (!this.converterMap.hasOwnProperty(type)) {
+      if (!converterMap.hasOwnProperty(type)) {
         throw new Error(`schema type '${type}' is unavailable`)
       }
-      const [parse, stringify] = this.converterMap[type]
+      const [parse, stringify] = converterMap[type]
       this.typeInfoMap[key] = {parse, stringify, defaultValue}
     })
   }

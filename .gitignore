@@ -4,6 +4,7 @@ node_modules/
 backup/
 build/
 dist/
+tmp/
 
 *.log
 .sass-cache

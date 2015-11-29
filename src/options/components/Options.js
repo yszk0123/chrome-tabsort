@@ -1,9 +1,9 @@
-'use strict';
-import React from 'react';
-import FluxComponent from 'Flummox/component';
-import { pull } from '../lib/utils';
-import appState from '../lib/appState';
-import OptionsConfig from '../configs/OptionsConfig';
+'use strict'
+import React from 'react'
+import FluxComponent from 'Flummox/component'
+import { pull } from '../lib/utils'
+import appState from '../lib/appState'
+import OptionsConfig from '../configs/OptionsConfig'
 
 export default class Options {
   render() {
@@ -20,21 +20,21 @@ export default class Options {
             )}
           </div>
         }
-      />;
-    );
+      />
+    )
   }
 }
 
 class Group extends React.Component {
   render() {
-    const { name, tabsPerWindow } = this.props.groupProps;
+    const { name, tabsPerWindow } = this.props.groupProps
 
     return (
       <div>
         <div>名前: {name}</div>
         <div>ウィンドウ毎のタブ数: {tabsPerWindow}</div>
       </div>
-    );
+    )
   }
 }
 
@@ -49,9 +49,9 @@ export default class Options extends React.Component {
         rules: { $set: this.props.rules },
       },
       saved: { $set: true },
-    });
-    this.props.viewState.save();
-    // this.context.cursors.groupPropsList.set(this.props.groupPropsList);
+    })
+    this.props.viewState.save()
+    // this.context.cursors.groupPropsList.set(this.props.groupPropsList)
   }
 
   removeRule(rule) {
@@ -59,14 +59,14 @@ export default class Options extends React.Component {
       store: {
         rules: { $apply: (rules) => pull(this.props.rules, rule) }
       }
-    });
+    })
   }
 
   restore() {
     this.props.update({
       tabsPerWindow: { $set: this.props.tabsPerWindow },
       rules: { $set: this.props.rules },
-    });
+    })
   }
 
   addRules() {
@@ -74,55 +74,55 @@ export default class Options extends React.Component {
       store: {
         rules: { $push: assign({}, OptionsConfig.defaultRule) }
       }
-    });
+    })
   }
 
   upRule(rule) {
-    const rules = this.props.rules;
-    const i = findIndex(rules, rule);
+    const rules = this.props.rules
+    const i = findIndex(rules, rule)
     if (i >= 1) {
-      swapInArray(rules, i, i - 1);
+      swapInArray(rules, i, i - 1)
     }
     appState.update({
       $set: { rules }
-    });
+    })
   }
 
   downRule(rule) {
-    const rules = this.props.rules;
-    const i = findIndex(rules, rule);
+    const rules = this.props.rules
+    const i = findIndex(rules, rule)
     if (i >= 0 && i <= rules.length - 2) {
-      swapInArray(rules, i, i + 1);
+      swapInArray(rules, i, i + 1)
     }
     appState.update({
       $set: { rules }
-    });
+    })
   }
 
   render() {
     return (
       <div>Hello</div>
-    );
+    )
   }
 }
 
 function findIndex(array, element) {
   for (let i = 0; i < array.length; i += 1) {
     if (array[i] === element) {
-      return i;
+      return i
     }
   }
-  return -1;
+  return -1
 }
 
 function swapInArray(array, i, j) {
   if (i === j) {
-    return;
+    return
   }
   if (i > j) {
-    [j, i] = [i, j];
+    [j, i] = [i, j]
   }
-  array.splice(i, 1, array[j]);
-  array.splice(j, 1, array[i]);
-  return array;
+  array.splice(i, 1, array[j])
+  array.splice(j, 1, array[i])
+  return array
 }

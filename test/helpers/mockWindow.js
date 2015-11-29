@@ -1,8 +1,8 @@
 // ref: [mithril.js/mock.js at next · lhorie/mithril.js](https://github.com/lhorie/mithril.js/blob/next/tests/mock.js)
-'use strict';
+'use strict'
 
 export default function mockWindow() {
-  let window = {};
+  let window = {}
 
   window.document = {}
   window.document.childNodes = []
@@ -76,22 +76,22 @@ export default function mockWindow() {
   // getElementsByTagName is only used by JSONP tests, it's not required by
   // Mithril
   window.document.getElementsByTagName = function(name){
-    name = name.toLowerCase();
-    var out = [];
+    name = name.toLowerCase()
+    var out = []
 
     var traverse = function(node){
       if(node.childNodes && node.childNodes.length > 0){
         node.childNodes.map(function(curr){
           if (curr.nodeName.toLowerCase() === name) {
-            out.push(curr);
+            out.push(curr)
           }
-          traverse(curr);
-        });
+          traverse(curr)
+        })
       }
     }
 
-    traverse(window.document);
-    return out;
+    traverse(window.document)
+    return out
   }
   window.scrollTo = function() {}
   window.cancelAnimationFrame = function() {}
@@ -150,7 +150,7 @@ export default function mockWindow() {
     orientation: {},
     pixelDepth: 24,
     width: 1440
-  };
+  }
 
-  return window;
+  return window
 }

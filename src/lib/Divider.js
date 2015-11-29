@@ -1,11 +1,11 @@
-'use strict';
-import { find, findKey, flatten } from 'lodash';
-import { arrayGroupBy } from '../lib/utils';
-const DOMAIN_RE = /^[^:]+:\/+([^\/]+)/;
+'use strict'
+import { find, findKey, flatten } from 'lodash'
+import { arrayGroupBy } from '../lib/utils'
+const DOMAIN_RE = /^[^:]+:\/+([^\/]+)/
 
 export default class Divider {
   constructor(rulesArray) {
-    this.updateRules(rulesArray);
+    this.updateRules(rulesArray)
   }
 
   updateRules(rulesArray = []) {
@@ -15,22 +15,22 @@ export default class Divider {
           rules[`_rule_${i}`] = {
             regexp: new RegExp(rule.regexp, 'i'),
             isolate: rule.isolate
-          };
-        return rules;
-      }, {});
+          }
+        return rules
+      }, {})
   }
 
   // ルールに合致する場合はルール名を
   // そうでなければドメイン名をグループ名とみなして返す
   // ドメイン名も取得できない場合は空文字''を返す
   getGroupName(url) {
-    const ruleName = findKey(this.rules, (rule) => rule.regexp && rule.regexp.test(url));
+    const ruleName = findKey(this.rules, (rule) => rule.regexp && rule.regexp.test(url))
     if (ruleName) {
-      return ruleName;
+      return ruleName
     }
 
-    const match = DOMAIN_RE.exec(url);
-    return match ? match[1] : '';
+    const match = DOMAIN_RE.exec(url)
+    return match ? match[1] : ''
   }
 
   groupByName(input) {
@@ -41,45 +41,45 @@ export default class Divider {
         name: this.getGroupName(item.url)
       }))
       .reduce((newGroups, item) => {
-        let newGroup = find(newGroups, (group) => group.name === item.name);
+        let newGroup = find(newGroups, (group) => group.name === item.name)
         if (newGroup) {
-          newGroup.push(item);
+          newGroup.push(item)
         }
         else {
-          newGroup = [item];
-          newGroup.name = item.name;
-          newGroup.isolate = !!(this.rules[item.name] || {}).isolate;
-          newGroups.push(newGroup);
+          newGroup = [item]
+          newGroup.name = item.name
+          newGroup.isolate = !!(this.rules[item.name] || {}).isolate
+          newGroups.push(newGroup)
         }
-        return newGroups;
-      }, []);
+        return newGroups
+      }, [])
   }
 
   pack(_groups, capacity) {
-    const newGroups = [];
+    const newGroups = []
 
     // isolateオプションが付いているグループは
     // capacityによらず強制的に別個のグループに分ける
-    const [groups, isolatedGroups] = arrayGroupBy(_groups, ((group) => group.isolate ? 1 : 0), 2);
+    const [groups, isolatedGroups] = arrayGroupBy(_groups, ((group) => group.isolate ? 1 : 0), 2)
 
     while (groups.length) {
-      let newGroup = groups.pop();
-      let count = newGroup.length;
+      let newGroup = groups.pop()
+      let count = newGroup.length
       if (groups.length) {
         for (let i = groups.length - 1; i >= 0; i -= 1) {
-          const group = groups[i];
-          const len = group.length;
+          const group = groups[i]
+          const len = group.length
           if (count + len <= capacity) {
-            newGroup = newGroup.concat(group);
-            groups.splice(i, 1);
-            count += len;
+            newGroup = newGroup.concat(group)
+            groups.splice(i, 1)
+            count += len
           }
         }
       }
-      newGroups.unshift(newGroup);
+      newGroups.unshift(newGroup)
     }
 
-    return isolatedGroups.concat(newGroups);
+    return isolatedGroups.concat(newGroups)
   }
 
   // ここで言うgroupはchromeのウィンドウ、itemはchromeのタブに相当する
@@ -101,15 +101,15 @@ export default class Divider {
   //   [ /\bdoc/, /game/, /^chrome|extensions/, ['http://docs.angularjs.org/', 'backbonejs.org'] ]
   divide(input, size) {
     if (!this._canDivide()) {
-      throw new Error('cannot divide');
+      throw new Error('cannot divide')
     }
 
-    const groups = this.groupByName(input).sort((a, b) => b.length - a.length);
+    const groups = this.groupByName(input).sort((a, b) => b.length - a.length)
     return this.pack(groups, size)
-      .map((div) => flatten(div).sort((a,b) => a.url > b.url));
+      .map((div) => flatten(div).sort((a,b) => a.url > b.url))
   }
 
   _canDivide() {
-    return !!this.rules;
+    return !!this.rules
   }
 }

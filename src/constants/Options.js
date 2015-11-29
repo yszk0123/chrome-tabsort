@@ -1,5 +1,6 @@
 export default {
   timeout: 800,
+  autoSaveInterval: 1000,
   defaultRule: {
     regexp: '',
     disable: false,
@@ -7,4 +8,5 @@ export default {
   },
   minTabsPerWindow: 1,
   maxTabsPerWindow: 10000,
+  storageKey: 'state'
 }

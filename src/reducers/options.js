@@ -1,5 +1,7 @@
 import {
-  OPTIONS_LOAD,
+  OPTIONS_LOAD_START,
+  OPTIONS_LOAD_SUCCESS,
+  OPTIONS_LOAD_FAILURE,
   OPTIONS_SAVE_START,
   OPTIONS_SAVE_SUCCESS,
   OPTIONS_SAVE_FAILURE,
@@ -12,10 +14,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case OPTIONS_LOAD:
+    case OPTIONS_LOAD_SUCCESS:
+      // TODO: 他の reducer を通過させる
       return {
         ...state,
-        saving: true
+        ...action.data
       }
     case OPTIONS_SAVE_START:
       return {

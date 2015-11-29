@@ -2,6 +2,8 @@ import keyMirror from 'key-mirror'
 
 const keys = keyMirror({
   OPTIONS_LOAD: null,
+  OPTIONS_LOAD_SUCCESS: null,
+  OPTIONS_LOAD_FAILURE: null,
   OPTIONS_SAVE_START: null,
   OPTIONS_SAVE_SUCCESS: null,
   OPTIONS_SAVE_FAILURE: null,

@@ -4,8 +4,12 @@
   "version": "0.0.1",
   "dependencies": {},
   "devDependencies": {
-    "babelify": "^6.1.3",
-    "browserify": "^10.2.4",
+    "babel": "^6.1.18",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-stage-2": "^6.1.18",
+    "css-loader": "^0.23.0",
     "del": "^1.2.0",
     "envify": "^3.4.0",
     "gulp": "^3.8.11",
@@ -25,16 +29,16 @@
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.6",
     "jade": "^1.11.0",
-    "jadeify": "^4.3.0",
     "lodash": "^3.10.0",
     "merge-stream": "^0.1.8",
     "minimist": "^1.1.1",
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
+    "style-loader": "^0.13.0",
     "tape": "^4.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.3.0"
+    "webpack": "^1.12.9"
   },
   "repository": {
     "type": "git",
@@ -44,20 +48,15 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "babel-node --stage 0 node_modules/tape/bin/tape test/**/*.js",
+    "test": "babel-node --stage 2 node_modules/tape/bin/tape test/**/*.js",
     "lint": "gulp lint",
     "build": "gulp build",
+    "build-assets": "mkdir -p dist/ && cp app/*.{html,json} dist/",
+    "build-scripts": "webpack --config webpack.js",
+    "watch-scripts": "webpack --config webpack.js",
     "release": "NODE_ENV=production gulp build --release",
-    "watch": "gulp watch --debug",
-    "watch-experimental": "gulp watch-experimental --debug",
     "server": "node server/app.js"
   },
   "author": "Yuji Suzuki",
-  "license": "MIT",
-  "browserify": {
-    "transform": [
-      "coffeeify",
-      "jadeify"
-    ]
-  }
+  "license": "MIT"
 }

@@ -112,7 +112,7 @@ function makeJSBundler(customConfig) {
     }));
   }
 
-  b.transform(babelify.configure({ stage: 0 }));
+  b.transform(babelify.configure({ stage: 2 }));
 
   b.on('update', bundle);
   b.on('log', $.util.log.bind($.util, 'Browserify Log'));

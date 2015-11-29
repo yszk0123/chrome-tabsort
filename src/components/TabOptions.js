@@ -2,15 +2,23 @@ import React, { Component, PropTypes } from 'react'
 
 export default class TabOptions extends Component {
   render() {
-    const { tabsPerWindow, tabsActions } = this.props
+    const {
+      tabsPerWindow,
+      tabsActions,
+      onTabsPerWindowChange
+    } = this.props
 
     return (
-      <div>ウィンドウ毎のタブ数: {tabsPerWindow}</div>
+      <div>
+        <label htmlFor="tabs-per-window">ウィンドウ毎のタブ数</label>
+        <input type="number" value={tabsPerWindow} onChange={onTabsPerWindowChange} />
+      </div>
     )
   }
 }
 
 TabOptions.propTypes = {
   tabsPerWindow: PropTypes.number.isRequired,
-  tabsActions: PropTypes.object.isRequired
+  tabsActions: PropTypes.object.isRequired,
+  onTabsPerWindowChange: PropTypes.func.isRequired
 }

@@ -4,5 +4,7 @@ export default {
     regexp: '',
     disable: false,
     isolate: false
-  }
+  },
+  minTabsPerWindow: 1,
+  maxTabsPerWindow: 10000,
 }

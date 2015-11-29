@@ -8,6 +8,7 @@ const keys = keyMirror({
   OPTIONS_UPDATE: null,
 
   TABS_UPDATE_TABS_PER_WINDOW_BY: null,
+  TABS_UPDATE_TABS_PER_WINDOW: null,
 
   RULES_MOVE_TO_PREVIOUS: null,
   RULES_MOVE_TO_NEXT: null,

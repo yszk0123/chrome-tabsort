@@ -23,13 +23,23 @@ const mapDispatchToProps = (dispatch) => {
 
 export class Options extends Component {
   render() {
-    const { rules, tabs, rulesActions, tabsActions } = this.props
+    const {
+      rules,
+      tabs,
+      rulesActions,
+      tabsActions,
+    } = this.props
 
     return (
       <div>
         <div>Options Page</div>
         <RuleList {...rules} rulesActions={RulesActions} />
-        <TabOptions {...tabs} tabsActions={TabsActions} />
+        <TabOptions
+          {...tabs}
+          tabsActions={TabsActions}
+          onTabsPerWindowChange={(event) => {
+            tabsActions.updateTabsPerWindow(Number(event.target.value))
+          }} />
       </div>
     )
   }

@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   devtool: 'source-map',
   entry: {
-    options: './src/options/index'
+    options: './src/boot/options'
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),

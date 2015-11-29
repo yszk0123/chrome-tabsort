@@ -2,17 +2,17 @@ import React, { Component, PropTypes } from 'react'
 
 const RuleListItem = ({
   item: { regexp, disable, isolate },
-  onModifyAt,
+  onModifyRegExpAt,
   onToggleDisableAt,
   onToggleIsolateAt,
-  onRemoveRuleAt
+  onRemoveAt
 }) => {
   return (
     <li>
-      <input type="text" value={regexp} onChange={(event) => onModifyAt(event.target.value)} />
+      <input type="text" value={regexp} onChange={(event) => onModifyRegExpAt(event.target.value)} />
       <input type="checkbox" checked={disable} onChange={onToggleDisableAt} />
       <input type="checkbox" checked={isolate} onChange={onToggleIsolateAt} />
-      <input type="button" value="Remove" onClick={onRemoveRuleAt} />
+      <input type="button" value="Remove" onClick={onRemoveAt} />
     </li>
   )
 }
@@ -21,11 +21,11 @@ export default class RuleList extends Component {
   render() {
     const {
       items,
-      onModifyAt,
+      onModifyRegExpAt,
       onToggleDisableAt,
       onToggleIsolateAt,
-      onAddRule,
-      onRemoveRuleAt
+      onAdd,
+      onRemoveAt
     } = this.props
 
     return (
@@ -37,16 +37,16 @@ export default class RuleList extends Component {
               <RuleListItem
                 key={i}
                 item={item}
-                onModifyAt={(text) => onModifyAt(i, text)}
+                onModifyRegExpAt={(text) => onModifyRegExpAt(i, text)}
                 onToggleDisableAt={() => onToggleDisableAt(i)}
                 onToggleIsolateAt={() => onToggleIsolateAt(i)}
-                onRemoveRuleAt={() => onRemoveRuleAt(i)}
+                onRemoveAt={() => onRemoveAt(i)}
               />
             )
           })}
         </ul>
         <div>
-        <input type="button" value="Add Rule" onClick={onAddRule} />
+        <input type="button" value="Add Rule" onClick={onAdd} />
         </div>
       </div>
     )
@@ -55,9 +55,9 @@ export default class RuleList extends Component {
 
 RuleList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onModifyAt: PropTypes.func.isRequired,
+  onModifyRegExpAt: PropTypes.func.isRequired,
   onToggleDisableAt: PropTypes.func.isRequired,
   onToggleIsolateAt: PropTypes.func.isRequired,
-  onAddRule: PropTypes.func.isRequired,
-  onRemoveRuleAt: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
+  onRemoveAt: PropTypes.func.isRequired,
 }

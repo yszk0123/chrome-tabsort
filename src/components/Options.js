@@ -54,7 +54,7 @@ export default class Options extends React.Component {
   //   // this.context.cursors.groupPropsList.set(this.props.groupPropsList)
   // }
   //
-  // removeRuleAt(rule) {
+  // removeAt(rule) {
   //   appState.update({
   //     store: {
   //       rules: { $apply: (rules) => pull(this.props.rules, rule) }

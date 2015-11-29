@@ -4,7 +4,7 @@ import {
   RULES_SELECT_PREVIOUS,
   RULES_SELECT_NEXT,
   RULES_SELECT,
-  RULES_MODIFY_AT,
+  RULES_MODIFY_REGEXP_AT,
   RULES_TOGGLE_DISABLE_AT,
   RULES_TOGGLE_ISOLATE_AT,
   RULES_ADD,
@@ -41,9 +41,9 @@ export const select = () => {
   }
 }
 
-export const modifyAt = (index, text) => {
+export const modifyRegExpAt = (index, text) => {
   return {
-    type: RULES_MODIFY_AT,
+    type: RULES_MODIFY_REGEXP_AT,
     text,
     index
   }
@@ -63,13 +63,13 @@ export const toggleIsolateAt = (index) => {
   }
 }
 
-export const addRule = () => {
+export const add = () => {
   return {
     type: RULES_ADD
   }
 }
 
-export const removeRuleAt = (index) => {
+export const removeAt = (index) => {
   return {
     type: RULES_REMOVE_AT,
     index

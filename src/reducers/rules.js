@@ -6,7 +6,7 @@ import {
   RULES_SELECT_PREVIOUS,
   RULES_SELECT_NEXT,
   RULES_SELECT,
-  RULES_MODIFY_AT,
+  RULES_MODIFY_REGEXP_AT,
   RULES_TOGGLE_DISABLE_AT,
   RULES_TOGGLE_ISOLATE_AT,
   RULES_ADD,
@@ -76,7 +76,7 @@ export default (state = initialState, action) => {
         ...state,
         selectedIndex: i
       }
-    case RULES_MODIFY_AT:
+    case RULES_MODIFY_REGEXP_AT:
       return update(state, {
         items: { [action.index]: { regexp: { $set: action.text } } }
       })

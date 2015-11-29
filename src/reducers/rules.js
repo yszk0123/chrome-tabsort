@@ -8,10 +8,6 @@ import {
 
 const initialState = {
   items: [],
-  itemsIndex: null,
-  source: '',
-  offset: 0,
-  candidates: []
 }
 
 const swapInArrayIfPossible = (array, i, j) => {

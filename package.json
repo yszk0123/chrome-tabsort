@@ -6,6 +6,7 @@
     "key-mirror": "^1.0.1",
     "react": "^0.14.3",
     "react-addons-update": "^0.14.3",
+    "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0"
@@ -60,7 +61,7 @@
     "build": "gulp build",
     "build-assets": "mkdir -p dist/ && cp src/*.{html,json} dist/",
     "build-scripts": "webpack --config webpack.js",
-    "watch-scripts": "webpack --config webpack.js",
+    "watch-scripts": "webpack --watch --config webpack.js",
     "release": "NODE_ENV=production gulp build --release",
     "server": "node server/app.js"
   },

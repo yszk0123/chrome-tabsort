@@ -8,7 +8,7 @@ const RuleListItem = ({ item: { regexp, disable, isolate } }) => {
 
 export default class RuleList extends Component {
   render() {
-    const { items } = this.props
+    const { items, rulesActions } = this.props
 
     return (
       <div>
@@ -30,5 +30,6 @@ export default class RuleList extends Component {
 }
 
 RuleList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object).isRequired
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  rulesActions: PropTypes.object.isRequired
 }

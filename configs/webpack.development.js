@@ -4,6 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   devtool: 'source-map',
   entry: {
+    background: './src/boot/background',
     options: './src/boot/options'
   },
   output: {

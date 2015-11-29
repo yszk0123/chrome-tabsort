@@ -1,6 +1,4 @@
-'use strict'
-import React from 'react/addons'
-const { update: updateHelper } = React.addons
+import update from 'react-addons-update'
 
 export class AppState {
   constructor(defaultGroupProps) {
@@ -15,7 +13,7 @@ export class AppState {
   }
 
   _update(command) {
-    this._state = updateHelper(this._state, command)
+    this._state = update(this._state, command)
   }
 }
 

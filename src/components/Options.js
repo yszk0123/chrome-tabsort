@@ -1,9 +1,9 @@
 'use strict'
 import React from 'react'
 import FluxComponent from 'Flummox/component'
-import { pull } from '../lib/utils'
-import appState from '../lib/appState'
-import OptionsConfig from '../configs/Options'
+import { pull } from '../utils/utils'
+import appState from '../utils/appState'
+import OptionsConfig from '../constants/Options'
 
 export default class Options {
   render() {

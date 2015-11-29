@@ -1,8 +1,8 @@
-'use strict'
-import { validateId } from '../lib/helpers'
-import { storage } from '../lib/storage'
-import { executeTabSort } from './WindowUtils'
 import { find } from 'lodash'
+
+import { validateId } from '../utils/helpers'
+import { storage } from '../utils/storage'
+import { executeTabSort } from '../utils/WindowUtils'
 
 // let activeTabId = null
 

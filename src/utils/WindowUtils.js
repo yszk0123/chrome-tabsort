@@ -1,4 +1,3 @@
-'use strict'
 import assign from 'object-assign'
 import { find, flatten, partition } from 'lodash'
 

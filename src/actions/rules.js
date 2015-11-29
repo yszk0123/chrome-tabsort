@@ -3,7 +3,9 @@ import {
   RULES_MOVE_TO_NEXT,
   RULES_SELECT_PREVIOUS,
   RULES_SELECT_NEXT,
-  RULES_SELECT
+  RULES_SELECT,
+  RULES_ADD,
+  RULES_REMOVE
 } from '../constants/Actions'
 
 export const moveToPrevious = () => {
@@ -33,5 +35,18 @@ export const selectNext = () => {
 export const select = () => {
   return {
     type: RULES_SELECT
+  }
+}
+
+export const addRule = () => {
+  return {
+    type: RULES_ADD
+  }
+}
+
+export const removeRule = (index) => {
+  return {
+    type: RULES_REMOVE,
+    value: index
   }
 }

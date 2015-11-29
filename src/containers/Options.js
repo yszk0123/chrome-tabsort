@@ -27,19 +27,23 @@ export class Options extends Component {
       rules,
       tabs,
       rulesActions,
-      tabsActions,
+      tabsActions
     } = this.props
 
     return (
       <div>
         <div>Options Page</div>
-        <RuleList {...rules} rulesActions={RulesActions} />
         <TabOptions
           {...tabs}
-          tabsActions={TabsActions}
           onTabsPerWindowChange={(event) => {
             tabsActions.updateTabsPerWindow(Number(event.target.value))
-          }} />
+          }}
+        />
+        <RuleList
+          {...rules}
+          onAddRule={rulesActions.addRule}
+          onRemoveRule={rulesActions.removeRule}
+        />
       </div>
     )
   }

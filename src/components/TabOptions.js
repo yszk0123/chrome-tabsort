@@ -4,7 +4,6 @@ export default class TabOptions extends Component {
   render() {
     const {
       tabsPerWindow,
-      tabsActions,
       onTabsPerWindowChange
     } = this.props
 
@@ -19,6 +18,5 @@ export default class TabOptions extends Component {
 
 TabOptions.propTypes = {
   tabsPerWindow: PropTypes.number.isRequired,
-  tabsActions: PropTypes.object.isRequired,
   onTabsPerWindowChange: PropTypes.func.isRequired
 }

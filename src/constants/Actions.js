@@ -14,7 +14,9 @@ const keys = keyMirror({
   RULES_MOVE_TO_NEXT: null,
   RULES_SELECT_PREVIOUS: null,
   RULES_SELECT_NEXT: null,
-  RULES_SELECT: null
+  RULES_SELECT: null,
+  RULES_ADD: null,
+  RULES_REMOVE: null
 })
 
 module.exports = keys

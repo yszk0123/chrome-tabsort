@@ -3,8 +3,11 @@ import {
   RULES_MOVE_TO_NEXT,
   RULES_SELECT_PREVIOUS,
   RULES_SELECT_NEXT,
-  RULES_SELECT
+  RULES_SELECT,
+  RULES_ADD,
+  RULES_REMOVE
 } from '../constants/Actions'
+import { createRule } from '../utils/Rule'
 
 const initialState = {
   items: [],
@@ -65,6 +68,19 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedIndex: i
+      }
+    case RULES_ADD:
+      return {
+        ...state,
+        items: [...items, createRule()]
+      }
+    case RULES_REMOVE:
+      return {
+        ...state,
+        items: [
+          ...items.slice(0, action.value),
+          ...items.slice(action.value + 1)
+        ]
       }
     default:
       return state

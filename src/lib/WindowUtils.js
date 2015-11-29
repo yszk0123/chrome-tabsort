@@ -69,24 +69,30 @@ const splitIntoBlock = (array, n) => {
 
 const constantFalse = (value) => false
 
+const createMapper = (fns, defaultFn = () => null) => {
+  return (key) => {
+    return fns.hasOwnProperty(key) ? fns[key] : defaultFn
+  }
+}
+
 const defaultMatcherGenerator = (value) => constantFalse
 
-const matcherGeneratorMap = {
-  'regexp': (value) => {
+const mapRuleTypeToMatcherGenerator = createMapper({
+  regexp: (value) => {
     const re = new RegExp(value)
     return (tab) => re.test(tab.url)
   },
-  'domain': (value) => {
+  domain: (value) => {
     const re = new RegExp('^https?://' + value)
     return (tab) => re.test(tab.url)
   },
-  'url': (value) => {
+  url: (value) => {
     return (tab) => getBefore(getBefore(tab.url, '?'), '#') === value
   },
-  'title': (value) => {
+  title: (value) => {
     return (tab) => tab.title.indexOf(value) !== -1
   }
-}
+}, defaultMatcherGenerator)
 
 const getBefore = (input, mark) => {
   const index = input.indexOf(mark)
@@ -95,7 +101,7 @@ const getBefore = (input, mark) => {
 
 const embedMatchFunctionIntoRules = (rules) => {
   rules.forEach((rule) => {
-    rule.match = (matcherGeneratorMap[rule.type] || defaultMatcherGenerator)(rule.value)
+    rule.match = mapRuleTypeToMatcherGenerator(rule.type)(rule.value)
   })
 }
 

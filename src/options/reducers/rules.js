@@ -1,10 +1,9 @@
 import {
-  SEARCH_LOAD_ITEMS,
-  SEARCH_UPDATE_OFFSET_BY,
-  SEARCH_UPDATE_TEXT,
-  SEARCH_FILTER_ITEMS_BY_TEXT
+  RULES_MOVE_TO_PREVIOUS,
+  RULES_MOVE_TO_NEXT,
+  RULES_SELECT_PREVIOUS,
+  RULES_SELECT_NEXT
 } from '../constants/Actions'
-import createReducer from '../../common/createReducer'
 
 const initialState = {
   items: [],
@@ -14,21 +13,63 @@ const initialState = {
   candidates: []
 }
 
-const rules = createReducer(initialState, {
-  [SEARCH_LOAD_ITEMS]: (state, action) => {
-    return {
-      ...state,
-      source: action.source,
-      items: action.items,
-      itemsIndex: action.itemsIndex
-    }
-  },
-  [SEARCH_UPDATE_TEXT]: (state, action) => {
-    return {
-      ...state,
-      text: action.text
-    }
+const swapInArrayIfPossible = (array, i, j) => {
+  if (i >= j || i < 0 || j >= array.length) {
+    return array
   }
-})
 
-export default rules
+  return [
+    ...array.slice(0, i),
+    array[j],
+    ...array.slice(i + 1, j),
+    array[i],
+    ...array.slice(j + 1)
+  ]
+}
+
+const wrapInRange = (n, start, end) => {
+  if (n < start) {
+    return n + (end - start)
+  }
+
+  if (n >= end) {
+    return n - (end - start)
+  }
+
+  return n
+}
+
+export default (state = initialState, action) => {
+  const { index: i } = action
+  const { items } = state
+
+  switch (action.type) {
+    case RULES_MOVE_TO_PREVIOUS:
+      return {
+        ...state,
+        items: swapInArrayIfPossible(items, i - 1, i)
+      }
+    case RULES_MOVE_TO_NEXT:
+      return {
+        ...state,
+        items: swapInArrayIfPossible(items, i, i + 1)
+      }
+    case RULES_SELECT_PREVIOUS:
+      return {
+        ...state,
+        selectedIndex: wrapInRange(i - 1, 0, items.length)
+      }
+    case RULES_SELECT_NEXT:
+      return {
+        ...state,
+        selectedIndex: wrapInRange(i + 1, 0, items.length)
+      }
+    case RULES_SELECT:
+      return {
+        ...state,
+        selectedIndex: i
+      }
+    default:
+      return state
+  }
+}

@@ -1,10 +1,15 @@
 import { find } from 'lodash'
 
-import { validateId } from '../utils/helpers'
-import { storage } from '../utils/storage'
+import { validateId } from '../utils/utils'
+import optionsActions from '../actions/options'
+import store from '../store'
 import { executeTabSort } from '../utils/WindowUtils'
 
 // let activeTabId = null
+
+let state
+store.subscribe((nextState) => state = nextState)
+optionsActions.load()
 
 // ------------------------------------------------------------------------------
 // 補助関数
@@ -18,7 +23,7 @@ const divide = (list, tabsPerWindow, oneWindow = false) => {
   let groups
 
   try {
-    divider.updateRules(storage.get('rules'))
+    divider.updateRules(state.rules)
     groups = divider.divide(list, tabsPerWindow)
   }
   catch (err) {
@@ -123,7 +128,7 @@ const setBadge = () =>
 // 別ウィンドウから持ってきた時などは無視している
 chrome.tabs.onCreated.addListener((tab) => {
   chrome.windows.getCurrent({ populate: true }, (wnd) => {
-    const tabsPerWindow = storage.get('tabsPerWindow')
+    const tabsPerWindow = state.tabsPerWindow
     if (wnd.tabs.length > tabsPerWindow) {
       divide(wnd.tabs, tabsPerWindow, true)
     }
@@ -163,7 +168,7 @@ chrome.browserAction.onClicked.addListener((tab) => {
         })
       }
     })
-    const tabsPerWindow = storage.get('tabsPerWindow')
+    const tabsPerWindow = state.tabsPerWindow
     divide(list, tabsPerWindow)
   })
 })

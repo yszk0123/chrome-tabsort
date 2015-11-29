@@ -11,7 +11,7 @@ const keys = keyMirror({
   RULES_MOVE_TO_PREVIOUS: null,
   RULES_MOVE_TO_NEXT: null,
   RULES_SELECT_PREVIOUS: null,
-  RULES_SELECT_NEXT: null
+  RULES_SELECT_NEXT: null,
   RULES_SELECT: null
 })
 

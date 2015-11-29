@@ -2,7 +2,8 @@ import {
   RULES_MOVE_TO_PREVIOUS,
   RULES_MOVE_TO_NEXT,
   RULES_SELECT_PREVIOUS,
-  RULES_SELECT_NEXT
+  RULES_SELECT_NEXT,
+  RULES_SELECT
 } from '../constants/Actions'
 
 const initialState = {

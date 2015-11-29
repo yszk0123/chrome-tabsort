@@ -5,8 +5,10 @@ import { Provider } from 'react-redux'
 import Options from '../containers/Options'
 import store from '../store'
 
-render((
-  <Provider store={store}>
-    <Options />
-  </Provider>
-), document.getElementById('root'))
+document.addEventListener('DOMContentLoaded', () => {
+  render((
+    <Provider store={store}>
+      <Options />
+    </Provider>
+  ), document.getElementById('root'))
+})

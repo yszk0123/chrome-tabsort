@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
 import RuleList from '../components/RuleList'
 
-const mapStateToProps = (state) = {
+const mapStateToProps = (state) => {
   return {
   }
 }
 
-const mapDispatchToProps = (dispatch) = {
+const mapDispatchToProps = (dispatch) => {
   return {
   }
 }

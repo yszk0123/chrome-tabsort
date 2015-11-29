@@ -4,8 +4,11 @@ import {
   RULES_SELECT_PREVIOUS,
   RULES_SELECT_NEXT,
   RULES_SELECT,
+  RULES_MODIFY_AT,
+  RULES_TOGGLE_DISABLE_AT,
+  RULES_TOGGLE_ISOLATE_AT,
   RULES_ADD,
-  RULES_REMOVE
+  RULES_REMOVE_AT
 } from '../constants/Actions'
 
 export const moveToPrevious = () => {
@@ -38,15 +41,37 @@ export const select = () => {
   }
 }
 
+export const modifyAt = (index, text) => {
+  return {
+    type: RULES_MODIFY_AT,
+    text,
+    index
+  }
+}
+
+export const toggleDisableAt = (index) => {
+  return {
+    type: RULES_TOGGLE_DISABLE_AT,
+    index
+  }
+}
+
+export const toggleIsolateAt = (index) => {
+  return {
+    type: RULES_TOGGLE_ISOLATE_AT,
+    index
+  }
+}
+
 export const addRule = () => {
   return {
     type: RULES_ADD
   }
 }
 
-export const removeRule = (index) => {
+export const removeRuleAt = (index) => {
   return {
-    type: RULES_REMOVE,
-    value: index
+    type: RULES_REMOVE_AT,
+    index
   }
 }

@@ -2,10 +2,18 @@ import React, { Component, PropTypes } from 'react'
 
 const RuleListItem = ({
   item: { regexp, disable, isolate },
-  onRemoveRule
+  onModifyAt,
+  onToggleDisableAt,
+  onToggleIsolateAt,
+  onRemoveRuleAt
 }) => {
   return (
-    <li onClick={onRemoveRule}>{`${regexp} ${disable} ${isolate}`}</li>
+    <li>
+      <input type="text" value={regexp} onChange={(event) => onModifyAt(event.target.value)} />
+      <input type="checkbox" checked={disable} onChange={onToggleDisableAt} />
+      <input type="checkbox" checked={isolate} onChange={onToggleIsolateAt} />
+      <input type="button" value="Remove" onClick={onRemoveRuleAt} />
+    </li>
   )
 }
 
@@ -13,8 +21,11 @@ export default class RuleList extends Component {
   render() {
     const {
       items,
+      onModifyAt,
+      onToggleDisableAt,
+      onToggleIsolateAt,
       onAddRule,
-      onRemoveRule
+      onRemoveRuleAt
     } = this.props
 
     return (
@@ -26,7 +37,11 @@ export default class RuleList extends Component {
               <RuleListItem
                 key={i}
                 item={item}
-                onRemoveRule={() => onRemoveRule(i)} />
+                onModifyAt={(text) => onModifyAt(i, text)}
+                onToggleDisableAt={() => onToggleDisableAt(i)}
+                onToggleIsolateAt={() => onToggleIsolateAt(i)}
+                onRemoveRuleAt={() => onRemoveRuleAt(i)}
+              />
             )
           })}
         </ul>
@@ -40,6 +55,9 @@ export default class RuleList extends Component {
 
 RuleList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onModifyAt: PropTypes.func.isRequired,
+  onToggleDisableAt: PropTypes.func.isRequired,
+  onToggleIsolateAt: PropTypes.func.isRequired,
   onAddRule: PropTypes.func.isRequired,
-  onRemoveRule: PropTypes.func.isRequired,
+  onRemoveRuleAt: PropTypes.func.isRequired,
 }

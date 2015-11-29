@@ -1,11 +1,16 @@
+import update from 'react-addons-update'
+
 import {
   RULES_MOVE_TO_PREVIOUS,
   RULES_MOVE_TO_NEXT,
   RULES_SELECT_PREVIOUS,
   RULES_SELECT_NEXT,
   RULES_SELECT,
+  RULES_MODIFY_AT,
+  RULES_TOGGLE_DISABLE_AT,
+  RULES_TOGGLE_ISOLATE_AT,
   RULES_ADD,
-  RULES_REMOVE
+  RULES_REMOVE_AT
 } from '../constants/Actions'
 import { createRule } from '../utils/Rule'
 
@@ -39,6 +44,8 @@ const wrapInRange = (n, start, end) => {
   return n
 }
 
+const not = (x) => !x
+
 export default (state = initialState, action) => {
   const { index: i } = action
   const { items } = state
@@ -69,17 +76,29 @@ export default (state = initialState, action) => {
         ...state,
         selectedIndex: i
       }
+    case RULES_MODIFY_AT:
+      return update(state, {
+        items: { [action.index]: { regexp: { $set: action.text } } }
+      })
+    case RULES_TOGGLE_DISABLE_AT:
+      return update(state, {
+        items: { [action.index]: { disable: { $apply: not } } }
+      })
+    case RULES_TOGGLE_ISOLATE_AT:
+      return update(state, {
+        items: { [action.index]: { isolate: { $apply: not } } }
+      })
     case RULES_ADD:
       return {
         ...state,
         items: [...items, createRule()]
       }
-    case RULES_REMOVE:
+    case RULES_REMOVE_AT:
       return {
         ...state,
         items: [
-          ...items.slice(0, action.value),
-          ...items.slice(action.value + 1)
+          ...items.slice(0, action.index),
+          ...items.slice(action.index + 1)
         ]
       }
     default:

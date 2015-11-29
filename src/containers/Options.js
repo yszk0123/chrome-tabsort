@@ -41,8 +41,11 @@ export class Options extends Component {
         />
         <RuleList
           {...rules}
+          onModifyAt={rulesActions.modifyAt}
+          onToggleDisableAt={rulesActions.toggleDisableAt}
+          onToggleIsolateAt={rulesActions.toggleIsolateAt}
           onAddRule={rulesActions.addRule}
-          onRemoveRule={rulesActions.removeRule}
+          onRemoveRuleAt={rulesActions.removeRuleAt}
         />
       </div>
     )

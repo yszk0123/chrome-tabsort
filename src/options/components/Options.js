@@ -3,7 +3,7 @@ import React from 'react'
 import FluxComponent from 'Flummox/component'
 import { pull } from '../lib/utils'
 import appState from '../lib/appState'
-import OptionsConfig from '../configs/OptionsConfig'
+import OptionsConfig from '../configs/Options'
 
 export default class Options {
   render() {

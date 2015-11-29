@@ -1,6 +1,6 @@
 'use strict'
 import React from 'react/addons'
-import OptionsConfig from '../configs/OptionsConfig'
+import OptionsConfig from '../configs/Options'
 const { update: updateHelper } = React.addons
 
 export class OptionsStore {

@@ -1,6 +1,8 @@
 import assign from 'object-assign'
 import { find, flatten, partition } from 'lodash'
 
+import { createMapper } from '../utils/utils'
+
 const defaultGroupProps = {
   priority: 0,
   id: 0,
@@ -69,12 +71,6 @@ const splitIntoBlock = (array, n) => {
 }
 
 const constantFalse = (value) => false
-
-const createMapper = (fns, defaultFn = () => null) => {
-  return (key) => {
-    return fns.hasOwnProperty(key) ? fns[key] : defaultFn
-  }
-}
 
 const defaultMatcherGenerator = (value) => constantFalse
 

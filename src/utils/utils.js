@@ -1,4 +1,8 @@
-'use strict'
+export const createMapper = (fns, defaultFn = () => null) => {
+  return (key) => {
+    return fns.hasOwnProperty(key) ? fns[key] : defaultFn
+  }
+}
 
 // 該当要素を配列の最後尾に移動する
 export const moveToTail = (arr, target) => {

@@ -4,12 +4,22 @@ import { validateId } from '../utils/utils'
 import optionsActions from '../actions/options'
 import store from '../store'
 import { executeTabSort } from '../utils/WindowUtils'
+import {
+  CHROME_OPTIONS_UPDATE_STATE
+} from '../constants/Actions'
 
 // let activeTabId = null
 
 let state
 store.subscribe((nextState) => state = nextState)
 optionsActions.load()
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === CHROME_OPTIONS_UPDATE_STATE) {
+    store.dispatch(optionsActions.updateState(request.state))
+    sendResponse({ error: null })
+  }
+})
 
 // ------------------------------------------------------------------------------
 // 補助関数

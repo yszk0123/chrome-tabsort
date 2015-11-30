@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux'
 
 import RuleList from '../components/RuleList'
 import TabOptions from '../components/TabOptions'
+import OptionsButtons from '../components/OptionsButtons'
+import * as OptionsActions from '../actions/options'
 import * as TabsActions from '../actions/tabs'
 import * as RulesActions from '../actions/rules'
 
@@ -16,6 +18,7 @@ const mapStateToProps = ({ rules, tabs }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    optionsActions: bindActionCreators(OptionsActions, dispatch),
     tabsActions: bindActionCreators(TabsActions, dispatch),
     rulesActions: bindActionCreators(RulesActions, dispatch)
   }
@@ -46,6 +49,10 @@ export class Options extends Component {
           onToggleIsolateAt={rulesActions.toggleIsolateAt}
           onAdd={rulesActions.add}
           onRemoveAt={rulesActions.removeAt}
+        />
+        <OptionsButtons
+          onLoad={optionsActions.load}
+          onSave={optionsActions.save}
         />
       </div>
     )

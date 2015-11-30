@@ -1,13 +1,17 @@
 import keyMirror from 'key-mirror'
 
 const keys = keyMirror({
+  CHROME_OPTIONS_UPDATE_STATE: null,
+
+  BACKGROUND_UPDATE_STATE: null,
+
   OPTIONS_LOAD: null,
   OPTIONS_LOAD_SUCCESS: null,
   OPTIONS_LOAD_FAILURE: null,
   OPTIONS_SAVE_START: null,
   OPTIONS_SAVE_SUCCESS: null,
   OPTIONS_SAVE_FAILURE: null,
-  OPTIONS_UPDATE: null,
+  OPTIONS_UPDATE_STATE: null,
 
   TABS_UPDATE_TABS_PER_WINDOW_BY: null,
   TABS_UPDATE_TABS_PER_WINDOW: null,

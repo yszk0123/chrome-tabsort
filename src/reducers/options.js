@@ -5,7 +5,7 @@ import {
   OPTIONS_SAVE_START,
   OPTIONS_SAVE_SUCCESS,
   OPTIONS_SAVE_FAILURE,
-  OPTIONS_UPDATE
+  OPTIONS_UPDATE_STATE
 } from '../constants/Actions'
 
 const initialState = {
@@ -30,10 +30,11 @@ export default (state = initialState, action) => {
         ...state,
         saving: false
       }
-    case OPTIONS_UPDATE:
+    case OPTIONS_UPDATE_STATE:
+      // TODO: 完全に action.state に置き換えてしまうべきか
       return {
         ...state,
-        ...action.value
+        ...action.state
       }
     default:
       return state

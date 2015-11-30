@@ -1,6 +1,6 @@
 'use strict'
 import test from 'tape'
-import { AppState } from '../../src/lib/appState'
+import { AppState } from '../../src/utils/appState'
 
 test('AppState', (assert) => {
   assert.test('#update()', (assert) => {

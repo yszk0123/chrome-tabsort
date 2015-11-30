@@ -1,7 +1,7 @@
 import assign from 'object-assign'
 import { find, flatten, partition } from 'lodash'
 
-const baseGroupProps = {
+const defaultGroupProps = {
   priority: 0,
   id: 0,
   name: 'Unnamed',
@@ -10,10 +10,12 @@ const baseGroupProps = {
   position: null
 }
 
-export const fixGroupProps = (props) => {
-  const fixed = assign({}, baseGroupProps, props)
-  embedMatchFunctionIntoRules(fixed.rules)
-  return fixed
+export const buildGroupProps = (props) => {
+  const result = { ...defaultGroupProps, ...props }
+  result.rules.forEach((rule) => {
+    rule.match = mapRuleTypeToMatcherGenerator(rule.type)(rule.value)
+  })
+  return result
 }
 
 export const groupTabs = (tabs, propsList, defaultGroupProps) => {
@@ -96,12 +98,6 @@ const mapRuleTypeToMatcherGenerator = createMapper({
 const getBefore = (input, mark) => {
   const index = input.indexOf(mark)
   return index < 0 ? input : input.slice(0, index)
-}
-
-const embedMatchFunctionIntoRules = (rules) => {
-  rules.forEach((rule) => {
-    rule.match = mapRuleTypeToMatcherGenerator(rule.type)(rule.value)
-  })
 }
 
 const findTabInGroup = (tab, propsList) => {

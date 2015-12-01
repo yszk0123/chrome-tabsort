@@ -3,12 +3,13 @@ const webpack = require('webpack');
 
 module.exports = {
   devtool: 'source-map',
-  entry: [
-    './src/webapp/index'
-  ],
+  entry: {
+    background: './src/boot/background',
+    options: './src/boot/options'
+  },
   output: {
-    path: path.join(__dirname, '..', 'dist', 'webapp'),
-    filename: 'bundle.js',
+    path: path.join(__dirname, '..', 'dist'),
+    filename: '[name].js',
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -25,13 +26,16 @@ module.exports = {
   ],
   module: {
     loaders: [{
-      test: /\.js$/,
-      loaders: ['babel'],
-      include: path.join(__dirname, '..', 'src')
-    }, {
       test: /\.css$/,
       loaders: ['style', 'css'],
       include: path.join(__dirname, '..', 'src')
+    }, {
+      test: /\.js$/,
+      loader: 'babel',
+      include: path.join(__dirname, '..', 'src'),
+      query: {
+        cacheDirectory: true
+      }
     }]
   }
 };;

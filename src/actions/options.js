@@ -10,19 +10,19 @@ import {
   OPTIONS_UPDATE_STATE
 } from '../constants/Actions'
 import OptionsConfig from '../constants/Options'
-import * as storage from '../utils/simpleStorage'
+import * as storage from '../utils/storage'
 
 export const load = () => (dispatch) => {
   dispatch({ type: OPTIONS_LOAD_START })
 
-  const state = storage.get(OptionsConfig.storageKey)
-
-  if (!state) {
-    return dispatch({ type: OPTIONS_LOAD_FAILURE })
-  }
-
-  dispatch({ type: OPTIONS_LOAD_SUCCESS, state })
-  dispatch({ type: OPTIONS_UPDATE_STATE, state })
+  storage.get(OptionsConfig.storageKey)
+    .then((state) => {
+      dispatch({ type: OPTIONS_LOAD_SUCCESS, state })
+      dispatch({ type: OPTIONS_UPDATE_STATE, state })
+    })
+    .catch((error) => {
+      dispatch({ type: OPTIONS_LOAD_FAILURE, error })
+    })
 }
 
 export const loadWithState = (state) => (dispatch) => {
@@ -37,20 +37,24 @@ export const save = () => (dispatch, getState) => {
   const state = getState()
 
   storage.set(OptionsConfig.storageKey, state)
+    .then(() => {
+      const message = {
+        type: CHROME_OPTIONS_UPDATE_STATE,
+        state
+      }
 
-  const message = {
-    type: CHROME_OPTIONS_UPDATE_STATE,
-    state
-  }
+      chrome.runtime.sendMessage(message, (response) => {
+        if (!response || response.error) {
+          dispatch({ type: OPTIONS_SAVE_FAILURE, error: response.error })
+          return
+        }
 
-  chrome.runtime.sendMessage(message, (response) => {
-    if (!response || response.error) {
-      dispatch({ type: OPTIONS_SAVE_FAILURE, error: response.error })
-      return
-    }
-
-    setTimeout(() => {
-      dispatch({ type: OPTIONS_SAVE_SUCCESS })
-    }, OptionsConfig.timeout)
-  })
+        setTimeout(() => {
+          dispatch({ type: OPTIONS_SAVE_SUCCESS })
+        }, OptionsConfig.timeout)
+      })
+    })
+    .catch((error) => {
+      dispatch({ type: OPTIONS_SAVE_FAILURE, error })
+    })
 }

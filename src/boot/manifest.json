@@ -26,9 +26,5 @@
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
-  "options_page": "options.html",
-  "options_ui": {
-    "page": "options.html",
-    "chrome_style": true
-  }
+  "options_page": "options.html"
 }

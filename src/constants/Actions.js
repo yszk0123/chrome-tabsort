@@ -3,9 +3,8 @@ import keyMirror from 'key-mirror'
 const keys = keyMirror({
   CHROME_OPTIONS_UPDATE_STATE: null,
 
-  BACKGROUND_UPDATE_STATE: null,
-
-  OPTIONS_LOAD: null,
+  OPTIONS_LOAD_START_WITH_STATE: null,
+  OPTIONS_LOAD_START: null,
   OPTIONS_LOAD_SUCCESS: null,
   OPTIONS_LOAD_FAILURE: null,
   OPTIONS_SAVE_START: null,

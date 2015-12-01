@@ -9,8 +9,9 @@ import * as OptionsActions from '../actions/options'
 import * as TabsActions from '../actions/tabs'
 import * as RulesActions from '../actions/rules'
 
-const mapStateToProps = ({ rules, tabs }) => {
+const mapStateToProps = ({ options, rules, tabs }) => {
   return {
+    options,
     rules,
     tabs
   }
@@ -27,8 +28,10 @@ const mapDispatchToProps = (dispatch) => {
 export class Options extends Component {
   render() {
     const {
+      options,
       rules,
       tabs,
+      optionsActions,
       rulesActions,
       tabsActions
     } = this.props
@@ -60,6 +63,7 @@ export class Options extends Component {
 }
 
 Options.propTypes = {
+  options: PropTypes.object.isRequired,
   rules: PropTypes.object.isRequired,
   tabs: PropTypes.object.isRequired
 }

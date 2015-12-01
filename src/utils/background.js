@@ -1,7 +1,7 @@
 import { find } from 'lodash'
 
 import { validateId } from '../utils/utils'
-import optionsActions from '../actions/options'
+import * as optionsActions from '../actions/options'
 import store from '../store'
 import { executeTabSort } from '../utils/WindowUtils'
 import {
@@ -10,13 +10,13 @@ import {
 
 // let activeTabId = null
 
-let state
-store.subscribe((nextState) => state = nextState)
-optionsActions.load()
+let state = store.getState()
+store.subscribe(() => state = store.getState())
+store.dispatch(optionsActions.load())
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === CHROME_OPTIONS_UPDATE_STATE) {
-    store.dispatch(optionsActions.updateState(request.state))
+    store.dispatch(optionsActions.loadWithState(request.state))
     sendResponse({ error: null })
   }
 })
@@ -138,7 +138,7 @@ const setBadge = () =>
 // 別ウィンドウから持ってきた時などは無視している
 chrome.tabs.onCreated.addListener((tab) => {
   chrome.windows.getCurrent({ populate: true }, (wnd) => {
-    const tabsPerWindow = state.tabsPerWindow
+    const tabsPerWindow = state.tabs.tabsPerWindow
     if (wnd.tabs.length > tabsPerWindow) {
       divide(wnd.tabs, tabsPerWindow, true)
     }
@@ -178,7 +178,7 @@ chrome.browserAction.onClicked.addListener((tab) => {
         })
       }
     })
-    const tabsPerWindow = state.tabsPerWindow
+    const tabsPerWindow = state.tabs.tabsPerWindow
     divide(list, tabsPerWindow)
   })
 })

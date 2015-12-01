@@ -59,12 +59,10 @@
     "test": "babel-node --stage 2 node_modules/tape/bin/tape test/**/*.js",
     "lint": "gulp lint",
     "build-assets": "mkdir -p dist/images/ && cp src/boot/*.{html,json} dist/ && cp src/images/*.png dist/images/",
-    "build-scripts": "webpack --config configs/webpack.development.js",
-    "watch-scripts": "webpack --watch --config configs/webpack.development.js",
+    "build": "webpack --config configs/webpack.development.js",
     "release-scripts": "webpack --config configs/webpack.production.js",
     "old-build": "gulp build",
-    "old-release": "NODE_ENV=production gulp build --release",
-    "server": "node server/app.js"
+    "old-release": "NODE_ENV=production gulp build --release"
   },
   "author": "Yuji Suzuki",
   "license": "MIT"

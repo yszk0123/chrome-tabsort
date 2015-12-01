@@ -5,18 +5,14 @@ import { arrayGroupBy } from '../utils/utils'
 const DOMAIN_RE = /^[^:]+:\/+([^\/]+)/
 
 export default class Divider {
-  constructor(rulesArray) {
-    this.updateRules(rulesArray)
-  }
-
-  updateRules(rulesArray = []) {
-    return this.rules = rulesArray
+  constructor(rulesArray = []) {
+    this.rules = rulesArray
       .filter((rule) => !rule.disable)
       .reduce((rules, rule, i) => {
-          rules[`_rule_${i}`] = {
-            regexp: new RegExp(rule.regexp, 'i'),
-            isolate: rule.isolate
-          }
+        rules[`_rule_${i}`] = {
+          regexp: new RegExp(rule.regexp, 'i'),
+          isolate: rule.isolate
+        }
         return rules
       }, {})
   }

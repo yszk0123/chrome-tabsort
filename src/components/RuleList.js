@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 
 const RuleListItem = ({
-  item: { regexp, disable, isolate },
+  item: { regexp, valid, disable, isolate },
   onModifyRegExpAt,
   onToggleDisableAt,
   onToggleIsolateAt,
@@ -9,7 +9,12 @@ const RuleListItem = ({
 }) => {
   return (
     <li>
-      <input type="text" value={regexp} onChange={(event) => onModifyRegExpAt(event.target.value)} />
+      <input
+        type="text"
+        className={valid ? 'valid' : 'invalid'}
+        value={regexp}
+        onChange={(event) => onModifyRegExpAt(event.target.value)}
+      />
       <input type="checkbox" checked={disable} onChange={onToggleDisableAt} />
       <input type="checkbox" checked={isolate} onChange={onToggleIsolateAt} />
       <input type="button" value="Remove" onClick={onRemoveAt} />

@@ -5,6 +5,7 @@ import * as optionsActions from '../actions/options'
 import store from '../store'
 import { executeTabSort } from '../utils/WindowUtils'
 import OptionsConfig from '../constants/Options'
+import Divider from '../utils/Divider'
 import {
   CHROME_OPTIONS_UPDATE_STATE
 } from '../constants/Actions'
@@ -34,7 +35,7 @@ const divide = (list, tabsPerWindow, oneWindow = false) => {
   let groups
 
   try {
-    divider.updateRules(state.rules)
+    const divider = new Divider(state.rules.items)
     groups = divider.divide(list, tabsPerWindow)
   }
   catch (err) {

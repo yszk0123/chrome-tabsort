@@ -13,6 +13,7 @@ import {
   RULES_REMOVE_AT
 } from '../constants/Actions'
 import { createRule } from '../utils/Rule'
+import { validateRegExp } from '../utils/utils'
 
 const initialState = {
   items: [],
@@ -78,7 +79,12 @@ export default (state = initialState, action) => {
       }
     case RULES_MODIFY_REGEXP_AT:
       return update(state, {
-        items: { [action.index]: { regexp: { $set: action.text } } }
+        items: {
+          [action.index]: {
+            regexp: { $set: action.text },
+            valid: { $set: validateRegExp(action.text) }
+          }
+        }
       })
     case RULES_TOGGLE_DISABLE_AT:
       return update(state, {

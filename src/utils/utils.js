@@ -1,3 +1,15 @@
+export const validateId = (id) => Number.isFinite(id)
+
+export const validateRegExp = (input) => {
+  try {
+    new RegExp(input)
+    return true
+  }
+  catch (err) {
+    return false
+  }
+}
+
 export const createMapper = (fns, defaultFn = () => null) => {
   return (key) => {
     return fns.hasOwnProperty(key) ? fns[key] : defaultFn

@@ -11,15 +11,17 @@ import {
   RULES_REMOVE_AT
 } from '../constants/Actions'
 
-export const moveToPrevious = () => {
+export const moveToPrevious = (index) => {
   return {
-    type: RULES_MOVE_TO_PREVIOUS
+    type: RULES_MOVE_TO_PREVIOUS,
+    index
   }
 }
 
-export const moveToNext = () => {
+export const moveToNext = (index) => {
   return {
-    type: RULES_MOVE_TO_NEXT
+    type: RULES_MOVE_TO_NEXT,
+    index
   }
 }
 

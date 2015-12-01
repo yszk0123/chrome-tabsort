@@ -5,6 +5,8 @@ const RuleListItem = ({
   onModifyRegExpAt,
   onToggleDisableAt,
   onToggleIsolateAt,
+  onMoveToPreviousAt,
+  onMoveToNextAt,
   onRemoveAt
 }) => {
   return (
@@ -17,6 +19,8 @@ const RuleListItem = ({
       />
       <input type="checkbox" checked={disable} onChange={onToggleDisableAt} />
       <input type="checkbox" checked={isolate} onChange={onToggleIsolateAt} />
+      <input type="button" value="Up" onClick={onMoveToPreviousAt} />
+      <input type="button" value="Down" onClick={onMoveToNextAt} />
       <input type="button" value="Remove" onClick={onRemoveAt} />
     </li>
   )
@@ -29,6 +33,8 @@ export default class RuleList extends Component {
       onModifyRegExpAt,
       onToggleDisableAt,
       onToggleIsolateAt,
+      onMoveToPreviousAt,
+      onMoveToNextAt,
       onAdd,
       onRemoveAt
     } = this.props
@@ -45,6 +51,8 @@ export default class RuleList extends Component {
                 onModifyRegExpAt={(text) => onModifyRegExpAt(i, text)}
                 onToggleDisableAt={() => onToggleDisableAt(i)}
                 onToggleIsolateAt={() => onToggleIsolateAt(i)}
+                onMoveToPreviousAt={() => onMoveToPreviousAt(i)}
+                onMoveToNextAt={() => onMoveToNextAt(i)}
                 onRemoveAt={() => onRemoveAt(i)}
               />
             )
@@ -63,6 +71,8 @@ RuleList.propTypes = {
   onModifyRegExpAt: PropTypes.func.isRequired,
   onToggleDisableAt: PropTypes.func.isRequired,
   onToggleIsolateAt: PropTypes.func.isRequired,
+  onMoveToPreviousAt: PropTypes.func.isRequired,
+  onMoveToNextAt: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   onRemoveAt: PropTypes.func.isRequired,
 }

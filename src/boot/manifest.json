@@ -5,6 +5,7 @@
   "description": "タブのソートとか",
   "permissions": [
     "tabs",
+    "storage",
     "http://*/*",
     "https://*/*",
     "chrome://favicon/*",

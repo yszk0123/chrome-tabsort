@@ -1,6 +1,7 @@
 export default {
   timeout: 800,
   autoSaveInterval: 1000,
+  setBadgeDebounce: 200,
   defaultRule: {
     regexp: '',
     disable: false,

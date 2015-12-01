@@ -1,9 +1,10 @@
-import { find } from 'lodash'
+import { find, debounce } from 'lodash'
 
 import { validateId } from '../utils/utils'
 import * as optionsActions from '../actions/options'
 import store from '../store'
 import { executeTabSort } from '../utils/WindowUtils'
+import OptionsConfig from '../constants/Options'
 import {
   CHROME_OPTIONS_UPDATE_STATE
 } from '../constants/Actions'
@@ -129,6 +130,8 @@ const setBadge = () =>
     chrome.browserAction.setBadgeBackgroundColor({ color: color })
   })
 
+const debouncedSetBadge = debounce(setBadge, OptionsConfig.setBadgeDebounce)
+
 // ------------------------------------------------------------------------------
 // 各種イベントハンドラ
 // ------------------------------------------------------------------------------
@@ -143,10 +146,10 @@ chrome.tabs.onCreated.addListener((tab) => {
       divide(wnd.tabs, tabsPerWindow, true)
     }
   })
-  setBadge()
+  debouncedSetBadge()
 })
 
-chrome.tabs.onRemoved.addListener((tab) => setBadge())
+chrome.tabs.onRemoved.addListener((tab) => debouncedSetBadge())
 
 // chrome.tabs.onActivated.addListener((activeInfo) => {
 //   activeTabId = activeInfo.tabId

@@ -10,6 +10,7 @@ import {
   CHROME_OPTIONS_UPDATE_STATE
 } from '../constants/Actions'
 import { getTabsNeedToBeSorted } from '../utils/backgroundUtils'
+import { createWindow, updateWindow, queryAgainstTabs, getTab, moveTabs } from '../utils/ChromeAPIWrapper'
 
 let state = store.getState()
 store.subscribe(() => state = store.getState())
@@ -42,26 +43,40 @@ const divide = (list, tabsPerWindow, oneWindow = false) => {
   catch (err) {
     console.log('Error: Maybe rules are invalid. Please open options page and correct rules')
     console.log(err)
-    return
+    return Promise.reject(err)
   }
   if (oneWindow && groups.length === 1) {
-    return
+    return Promise.resolve()
   }
 
-  groups.forEach((tabGroup) => {
-    const tabIds = tabGroup.map(({ id }) => id)
-    if (!tabIds.length || !tabIds.every(validateId)) {
-      return
-    }
-
-    chrome.windows.create({ tabId: tabIds.shift() }, ({ id: windowId }) => {
-      if (!tabIds.length) {
-        return
+  return queryAgainstTabs({ active: true, currentWindow: true })
+    .then((activeTabs) => {
+      if (!activeTabs.length) {
+        return Promise.resolve()
       }
+      const { id: currentTabId } = activeTabs[0]
 
-      chrome.tabs.move(tabIds, { windowId, index: -1 })
+      return Promise
+        .all(groups.map((tabGroup) => {
+          const tabIds = tabGroup.map(({ id }) => id)
+          if (!tabIds.length || !tabIds.every(validateId)) {
+            return Promise.resolve()
+          }
+
+          return createWindow({ tabId: tabIds.shift() })
+            .then(({ id: windowId }) => {
+              if (!tabIds.length) {
+                return Promise.resolve()
+              }
+
+              return moveTabs(tabIds, { windowId, index: -1 })
+            })
+        }))
+        .then(() => getTab(currentTabId))
+        .then(({ windowId }) => {
+          return updateWindow(windowId, { focused: true })
+        })
     })
-  })
 }
 
 // オプション (デフォルトはmulti)

@@ -33,3 +33,14 @@ export function arrayGroupBy(items, getIndex, maxSize) {
   items.forEach((item) => dest[getIndex(item)].push(item))
   return dest
 }
+
+export const reverse = (array) => {
+  let result = []
+  let length = array.length
+
+  for (let i = 0; i < length; i += 1) {
+    result.push(array[length - i - 1])
+  }
+
+  return result
+}

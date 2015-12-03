@@ -9,6 +9,7 @@ import Divider from '../utils/Divider'
 import {
   CHROME_OPTIONS_UPDATE_STATE
 } from '../constants/Actions'
+import { getTabsNeedToBeSorted } from '../utils/backgroundUtils'
 
 // let activeTabId = null
 
@@ -28,7 +29,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // ------------------------------------------------------------------------------
 
 const getActiveWindow = (groups, currentTabId) => {
-  return find(groups, (tabGroup) => tabGroup.some((tab) => tab.id === currentTabId))
+  return find(groups, (tabGroup) => {
+    return tabGroup.some(({ id }) => id === currentTabId)
+  })
 }
 
 const divide = (list, tabsPerWindow, oneWindow = false) => {
@@ -54,14 +57,18 @@ const divide = (list, tabsPerWindow, oneWindow = false) => {
   //  moveToTail groups, active if active?
 
   groups.forEach((tabGroup) => {
-    const tabIds = tabGroup.map((tab) => tab.id)
-    if (tabIds.length && tabIds.every(validateId)) {
-      chrome.windows.create({ tabId: tabIds.shift() }, (wnd) => {
-        if (tabIds.length) {
-          chrome.tabs.move(tabIds, { windowId: wnd.id, index: -1 })
-        }
-      })
+    const tabIds = tabGroup.map(({ id }) => id)
+    if (!tabIds.length || !tabIds.every(validateId)) {
+      return
     }
+
+    chrome.windows.create({ tabId: tabIds.shift() }, ({ id: windowId }) => {
+      if (!tabIds.length) {
+        return
+      }
+
+      chrome.tabs.move(tabIds, { windowId, index: -1 })
+    })
   })
 }
 
@@ -83,43 +90,47 @@ const getTabCount = (opts, cb) => {
   }
 
   if (opts.single) {
-    chrome.windows.getCurrent({ populate: true }, (wnd) => {
+    return chrome.windows.getCurrent({ populate: true }, (wnd) => {
       cb(null, wnd.tabs.length)
     })
   }
-  else if (opts.multi || opts.all) {
-    chrome.windows.getAll({ populate: true }, (wnds) => {
+
+  if (opts.multi || opts.all) {
+    return chrome.windows.getAll({ populate: true }, (wnds) => {
       const count = wnds.reduce((sum, wnd) => sum + wnd.tabs.length, 0)
       cb(null, count)
     })
   }
-  else if (opts.both) {
-    getTabCount({ single: true }, (err1, current) => {
+
+  if (opts.both) {
+    return getTabCount({ single: true }, (err1, current) => {
       getTabCount({ multi: true }, (err2, all) => {
         cb(err1 || err2, [current, all])
       })
     })
   }
-  else {
-    cb('invalid options')
-  }
+
+  cb('invalid options')
 }
 
 const condition = (...args) => {
   const last = args.length - (args.length % 2)
+
   for (let i = 0; i < last; i += 2) {
     if (args[i]) {
       return args[i + 1]
     }
   }
+
   return args[last]
 }
 
-const setBadge = () =>
-  getTabCount({ multi: true }, (err, count) => {
+const setBadge = () => {
+  return getTabCount({ multi: true }, (err, count) => {
     if (err) {
       return
     }
+
     const color = condition(
       count < 10, [ 24,  24, 240, 255],
       count < 20, [ 24, 240, 240, 255],
@@ -128,8 +139,9 @@ const setBadge = () =>
       [240, 24, 24, 255]
     )
     chrome.browserAction.setBadgeText({ text: String(count) })
-    chrome.browserAction.setBadgeBackgroundColor({ color: color })
+    chrome.browserAction.setBadgeBackgroundColor({ color })
   })
+}
 
 const debouncedSetBadge = debounce(setBadge, OptionsConfig.setBadgeDebounce)
 
@@ -141,31 +153,32 @@ const debouncedSetBadge = debounce(setBadge, OptionsConfig.setBadgeDebounce)
 // 今は、タブが新規作成された場合のみで
 // 別ウィンドウから持ってきた時などは無視している
 chrome.tabs.onCreated.addListener((tab) => {
-  chrome.windows.getCurrent({ populate: true }, (wnd) => {
+  chrome.windows.getCurrent({ populate: true }, ({ tabs }) => {
     const tabsPerWindow = state.tabs.tabsPerWindow
-    if (wnd.tabs.length > tabsPerWindow) {
-      divide(wnd.tabs, tabsPerWindow, true)
+    if (tabs.length > tabsPerWindow) {
+      divide(tabs, tabsPerWindow, true)
     }
   })
+
   debouncedSetBadge()
 })
 
-chrome.tabs.onRemoved.addListener((tab) => debouncedSetBadge())
+chrome.tabs.onRemoved.addListener(debouncedSetBadge)
 
 // chrome.tabs.onActivated.addListener((activeInfo) => {
 //   activeTabId = activeInfo.tabId
 // })
 
 // タブ更新時にソート
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, targetTab) => {
-  if (changeInfo.status !== 'complete' || targetTab.url === 'chrome://newtab/') {
+chrome.tabs.onUpdated.addListener((newTabId, { status }, { url: newTabUrl }) => {
+  if (status !== 'complete' || newTabUrl === 'chrome://newtab/') {
     return
   }
+
   chrome.windows.getCurrent({ populate: true }, (wnd) => {
-    const newTab = { id: tabId, url: targetTab.url }
-    wnd.tabs.forEach((tab, i) => {
-      if (newTab.url <= tab.url && i < wnd.tabs.length && tab.id !== newTab.id) {
-        chrome.tabs.move(newTab.id, { index: i })
+    wnd.tabs.forEach(({ id, url }, index) => {
+      if (id !== newTabId && url >= newTabUrl) {
+        chrome.tabs.move(newTabId, { index })
       }
     })
   })
@@ -174,15 +187,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, targetTab) => {
 // ブラウザ右上のボタンクリックで全ウィンドウのタブをソート
 chrome.browserAction.onClicked.addListener((tab) => {
   chrome.windows.getAll({ populate: true }, (windows) => {
-    let list = []
-    windows.forEach((wnd) => {
-      if (wnd.type === 'normal') {
-        wnd.tabs.forEach((tab) => {
-          list.push({ id: tab.id, url: tab.url })
-        })
-      }
-    })
-    const tabsPerWindow = state.tabs.tabsPerWindow
-    divide(list, tabsPerWindow)
+    divide(getTabsNeedToBeSorted(windows), state.tabs.tabsPerWindow)
   })
 })

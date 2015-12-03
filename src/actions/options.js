@@ -7,7 +7,10 @@ import {
   OPTIONS_SAVE_START,
   OPTIONS_SAVE_SUCCESS,
   OPTIONS_SAVE_FAILURE,
-  OPTIONS_UPDATE_STATE
+  OPTIONS_UPDATE_STATE,
+  OPTIONS_SERIALIZE,
+  OPTIONS_DESERIALIZE_FAILURE,
+  OPTIONS_UPDATE_SERIALIZED_STATE
 } from '../constants/Actions'
 import OptionsConfig from '../constants/Options'
 import * as storage from '../utils/storage'
@@ -57,4 +60,33 @@ export const save = () => (dispatch, getState) => {
     .catch((error) => {
       dispatch({ type: OPTIONS_SAVE_FAILURE, error })
     })
+}
+
+export const serialize = () => (dispatch, getState) => {
+  dispatch({
+    type: OPTIONS_SERIALIZE,
+    value: JSON.stringify(getState())
+  })
+}
+
+export const deserialize = (value) => {
+  let result
+
+  try {
+    result = JSON.parse(value)
+  }
+  catch (err) {
+    return {
+      type: OPTIONS_DESERIALIZE_FAILURE
+    }
+  }
+
+  return loadWithState(result)
+}
+
+export const updateSerializedState = (value) => {
+  return {
+    type: OPTIONS_UPDATE_SERIALIZED_STATE,
+    value
+  }
 }

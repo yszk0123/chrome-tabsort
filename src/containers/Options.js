@@ -27,6 +27,15 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+const OptionsOutput = ({ output, onChange }) => {
+  return (
+    <textarea
+      value={output}
+      onChange={(event) => onChange(event.target.value)}
+    />
+  )
+}
+
 export class Options extends Component {
   render() {
     const {
@@ -57,9 +66,15 @@ export class Options extends Component {
           onAdd={rulesActions.add}
           onRemoveAt={rulesActions.removeAt}
         />
+        <OptionsOutput
+          output={options.serializedState}
+          onChange={optionsActions.updateSerializedState}
+        />
         <OptionsButtons
           onLoad={optionsActions.load}
           onSave={optionsActions.save}
+          onImport={() => optionsActions.deserialize(options.serializedState)}
+          onExport={optionsActions.serialize}
         />
       </div>
     )

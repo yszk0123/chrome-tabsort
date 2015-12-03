@@ -27,3 +27,25 @@ export const setBadgeText = (text) => {
 export const setBadgeBackgroundColor = (params) => {
   return chrome.browserAction.setBadgeBackgroundColor(params)
 }
+
+// Event Listeners
+
+export const registerMessageReceived = (handler) => {
+  return chrome.runtime.onMessage.addListener(handler)
+}
+
+export const registerTabsCreated = (handler) => {
+  return chrome.tabs.onCreated.addListener(handler)
+}
+
+export const registerTabsUpdated = (handler) => {
+  return chrome.tabs.onUpdated.addListener(handler)
+}
+
+export const registerTabsRemoved = (handler) => {
+  return chrome.tabs.onRemoved.addListener(handler)
+}
+
+export const registerBrowserActionClicked = (handler) => {
+  return chrome.browserAction.onClicked.addListener(handler)
+}

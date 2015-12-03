@@ -17,6 +17,11 @@ import {
   getTab,
   moveTabs,
   queryAgainstTabs,
+  registerBrowserActionClicked,
+  registerMessageReceived,
+  registerTabsCreated,
+  registerTabsRemoved,
+  registerTabsUpdated,
   setBadgeBackgroundColor,
   setBadgeText,
   updateWindow
@@ -26,7 +31,7 @@ let state = store.getState()
 store.subscribe(() => state = store.getState())
 store.dispatch(optionsActions.load())
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+registerMessageReceived((request, sender, sendResponse) => {
   if (request.type === CHROME_OPTIONS_UPDATE_STATE) {
     store.dispatch(optionsActions.loadWithState(request.state))
     sendResponse({ error: null })
@@ -169,7 +174,7 @@ const debouncedSetBadge = debounce(setBadge, OptionsConfig.setBadgeDebounce)
 // ウィンドウにタブが追加された時にウィンドウ内のタブをソート
 // 今は、タブが新規作成された場合のみで
 // 別ウィンドウから持ってきた時などは無視している
-chrome.tabs.onCreated.addListener(() => {
+registerTabsCreated(() => {
   getCurrentWindow({ populate: true }).then(({ tabs }) => {
     const { tabsPerWindow } = state.tabs
 
@@ -183,10 +188,10 @@ chrome.tabs.onCreated.addListener(() => {
   debouncedSetBadge()
 })
 
-chrome.tabs.onRemoved.addListener(debouncedSetBadge)
+registerTabsRemoved(debouncedSetBadge)
 
 // タブ更新時にソート
-chrome.tabs.onUpdated.addListener((newTabId, { status }, { url: newTabUrl }) => {
+registerTabsUpdated((newTabId, { status }, { url: newTabUrl }) => {
   if (status !== 'complete' || newTabUrl === 'chrome://newtab/') {
     return
   }
@@ -208,7 +213,7 @@ chrome.tabs.onUpdated.addListener((newTabId, { status }, { url: newTabUrl }) => 
 })
 
 // ブラウザ右上のボタンクリックで全ウィンドウのタブをソート
-chrome.browserAction.onClicked.addListener(() => {
+registerBrowserActionClicked(() => {
   getAllWindows({ populate: true }).then((windows) => {
     divide(getTabsNeedToBeSorted(windows), state.tabs.tabsPerWindow)
   })

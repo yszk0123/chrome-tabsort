@@ -11,7 +11,19 @@ export const promisifyChromeExtensionsAPI = (api) => (...args) => {
 }
 
 export const createWindow = promisifyChromeExtensionsAPI(chrome.windows.create)
-export const updateWindow = promisifyChromeExtensionsAPI(chrome.windows.update)
-export const queryAgainstTabs = promisifyChromeExtensionsAPI(chrome.tabs.query)
+export const getAllWindows = promisifyChromeExtensionsAPI(chrome.windows.getAll)
+export const getCurrentWindow = promisifyChromeExtensionsAPI(chrome.windows.getCurrent)
 export const getTab = promisifyChromeExtensionsAPI(chrome.tabs.get)
 export const moveTabs = promisifyChromeExtensionsAPI(chrome.tabs.move)
+export const queryAgainstTabs = promisifyChromeExtensionsAPI(chrome.tabs.query)
+export const updateWindow = promisifyChromeExtensionsAPI(chrome.windows.update)
+
+// TODO: Return a promise
+export const setBadgeText = (text) => {
+  return chrome.browserAction.setBadgeText(text)
+}
+
+// TODO: Return a promise
+export const setBadgeBackgroundColor = (params) => {
+  return chrome.browserAction.setBadgeBackgroundColor(params)
+}

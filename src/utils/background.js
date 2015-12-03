@@ -10,7 +10,17 @@ import {
   CHROME_OPTIONS_UPDATE_STATE
 } from '../constants/Actions'
 import { getTabsNeedToBeSorted } from '../utils/backgroundUtils'
-import { createWindow, updateWindow, queryAgainstTabs, getTab, moveTabs } from '../utils/ChromeAPIWrapper'
+import {
+  createWindow,
+  getAllWindows,
+  getCurrentWindow,
+  getTab,
+  moveTabs,
+  queryAgainstTabs,
+  setBadgeBackgroundColor,
+  setBadgeText,
+  updateWindow
+} from '../utils/ChromeAPIWrapper'
 
 let state = store.getState()
 store.subscribe(() => state = store.getState())
@@ -97,13 +107,13 @@ const getTabCount = (opts, callback) => {
   }
 
   if (opts.single) {
-    return chrome.windows.getCurrent({ populate: true }, (wnd) => {
+    return getCurrentWindow({ populate: true }).then((wnd) => {
       callback(null, wnd.tabs.length)
     })
   }
 
   if (opts.multi || opts.all) {
-    return chrome.windows.getAll({ populate: true }, (wnds) => {
+    return getAllWindows({ populate: true }).then((wnds) => {
       const count = wnds.reduce((sum, wnd) => sum + wnd.tabs.length, 0)
       callback(null, count)
     })
@@ -145,8 +155,8 @@ const setBadge = () => {
       count < 40, [240, 240,  24, 255],
       [240, 24, 24, 255]
     )
-    chrome.browserAction.setBadgeText({ text: String(count) })
-    chrome.browserAction.setBadgeBackgroundColor({ color })
+    setBadgeText({ text: String(count) })
+    setBadgeBackgroundColor({ color })
   })
 }
 
@@ -159,12 +169,15 @@ const debouncedSetBadge = debounce(setBadge, OptionsConfig.setBadgeDebounce)
 // ウィンドウにタブが追加された時にウィンドウ内のタブをソート
 // 今は、タブが新規作成された場合のみで
 // 別ウィンドウから持ってきた時などは無視している
-chrome.tabs.onCreated.addListener((tab) => {
-  chrome.windows.getCurrent({ populate: true }, ({ tabs }) => {
-    const tabsPerWindow = state.tabs.tabsPerWindow
-    if (tabs.length > tabsPerWindow) {
-      divide(tabs, tabsPerWindow, true)
+chrome.tabs.onCreated.addListener(() => {
+  getCurrentWindow({ populate: true }).then(({ tabs }) => {
+    const { tabsPerWindow } = state.tabs
+
+    if (tabs.length <= tabsPerWindow) {
+      return
     }
+
+    divide(tabs, tabsPerWindow, true)
   })
 
   debouncedSetBadge()
@@ -178,7 +191,7 @@ chrome.tabs.onUpdated.addListener((newTabId, { status }, { url: newTabUrl }) => 
     return
   }
 
-  chrome.windows.getCurrent({ populate: true }, (wnd) => {
+  getCurrentWindow({ populate: true }).then((wnd) => {
     wnd.tabs.some(({ id, url }, index) => {
       if (newTabUrl > url) {
         return false
@@ -188,15 +201,15 @@ chrome.tabs.onUpdated.addListener((newTabId, { status }, { url: newTabUrl }) => 
         return true
       }
 
-      chrome.tabs.move(newTabId, { index })
+      moveTabs(newTabId, { index })
       return true
     })
   })
 })
 
 // ブラウザ右上のボタンクリックで全ウィンドウのタブをソート
-chrome.browserAction.onClicked.addListener((tab) => {
-  chrome.windows.getAll({ populate: true }, (windows) => {
+chrome.browserAction.onClicked.addListener(() => {
+  getAllWindows({ populate: true }).then((windows) => {
     divide(getTabsNeedToBeSorted(windows), state.tabs.tabsPerWindow)
   })
 })

@@ -11,8 +11,6 @@ import {
 } from '../constants/Actions'
 import { getTabsNeedToBeSorted } from '../utils/backgroundUtils'
 
-// let activeTabId = null
-
 let state = store.getState()
 store.subscribe(() => state = store.getState())
 store.dispatch(optionsActions.load())
@@ -49,12 +47,6 @@ const divide = (list, tabsPerWindow, oneWindow = false) => {
   if (oneWindow && groups.length === 1) {
     return
   }
-  
-  // タブの移動でアクティブなタブが変わるのを防ぐ
-  // TODO: 実装する
-  // if activeTabId?
-  //  active = getActiveWindow groups, activeTabId
-  //  moveToTail groups, active if active?
 
   groups.forEach((tabGroup) => {
     const tabIds = tabGroup.map(({ id }) => id)
@@ -164,10 +156,6 @@ chrome.tabs.onCreated.addListener((tab) => {
 })
 
 chrome.tabs.onRemoved.addListener(debouncedSetBadge)
-
-// chrome.tabs.onActivated.addListener((activeInfo) => {
-//   activeTabId = activeInfo.tabId
-// })
 
 // タブ更新時にソート
 chrome.tabs.onUpdated.addListener((newTabId, { status }, { url: newTabUrl }) => {

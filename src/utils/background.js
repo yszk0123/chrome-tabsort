@@ -79,8 +79,8 @@ const divide = (list, tabsPerWindow, oneWindow = false) => {
 //   both:   カレントウィンドウ+カレントウィンドウのタブ数
 //           戻り値は次のような配列として返される
 //           [<カレントウィンドウのタブ数>, <全ウィンドウのタブ数>]
-const getTabCount = (opts, cb) => {
-  if (typeof(cb) !== 'function') {
+const getTabCount = (opts, callback) => {
+  if (typeof(callback) !== 'function') {
     return
   }
 
@@ -91,26 +91,26 @@ const getTabCount = (opts, cb) => {
 
   if (opts.single) {
     return chrome.windows.getCurrent({ populate: true }, (wnd) => {
-      cb(null, wnd.tabs.length)
+      callback(null, wnd.tabs.length)
     })
   }
 
   if (opts.multi || opts.all) {
     return chrome.windows.getAll({ populate: true }, (wnds) => {
       const count = wnds.reduce((sum, wnd) => sum + wnd.tabs.length, 0)
-      cb(null, count)
+      callback(null, count)
     })
   }
 
   if (opts.both) {
     return getTabCount({ single: true }, (err1, current) => {
       getTabCount({ multi: true }, (err2, all) => {
-        cb(err1 || err2, [current, all])
+        callback(err1 || err2, [current, all])
       })
     })
   }
 
-  cb(new Error('Invalid options'))
+  callback(new Error('Invalid options'))
 }
 
 const condition = (...args) => {

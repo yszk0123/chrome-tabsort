@@ -42,7 +42,7 @@ const divide = (list, tabsPerWindow, oneWindow = false) => {
     groups = divider.divide(list, tabsPerWindow)
   }
   catch (err) {
-    console.log('error: maybe rules are invalid. please access options.html and correct rules')
+    console.log('Error: Maybe rules are invalid. Please open options page and correct rules')
     console.log(err)
     return
   }
@@ -110,7 +110,7 @@ const getTabCount = (opts, cb) => {
     })
   }
 
-  cb('invalid options')
+  cb(new Error('Invalid options'))
 }
 
 const condition = (...args) => {

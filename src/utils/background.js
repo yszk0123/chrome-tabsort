@@ -176,10 +176,17 @@ chrome.tabs.onUpdated.addListener((newTabId, { status }, { url: newTabUrl }) => 
   }
 
   chrome.windows.getCurrent({ populate: true }, (wnd) => {
-    wnd.tabs.forEach(({ id, url }, index) => {
-      if (id !== newTabId && url >= newTabUrl) {
-        chrome.tabs.move(newTabId, { index })
+    wnd.tabs.some(({ id, url }, index) => {
+      if (newTabUrl > url) {
+        return false
       }
+
+      if (newTabId === id) {
+        return true
+      }
+
+      chrome.tabs.move(newTabId, { index })
+      return true
     })
   })
 })

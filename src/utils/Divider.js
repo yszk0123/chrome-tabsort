@@ -9,10 +9,7 @@ export default class Divider {
     this.rules = rulesArray
       .filter((rule) => !rule.disable)
       .reduce((rules, rule) => {
-        rules[rule.id] = {
-          matchingText: new RegExp(rule.matchingText, 'i'),
-          isolate: rule.isolate
-        };
+        rules[rule.id] = rule;
         return rules;
       }, {});
   }
@@ -21,7 +18,15 @@ export default class Divider {
   // そうでなければドメイン名をグループ名とみなして返す
   // ドメイン名も取得できない場合は空文字''を返す
   getGroupName(url) {
-    const ruleName = findKey(this.rules, (rule) => rule.matchingText && rule.matchingText.test(url));
+    const ruleName = findKey(this.rules, (rule) => {
+      if (!rule.matchingText) {
+        return false;
+      }
+      if (typeof rule.matchingText === 'string') {
+        return url.indexOf(rule.matchingText) > -1;
+      }
+      return rule.matchingText.test(url);
+    });
     if (ruleName) {
       return ruleName;
     }

@@ -39,7 +39,7 @@ describe('Divider#divide', () => {
         { id: 4, url: 'http://b.co.jp/d' }
       ];
       const rules = [
-        { matchingText: '\\.com\\b' }
+        { matchingText: '.com' }
       ];
       const divider = new Divider(rules);
       assert.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2], [3, 4]]);
@@ -54,8 +54,8 @@ describe('Divider#divide', () => {
         { id: 5, url: 'http://b.co.jp/doc/isolate' }
       ];
       const rules = [
-        { matchingText: '\\.com\\b' },
-        { matchingText: '\\bdoc|\\bapi', isolate: true }
+        { matchingText: '.com' },
+        { matchingText: 'doc', isolate: true }
       ];
       const divider = new Divider(rules);
       assert.deepEqual(divider.divide(items, 3).map(getIds), [[5], [1, 3], [2, 4]]);

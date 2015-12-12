@@ -63,7 +63,7 @@ export default (state = initialState, action) => {
     }
     case RULES_MODIFY_REGEXP_BY_ID: {
       return compose(
-        setIn(['itemsById', action.id, 'regexp'], action.text),
+        setIn(['itemsById', action.id, 'matchingText'], action.text),
         setIn(['itemsById', action.id, 'valid'], validateRegExp(action.text))
       )(state);
     }

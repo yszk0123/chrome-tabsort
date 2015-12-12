@@ -3,7 +3,7 @@ export default {
   autoSaveInterval: 1000,
   setBadgeDebounce: 200,
   defaultRule: {
-    regexp: '',
+    matchingText: '',
     disable: false,
     isolate: false
   },

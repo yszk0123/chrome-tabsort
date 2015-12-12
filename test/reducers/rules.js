@@ -14,10 +14,10 @@ describe('rules', () => {
       initialState: {
         itemIds,
         itemsById: {
-          [itemIds[0]]: { regexp: 'foo', valid: true, isolate: false },
-          [itemIds[1]]: { regexp: 'bar', valid: true, isolate: false },
-          [itemIds[2]]: { regexp: 'baz', valid: true, isolate: false },
-          [itemIds[3]]: { regexp: 'hoge', valid: true, isolate: false }
+          [itemIds[0]]: { matchingText: 'foo', valid: true, isolate: false },
+          [itemIds[1]]: { matchingText: 'bar', valid: true, isolate: false },
+          [itemIds[2]]: { matchingText: 'baz', valid: true, isolate: false },
+          [itemIds[3]]: { matchingText: 'hoge', valid: true, isolate: false }
         }
       }
     };
@@ -29,13 +29,13 @@ describe('rules', () => {
   });
 
   context('when modifyRegExpAt is called', () => {
-    it('modifies regexp', () => {
+    it('modifies matchingText', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[0];
       const action = RulesActions.modifyRegExpAt(id, 'bar');
 
       const nextState = rulesReducer(initialState, action);
-      assert(nextState.itemsById[id].regexp === 'bar');
+      assert(nextState.itemsById[id].matchingText === 'bar');
     });
 
     specify('validation fails when the input is invalid', () => {

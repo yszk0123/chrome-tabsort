@@ -22,7 +22,7 @@ class Rule extends Component {
   render() {
     const {
       connectDragSource,
-      regexp,
+      matchingText,
       valid,
       disable,
       isolate,
@@ -37,7 +37,7 @@ class Rule extends Component {
         <input
           type="text"
           className={valid ? 'valid' : 'invalid'}
-          value={regexp}
+          value={matchingText}
           onChange={(event) => onModifyRegExpAt(event.target.value)}
         />
         <input type="checkbox" checked={disable} onChange={onToggleDisableAt} />
@@ -49,7 +49,7 @@ class Rule extends Component {
 }
 
 Rule.propTypes = {
-  regexp: PropTypes.string.isRequired,
+  matchingText: PropTypes.string.isRequired,
   valid: PropTypes.bool.isRequired,
   disable: PropTypes.bool.isRequired,
   isolate: PropTypes.bool.isRequired,

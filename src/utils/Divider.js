@@ -10,7 +10,7 @@ export default class Divider {
       .filter((rule) => !rule.disable)
       .reduce((rules, rule) => {
         rules[rule.id] = {
-          regexp: new RegExp(rule.regexp, 'i'),
+          matchingText: new RegExp(rule.matchingText, 'i'),
           isolate: rule.isolate
         };
         return rules;
@@ -21,7 +21,7 @@ export default class Divider {
   // そうでなければドメイン名をグループ名とみなして返す
   // ドメイン名も取得できない場合は空文字''を返す
   getGroupName(url) {
-    const ruleName = findKey(this.rules, (rule) => rule.regexp && rule.regexp.test(url));
+    const ruleName = findKey(this.rules, (rule) => rule.matchingText && rule.matchingText.test(url));
     if (ruleName) {
       return ruleName;
     }

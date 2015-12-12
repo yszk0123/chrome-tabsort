@@ -42,6 +42,7 @@
     "lodash": "^3.10.0",
     "merge-stream": "^0.1.8",
     "minimist": "^1.1.1",
+    "mocha": "^2.3.4",
     "object-assign": "^3.0.0",
     "redux-logger": "^2.0.4",
     "style-loader": "^0.13.0",
@@ -58,7 +59,8 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "babel-node --stage 2 node_modules/.bin/tape test/**/*.js",
+    "test": "mocha --compilers js:babel-core/register",
+    "test-bail": "mocha --compilers js:babel-core/register --bail",
     "lint": "eslint src/ test/",
     "build-assets": "mkdir -p dist/images/ && cp src/boot/*.{html,json} dist/ && cp src/images/*.png dist/images/",
     "build": "webpack --config configs/webpack.development.js",

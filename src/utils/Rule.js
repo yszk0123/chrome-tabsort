@@ -3,5 +3,5 @@ export const createRule = () => {
     regexp: '',
     disable: false,
     isolate: false
-  }
-}
+  };
+};

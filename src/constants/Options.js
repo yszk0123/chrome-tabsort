@@ -10,4 +10,4 @@ export default {
   minTabsPerWindow: 1,
   maxTabsPerWindow: 10000,
   storageKey: 'state'
-}
+};

@@ -1,4 +1,4 @@
-import * as storage from '../utils/adapters/chromeSyncStorage'
+import * as storage from '../utils/adapters/chromeSyncStorage';
 
-export const get = storage.get
-export const set = storage.set
+export const get = storage.get;
+export const set = storage.set;

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 
 const RuleListItem = ({
   item: { regexp, valid, disable, isolate },
@@ -23,8 +23,8 @@ const RuleListItem = ({
       <input type="button" value="Down" onClick={onMoveToNextAt} />
       <input type="button" value="Remove" onClick={onRemoveAt} />
     </li>
-  )
-}
+  );
+};
 
 export default class RuleList extends Component {
   render() {
@@ -37,7 +37,7 @@ export default class RuleList extends Component {
       onMoveToNextAt,
       onAdd,
       onRemoveAt
-    } = this.props
+    } = this.props;
 
     return (
       <div>
@@ -55,14 +55,14 @@ export default class RuleList extends Component {
                 onMoveToNextAt={() => onMoveToNextAt(i)}
                 onRemoveAt={() => onRemoveAt(i)}
               />
-            )
+            );
           })}
         </ul>
         <div>
         <input type="button" value="Add Rule" onClick={onAdd} />
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -75,4 +75,4 @@ RuleList.propTypes = {
   onMoveToNextAt: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   onRemoveAt: PropTypes.func.isRequired,
-}
+};

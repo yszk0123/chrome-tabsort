@@ -8,11 +8,11 @@ import {
   OPTIONS_SERIALIZE,
   OPTIONS_DESERIALIZE_FAILURE,
   OPTIONS_UPDATE_SERIALIZED_STATE
-} from '../constants/Actions'
+} from '../constants/Actions';
 
 const initialState = {
   saving: false
-}
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -20,23 +20,23 @@ export default (state = initialState, action) => {
       return {
         ...state,
         saving: true
-      }
+      };
     case OPTIONS_SAVE_SUCCESS:
       return {
         ...state,
         saving: false
-      }
+      };
     case OPTIONS_SERIALIZE:
       return {
         ...state,
         serializedState: action.value
-      }
+      };
     case OPTIONS_UPDATE_SERIALIZED_STATE:
       return {
         ...state,
         serializedState: action.value
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};

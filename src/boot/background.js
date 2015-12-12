@@ -1,1 +1,1 @@
-import '../utils/background'
+import '../utils/background';

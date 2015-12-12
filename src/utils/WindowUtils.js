@@ -1,7 +1,7 @@
-import assign from 'object-assign'
-import { find, flatten, partition } from 'lodash'
+import assign from 'object-assign';
+import { find, flatten, partition } from 'lodash';
 
-import { createMapper } from '../utils/utils'
+import { createMapper } from '../utils/utils';
 
 const defaultGroupProps = {
   priority: 0,
@@ -10,92 +10,92 @@ const defaultGroupProps = {
   rules: [],
   tabsPerWindow: 10,
   position: null
-}
+};
 
 export const buildGroupProps = (props) => {
-  const result = { ...defaultGroupProps, ...props }
+  const result = { ...defaultGroupProps, ...props };
   result.rules.forEach((rule) => {
-    rule.match = mapRuleTypeToMatcherGenerator(rule.type)(rule.value)
-  })
-  return result
-}
+    rule.match = mapRuleTypeToMatcherGenerator(rule.type)(rule.value);
+  });
+  return result;
+};
 
 export const groupTabs = (tabs, propsList, defaultGroupProps) => {
   const allTabInfoList = tabs.map((tab) => {
-    const groupProps = findTabInGroup(tab, propsList) || defaultGroupProps
+    const groupProps = findTabInGroup(tab, propsList) || defaultGroupProps;
     return {
       tabId: tab.id,
       // windowId: tab.windowId,
       groupId: groupProps.id,
       groupProps
-    }
-  })
+    };
+  });
 
-  const p = partition(allTabInfoList, (info) => info.groupId)
+  const p = partition(allTabInfoList, (info) => info.groupId);
   const windows = flatten(
       p
       .filter((windows) => windows.length)
       .map((windows) => splitIntoBlock(windows, windows[0].groupProps.tabsPerWindow))
-  )
+  );
 
-  windows.sort((a, b) => a.priority - b.priority)
+  windows.sort((a, b) => a.priority - b.priority);
 
-  return windows
-}
+  return windows;
+};
 
 export const executeTabSort = (tabs, propsList) => {
-  const windows = groupTabs(tabs, propsList)
+  const windows = groupTabs(tabs, propsList);
 
   windows.forEach((tabInfoList) => {
-    const tabIds = tabInfoList.map((info) => info.tabId)
-    const { position } = tabInfoList[0].groupProps
+    const tabIds = tabInfoList.map((info) => info.tabId);
+    const { position } = tabInfoList[0].groupProps;
     const data = position ? {
       left: position.x,
       top: position.y,
       width: position.width,
       height: position.height
-    } : {}
+    } : {};
     chrome.windows.create(data, (wnd) => {
-      chrome.tabs.move(tabIds, { windowId: wnd.id, index: 0 })
-    })
-  })
-}
+      chrome.tabs.move(tabIds, { windowId: wnd.id, index: 0 });
+    });
+  });
+};
 
 const splitIntoBlock = (array, n) => {
-  const block = []
-  const blockCount = Math.ceil(array.length / n)
+  const block = [];
+  const blockCount = Math.ceil(array.length / n);
   for (let i = 0; i < blockCount; i += 1) {
-    block.push(array.slice(n * i, n * (i + 1)))
+    block.push(array.slice(n * i, n * (i + 1)));
   }
-  return block
-}
+  return block;
+};
 
-const constantFalse = (value) => false
+const constantFalse = (value) => false;
 
-const defaultMatcherGenerator = (value) => constantFalse
+const defaultMatcherGenerator = (value) => constantFalse;
 
 const mapRuleTypeToMatcherGenerator = createMapper({
   regexp: (value) => {
-    const re = new RegExp(value)
-    return (tab) => re.test(tab.url)
+    const re = new RegExp(value);
+    return (tab) => re.test(tab.url);
   },
   domain: (value) => {
-    const re = new RegExp('^https?://' + value)
-    return (tab) => re.test(tab.url)
+    const re = new RegExp('^https?://' + value);
+    return (tab) => re.test(tab.url);
   },
   url: (value) => {
-    return (tab) => getBefore(getBefore(tab.url, '?'), '#') === value
+    return (tab) => getBefore(getBefore(tab.url, '?'), '#') === value;
   },
   title: (value) => {
-    return (tab) => tab.title.indexOf(value) !== -1
+    return (tab) => tab.title.indexOf(value) !== -1;
   }
-}, defaultMatcherGenerator)
+}, defaultMatcherGenerator);
 
 const getBefore = (input, mark) => {
-  const index = input.indexOf(mark)
-  return index < 0 ? input : input.slice(0, index)
-}
+  const index = input.indexOf(mark);
+  return index < 0 ? input : input.slice(0, index);
+};
 
 const findTabInGroup = (tab, propsList) => {
-  return find(propsList, (props) => props.rules.some((rule) => rule.match(tab)))
-}
+  return find(propsList, (props) => props.rules.some((rule) => rule.match(tab)));
+};

@@ -1,4 +1,4 @@
-import keyMirror from 'key-mirror'
+import keyMirror from 'key-mirror';
 
 const keys = keyMirror({
   CHROME_OPTIONS_UPDATE_STATE: null,
@@ -28,7 +28,7 @@ const keys = keyMirror({
   RULES_TOGGLE_ISOLATE_AT: null,
   RULES_ADD: null,
   RULES_REMOVE_AT: null
-})
+});
 
-module.exports = keys
-module.exports.default = keys
+module.exports = keys;
+module.exports.default = keys;

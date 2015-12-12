@@ -1,31 +1,31 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import RuleList from '../components/RuleList'
-import TabOptions from '../components/TabOptions'
-import OptionsButtons from '../components/OptionsButtons'
-import * as OptionsActions from '../actions/options'
-import * as TabsActions from '../actions/tabs'
-import * as RulesActions from '../actions/rules'
+import RuleList from '../components/RuleList';
+import TabOptions from '../components/TabOptions';
+import OptionsButtons from '../components/OptionsButtons';
+import * as OptionsActions from '../actions/options';
+import * as TabsActions from '../actions/tabs';
+import * as RulesActions from '../actions/rules';
 
-import '../styles/app.css'
+import '../styles/app.css';
 
 const mapStateToProps = ({ options, rules, tabs }) => {
   return {
     options,
     rules,
     tabs
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     optionsActions: bindActionCreators(OptionsActions, dispatch),
     tabsActions: bindActionCreators(TabsActions, dispatch),
     rulesActions: bindActionCreators(RulesActions, dispatch)
-  }
-}
+  };
+};
 
 const OptionsOutput = ({ output, onChange }) => {
   return (
@@ -33,8 +33,8 @@ const OptionsOutput = ({ output, onChange }) => {
       value={output}
       onChange={(event) => onChange(event.target.value)}
     />
-  )
-}
+  );
+};
 
 export class Options extends Component {
   render() {
@@ -45,7 +45,7 @@ export class Options extends Component {
       optionsActions,
       rulesActions,
       tabsActions
-    } = this.props
+    } = this.props;
 
     return (
       <div>
@@ -53,7 +53,7 @@ export class Options extends Component {
         <TabOptions
           {...tabs}
           onTabsPerWindowChange={(event) => {
-            tabsActions.updateTabsPerWindow(Number(event.target.value))
+            tabsActions.updateTabsPerWindow(Number(event.target.value));
           }}
         />
         <RuleList
@@ -77,7 +77,7 @@ export class Options extends Component {
           onExport={optionsActions.serialize}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -85,6 +85,6 @@ Options.propTypes = {
   options: PropTypes.object.isRequired,
   rules: PropTypes.object.isRequired,
   tabs: PropTypes.object.isRequired
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Options)
+export default connect(mapStateToProps, mapDispatchToProps)(Options);

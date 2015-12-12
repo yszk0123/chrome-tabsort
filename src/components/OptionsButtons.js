@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 
 export default class OptionsButtons extends Component {
   render() {
@@ -7,7 +7,7 @@ export default class OptionsButtons extends Component {
       onSave,
       onImport,
       onExport
-    } = this.props
+    } = this.props;
 
     return (
       <div>
@@ -16,7 +16,7 @@ export default class OptionsButtons extends Component {
         <input type="button" value="Import" onClick={onImport} />
         <input type="button" value="Export" onClick={onExport} />
       </div>
-    )
+    );
   }
 }
 
@@ -25,4 +25,4 @@ OptionsButtons.propTypes = {
   onSave: PropTypes.func.isRequired,
   onImport: PropTypes.func.isRequired,
   onExport: PropTypes.func.isRequired
-}
+};

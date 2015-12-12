@@ -1,9 +1,9 @@
-import test from 'tape';
+import assert from 'assert';
 import { getTabsNeedToBeSorted } from '../../src/utils/backgroundUtils';
 
-test('background', ({ test, end }) => {
-  test('getTabsNeedToBeSorted()', ({ test, end }) => {
-    test('include only normal windows', ({ ok, end }) => {
+describe('background', () => {
+  describe('getTabsNeedToBeSorted()', () => {
+    it('include only normal windows', () => {
       const windows = [
         { type: 'normal', tabs: [{ id: 1, url: 'http://a.com/1' }] },
         { type: 'popup', tabs: [{ id: 2, url: 'http://b.com/2' }] },
@@ -13,29 +13,20 @@ test('background', ({ test, end }) => {
       ];
 
       const result = getTabsNeedToBeSorted(windows);
-      console.log(result);
-      ok(result.length === 1);
-      ok(result[0].id === 1);
-
-      end();
+      assert.ok(result.length === 1);
+      assert.ok(result[0].id === 1);
     });
 
-    test('returns only id and url', ({ deepEqual, end }) => {
+    it('returns only id and url', () => {
       const windows = [
         { type: 'normal', tabs: [{ id: 1, url: 'http://a.com/1' }] },
         { type: 'normal', tabs: [{ id: 2, url: 'http://b.com/2', foo: 3 }] }
       ];
 
-      deepEqual(getTabsNeedToBeSorted(windows), [
+      assert.deepEqual(getTabsNeedToBeSorted(windows), [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://b.com/2' }
       ]);
-
-      end();
     });
-
-    end();
   });
-
-  end();
 });

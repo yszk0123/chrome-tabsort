@@ -1,14 +1,13 @@
-'use strict'
-import test from 'tape';
+import assert from 'assert';
 import Divider from '../../src/utils/Divider';
 
 const getIds = (array) => {
   return array.map((element) => element.id).sort();
 };
 
-test('Divider#divide', (assert) => {
-  assert.test('without rules', (assert) => {
-    assert.test('including all tabs in one window', (assert) => {
+describe('Divider#divide', () => {
+  context('without rules', () => {
+    it('including all tabs in one window', () => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://a.com/2' },
@@ -17,10 +16,9 @@ test('Divider#divide', (assert) => {
       ];
       const divider = new Divider([]);
       assert.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2, 3], [4]]);
-      assert.end();
     });
 
-    assert.test('too much tabs per window', (assert) => {
+    it('too much tabs per window', () => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://b.com/2' },
@@ -29,14 +27,11 @@ test('Divider#divide', (assert) => {
       ];
       const divider = new Divider([]);
       assert.deepEqual(divider.divide(items, 2).map(getIds), [[1, 2], [3, 4]]);
-      assert.end();
     });
-
-    assert.end();
   });
 
-  assert.test('with rules', (assert) => {
-    assert.test('including all tabs in one window', (assert) => {
+  context('with rules', () => {
+    it('including all tabs in one window', () => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://a.com/2' },
@@ -48,10 +43,9 @@ test('Divider#divide', (assert) => {
       ];
       const divider = new Divider(rules);
       assert.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2], [3, 4]]);
-      assert.end();
     });
 
-    assert.test('too much tabs per window', (assert) => {
+    it('too much tabs per window', () => {
       const items = [
         { id: 1, url: 'http://a.com/1' },
         { id: 2, url: 'http://b.co.jp/c' },
@@ -65,11 +59,6 @@ test('Divider#divide', (assert) => {
       ];
       const divider = new Divider(rules);
       assert.deepEqual(divider.divide(items, 3).map(getIds), [[5], [1, 3], [2, 4]]);
-      assert.end();
     });
-
-    assert.end();
   });
-
-  assert.end();
 });

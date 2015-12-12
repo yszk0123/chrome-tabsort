@@ -1,22 +1,19 @@
-'use strict'
-import test from 'tape';
+import assert from 'assert';
 import { buildGroupProps, groupTabs } from '../../src/utils/WindowUtils';
 import { cloneDeep } from 'lodash';
 
 const getIds = (array) => array.map((o) => o.tabId);
 
-test('WindowUtils', (assert) => {
-  assert.test('.buildGroupProps()', (assert) => {
+describe('WindowUtils', () => {
+  describe('.buildGroupProps()', () => {
     const props = { id: 1, tabsPerWindow: 200 };
     const groupProps = buildGroupProps(cloneDeep(props));
     assert.equal(groupProps.tabsPerWindow, props.tabsPerWindow);
-
-    assert.end();
   });
 
-  assert.test('.groupTabs', (assert) => {
-    assert.test('without rules', (assert) => {
-      assert.test('including all tabs in one window', (assert) => {
+  describe('.groupTabs', () => {
+    context('without rules', () => {
+      it('including all tabs in one window', () => {
         const defaultGroupProps = buildGroupProps({ id: 0, tabsPerWindow: 3 });
         const propsList = [{ id: 1, rules: [], tabsPerWindow: 3 }].map(buildGroupProps);
         const items = [
@@ -26,10 +23,9 @@ test('WindowUtils', (assert) => {
           { id: 4, url: 'http://b.co.jp/4' }
         ];
         assert.deepEqual(groupTabs(items, propsList, defaultGroupProps).map(getIds), [[1, 2, 3], [4]]);
-        assert.end();
       });
 
-      assert.test('too much tabs per window', (assert) => {
+      it('too much tabs per window', () => {
         const defaultGroupProps = buildGroupProps({ id: 0, tabsPerWindow: 2 });
         const propsList = [{ id: 1, rules: [], tabsPerWindow: 2 }].map(buildGroupProps);
         const items = [
@@ -39,14 +35,11 @@ test('WindowUtils', (assert) => {
           { id: 4, url: 'http://d.com/4' }
         ];
         assert.deepEqual(groupTabs(items, propsList, defaultGroupProps).map(getIds), [[1, 2], [3, 4]]);
-        assert.end();
       });
-
-      assert.end();
     });
 
-    assert.test('with rules', (assert) => {
-      assert.test('including all tabs in one window', (assert) => {
+    context('with rules', () => {
+      it('including all tabs in one window', () => {
         const defaultGroupProps = buildGroupProps({ id: 0, tabsPerWindow: 3 });
         const propsList = [{
           id: 1,
@@ -62,10 +55,9 @@ test('WindowUtils', (assert) => {
           { id: 4, url: 'http://b.co.jp/d' }
         ];
         assert.deepEqual(groupTabs(items, propsList, defaultGroupProps).map(getIds), [[1, 2], [3, 4]]);
-        assert.end();
       });
 
-      assert.test('too much tabs per window', (assert) => {
+      it('too much tabs per window', () => {
         const defaultGroupProps = buildGroupProps({ id: 0, tabsPerWindow: 2 });
         const propsList = [{
           id: 1,
@@ -81,14 +73,7 @@ test('WindowUtils', (assert) => {
           { id: 4, url: 'http://b.co.jp/d' }
         ];
         assert.deepEqual(groupTabs(items, propsList, defaultGroupProps).map(getIds), [[1, 3], [2, 4]]);
-        assert.end();
       });
-
-      assert.end();
     });
-
-    assert.end();
   });
-
-  assert.end();
 });

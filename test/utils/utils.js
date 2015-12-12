@@ -1,26 +1,19 @@
-import test from 'tape';
+import assert from 'assert';
 import { reverse } from '../../src/utils/utils';
 
-test('utils', ({ test, end }) => {
-  test('reverse()', ({ test, end }) => {
-    test('returns an empty array if input is an empty arrray', ({ deepEqual, end }) => {
-      deepEqual(reverse([]), []);
-      end();
+describe('utils', () => {
+  describe('reverse()', () => {
+    it('returns an empty array if input is an empty arrray', () => {
+      assert.deepEqual(reverse([]), []);
     });
 
-    test('returns reverse array', ({ deepEqual, end }) => {
-      deepEqual(reverse([10, 20, 30, 40]), [40, 30, 20, 10]);
-      end();
+    it('returns reverse array', () => {
+      assert.deepEqual(reverse([10, 20, 30, 40]), [40, 30, 20, 10]);
     });
 
-    test('returns new array', ({ ok, end }) => {
+    it('returns new array', () => {
       const input = [10, 20, 30, 40];
-      ok(reverse(input) !== input);
-      end();
+      assert.ok(reverse(input) !== input);
     });
-
-    end();
   });
-
-  end();
 });

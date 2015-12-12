@@ -59,7 +59,7 @@
   },
   "scripts": {
     "test": "babel-node --stage 2 node_modules/.bin/tape test/**/*.js",
-    "lint": "gulp lint",
+    "lint": "eslint src/ test/",
     "build-assets": "mkdir -p dist/images/ && cp src/boot/*.{html,json} dist/ && cp src/images/*.png dist/images/",
     "build": "webpack --config configs/webpack.development.js",
     "release": "webpack --config configs/webpack.production.js",

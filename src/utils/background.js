@@ -41,11 +41,15 @@ registerMessageReceived((request, sender, sendResponse) => {
 // 補助関数
 // ------------------------------------------------------------------------------
 
+const getObjectValues = (object) => {
+  return Object.keys(object).map((key) => object[key]);
+};
+
 const divide = (list, tabsPerWindow, oneWindow = false) => {
   let groups = null;
 
   try {
-    const divider = new Divider(state.rules.items);
+    const divider = new Divider(getObjectValues(state.rules.itemsById));
     groups = divider.divide(list, tabsPerWindow);
   }
   catch (err) {

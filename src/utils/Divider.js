@@ -8,8 +8,8 @@ export default class Divider {
   constructor(rulesArray = []) {
     this.rules = rulesArray
       .filter((rule) => !rule.disable)
-      .reduce((rules, rule, i) => {
-        rules[`_rule_${i}`] = {
+      .reduce((rules, rule) => {
+        rules[rule.id] = {
           regexp: new RegExp(rule.regexp, 'i'),
           isolate: rule.isolate
         };

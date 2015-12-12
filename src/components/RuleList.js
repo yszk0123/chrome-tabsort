@@ -74,5 +74,5 @@ RuleList.propTypes = {
   onMoveToPreviousAt: PropTypes.func.isRequired,
   onMoveToNextAt: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
-  onRemoveAt: PropTypes.func.isRequired,
+  onRemoveAt: PropTypes.func.isRequired
 };

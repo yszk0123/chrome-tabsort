@@ -3,7 +3,6 @@ import { find, debounce } from 'lodash';
 import { validateId } from '../utils/utils';
 import * as optionsActions from '../actions/options';
 import store from '../store';
-import { executeTabSort } from '../utils/WindowUtils';
 import OptionsConfig from '../constants/Options';
 import Divider from '../utils/Divider';
 import {
@@ -42,20 +41,15 @@ registerMessageReceived((request, sender, sendResponse) => {
 // 補助関数
 // ------------------------------------------------------------------------------
 
-const getActiveWindow = (groups, currentTabId) => {
-  return find(groups, (tabGroup) => {
-    return tabGroup.some(({ id }) => id === currentTabId);
-  });
-};
-
 const divide = (list, tabsPerWindow, oneWindow = false) => {
-  let groups;
+  let groups = null;
 
   try {
     const divider = new Divider(state.rules.items);
     groups = divider.divide(list, tabsPerWindow);
   }
   catch (err) {
+    // TODO: Better error handling
     console.log('Error: Maybe rules are invalid. Please open options page and correct rules');
     console.log(err);
     return Promise.reject(err);

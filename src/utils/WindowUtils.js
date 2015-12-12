@@ -1,4 +1,4 @@
-import assign from 'object-assign';
+/* global chrome */
 import { find, flatten, partition } from 'lodash';
 
 import { createMapper } from '../utils/utils';
@@ -12,6 +12,32 @@ const defaultGroupProps = {
   position: null
 };
 
+const constantFalse = (value) => false;
+
+const defaultMatcherGenerator = (value) => constantFalse;
+
+const getBefore = (input, mark) => {
+  const index = input.indexOf(mark);
+  return index < 0 ? input : input.slice(0, index);
+};
+
+const mapRuleTypeToMatcherGenerator = createMapper({
+  regexp: (value) => {
+    const re = new RegExp(value);
+    return (tab) => re.test(tab.url);
+  },
+  domain: (value) => {
+    const re = new RegExp(`^https?://${value}`);
+    return (tab) => re.test(tab.url);
+  },
+  url: (value) => {
+    return (tab) => getBefore(getBefore(tab.url, '?'), '#') === value;
+  },
+  title: (value) => {
+    return (tab) => tab.title.indexOf(value) !== -1;
+  }
+}, defaultMatcherGenerator);
+
 export const buildGroupProps = (props) => {
   const result = { ...defaultGroupProps, ...props };
   result.rules.forEach((rule) => {
@@ -20,9 +46,22 @@ export const buildGroupProps = (props) => {
   return result;
 };
 
-export const groupTabs = (tabs, propsList, defaultGroupProps) => {
+const splitIntoBlock = (array, n) => {
+  const block = [];
+  const blockCount = Math.ceil(array.length / n);
+  for (let i = 0; i < blockCount; i += 1) {
+    block.push(array.slice(n * i, n * (i + 1)));
+  }
+  return block;
+};
+
+const findTabInGroup = (tab, propsList) => {
+  return find(propsList, (props) => props.rules.some((rule) => rule.match(tab)));
+};
+
+export const groupTabs = (tabs, propsList, defaultTabGroupProps) => {
   const allTabInfoList = tabs.map((tab) => {
-    const groupProps = findTabInGroup(tab, propsList) || defaultGroupProps;
+    const groupProps = findTabInGroup(tab, propsList) || defaultTabGroupProps;
     return {
       tabId: tab.id,
       // windowId: tab.windowId,
@@ -34,8 +73,8 @@ export const groupTabs = (tabs, propsList, defaultGroupProps) => {
   const p = partition(allTabInfoList, (info) => info.groupId);
   const windows = flatten(
       p
-      .filter((windows) => windows.length)
-      .map((windows) => splitIntoBlock(windows, windows[0].groupProps.tabsPerWindow))
+      .filter((wnds) => wnds.length)
+      .map((wnds) => splitIntoBlock(wnds, wnds[0].groupProps.tabsPerWindow))
   );
 
   windows.sort((a, b) => a.priority - b.priority);
@@ -59,43 +98,4 @@ export const executeTabSort = (tabs, propsList) => {
       chrome.tabs.move(tabIds, { windowId: wnd.id, index: 0 });
     });
   });
-};
-
-const splitIntoBlock = (array, n) => {
-  const block = [];
-  const blockCount = Math.ceil(array.length / n);
-  for (let i = 0; i < blockCount; i += 1) {
-    block.push(array.slice(n * i, n * (i + 1)));
-  }
-  return block;
-};
-
-const constantFalse = (value) => false;
-
-const defaultMatcherGenerator = (value) => constantFalse;
-
-const mapRuleTypeToMatcherGenerator = createMapper({
-  regexp: (value) => {
-    const re = new RegExp(value);
-    return (tab) => re.test(tab.url);
-  },
-  domain: (value) => {
-    const re = new RegExp('^https?://' + value);
-    return (tab) => re.test(tab.url);
-  },
-  url: (value) => {
-    return (tab) => getBefore(getBefore(tab.url, '?'), '#') === value;
-  },
-  title: (value) => {
-    return (tab) => tab.title.indexOf(value) !== -1;
-  }
-}, defaultMatcherGenerator);
-
-const getBefore = (input, mark) => {
-  const index = input.indexOf(mark);
-  return index < 0 ? input : input.slice(0, index);
-};
-
-const findTabInGroup = (tab, propsList) => {
-  return find(propsList, (props) => props.rules.some((rule) => rule.match(tab)));
 };

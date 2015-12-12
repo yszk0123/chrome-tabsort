@@ -1,8 +1,8 @@
 // ref: [mithril.js/mock.js at next · lhorie/mithril.js](https://github.com/lhorie/mithril.js/blob/next/tests/mock.js)
 'use strict'
 
-export default function mockWindow() {
-  let window = {};
+export default () => {
+  const window = {};
 
   window.document = {};
   window.document.childNodes = [];
@@ -15,15 +15,15 @@ export default function mockWindow() {
       appendChild: window.document.appendChild,
       removeChild: window.document.removeChild,
       replaceChild: window.document.replaceChild,
-      insertBefore: function(node, reference) {
+      insertBefore(node, reference) {
         node.parentNode = this;
-        var referenceIndex = this.childNodes.indexOf(reference);
-        var index = this.childNodes.indexOf(node);
+        const referenceIndex = this.childNodes.indexOf(reference);
+        const index = this.childNodes.indexOf(node);
         if (index > -1) this.childNodes.splice(index, 1);
         if (referenceIndex < 0) this.childNodes.push(node);
         else this.childNodes.splice(referenceIndex, 0, node);
       },
-      insertAdjacentHTML: function(position, html) {
+      insertAdjacentHTML(position, html) {
         // todo: accept markup
         if (position === 'beforebegin') {
           this.parentNode.insertBefore(window.document.createTextNode(html), this);
@@ -32,22 +32,22 @@ export default function mockWindow() {
           this.appendChild(window.document.createTextNode(html));
         }
       },
-      setAttribute: function(name, value) {
+      setAttribute(name, value) {
         this[name] = value.toString();
       },
-      setAttributeNS: function(namespace, name, value) {
+      setAttributeNS(namespace, name, value) {
         this.namespaceURI = namespace;
         this[name] = value.toString();
       },
-      getAttribute: function(name, value) {
+      getAttribute(name, value) {
         return this[name];
       },
-      addEventListener: function() {},
-      removeEventListener: function() {}
+      addEventListener() {},
+      removeEventListener() {}
     };
   };
   window.document.createElementNS = function(namespace, tag) {
-    var element = window.document.createElement(tag);
+    const element = window.document.createElement(tag);
     element.namespaceURI = namespace;
     return element;
   };
@@ -56,20 +56,20 @@ export default function mockWindow() {
   };
   window.document.documentElement = window.document.createElement('html');
   window.document.replaceChild = function(newChild, oldChild) {
-    var index = this.childNodes.indexOf(oldChild);
+    const index = this.childNodes.indexOf(oldChild);
     if (index > -1) this.childNodes.splice(index, 1, newChild);
     else this.childNodes.push(newChild);
     newChild.parentNode = this;
     oldChild.parentNode = null;
   };
   window.document.appendChild = function(child) {
-    var index = this.childNodes.indexOf(child);
+    const index = this.childNodes.indexOf(child);
     if (index > -1) this.childNodes.splice(index, 1);
     this.childNodes.push(child);
     child.parentNode = this;
   };
   window.document.removeChild = function(child) {
-    var index = this.childNodes.indexOf(child);
+    const index = this.childNodes.indexOf(child);
     this.childNodes.splice(index, 1);
     child.parentNode = null;
   };
@@ -77,11 +77,11 @@ export default function mockWindow() {
   // Mithril
   window.document.getElementsByTagName = function(name) {
     name = name.toLowerCase();
-    var out = [];
+    const out = [];
 
-    var traverse = function(node) {
+    const traverse = (node) => {
       if (node.childNodes && node.childNodes.length > 0) {
-        node.childNodes.map(function(curr) {
+        node.childNodes.map((curr) => {
           if (curr.nodeName.toLowerCase() === name) {
             out.push(curr);
           }
@@ -102,13 +102,14 @@ export default function mockWindow() {
   window.requestAnimationFrame.$id = 1;
   window.requestAnimationFrame.$resolve = function() {
     if (window.requestAnimationFrame.$callback) {
-      var callback = window.requestAnimationFrame.$callback;
+      const callback = window.requestAnimationFrame.$callback;
       window.requestAnimationFrame.$callback = null;
       callback();
     }
   };
   window.XMLHttpRequest = (function() {
-    var request = function() {
+    /* eslint-disable no-invalid-this */
+    const request = function() {
       this.$headers = {};
       this.setRequestHeader = function(key, value) {
         this.$headers[key] = value;
@@ -124,14 +125,16 @@ export default function mockWindow() {
         request.$instances.push(this);
       };
     };
+    /* eslint-enable no-invalid-this */
+
     request.$instances = [];
     return request;
-  }());
-  window.location = { search: '', pathname: '', hash: "" };
+  })();
+  window.location = { search: '', pathname: '', hash: '' };
   window.history = {};
   window.history.$$length = 0;
   window.history.pushState = function(data, title, url) {
-    window.history.$$length++;
+    window.history.$$length += 1;
     window.location.pathname = window.location.search = window.location.hash = url;
   };
   window.history.replaceState = function(data, title, url) {
@@ -153,4 +156,4 @@ export default function mockWindow() {
   };
 
   return window;
-}
+};

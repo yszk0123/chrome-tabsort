@@ -1,3 +1,4 @@
+/* global chrome */
 export const get = (key, defaultValue) => {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get(defaultValue, (value) => {

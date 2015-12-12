@@ -57,7 +57,9 @@ export default class Divider {
 
     // isolateオプションが付いているグループは
     // capacityによらず強制的に別個のグループに分ける
-    const [groups, isolatedGroups] = arrayGroupBy(_groups, ((group) => group.isolate ? 1 : 0), 2);
+    const [groups, isolatedGroups] = arrayGroupBy(_groups, (group) => {
+      return group.isolate ? 1 : 0;
+    }, 2);
 
     while (groups.length) {
       let newGroup = groups.pop();

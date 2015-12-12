@@ -1,3 +1,4 @@
+/* global chrome */
 import {
   CHROME_OPTIONS_UPDATE_STATE,
   OPTIONS_LOAD_START_WITH_STATE,
@@ -70,7 +71,7 @@ export const serialize = () => (dispatch, getState) => {
 };
 
 export const deserialize = (value) => {
-  let result;
+  let result = null;
 
   try {
     result = JSON.parse(value);

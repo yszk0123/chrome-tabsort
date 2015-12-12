@@ -7,8 +7,7 @@ import reducer from './reducer';
 const middleware = [thunk];
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger({
-    collapsed: true,
-    // predicate: (getState, action) => !(action.type === ROUTER_STATE_CHANGE)
+    collapsed: true
   }));
 }
 

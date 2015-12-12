@@ -16,7 +16,7 @@ import { createRule } from '../utils/Rule';
 import { validateRegExp } from '../utils/utils';
 
 const initialState = {
-  items: [],
+  items: []
 };
 
 const swapInArrayIfPossible = (array, i, j) => {

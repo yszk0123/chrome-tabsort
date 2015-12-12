@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Group from '../components/Group';
 
-export class Options {
+export class Options extends Component {
   render() {
     const { groupPropsList } = this.props;
 
@@ -16,7 +16,7 @@ export class Options {
 }
 
 Options.propTypes = {
-  groupPropsList: PropTypes.array.isRequired,
+  groupPropsList: PropTypes.array.isRequired
 };
 
 export default connect((state) => {}, {}, Options);

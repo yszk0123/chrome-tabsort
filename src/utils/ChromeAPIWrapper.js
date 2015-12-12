@@ -1,3 +1,4 @@
+/* global chrome */
 export const promisifyChromeExtensionsAPI = (api) => (...args) => {
   return new Promise((resolve, reject) => {
     api(...args, (result) => {

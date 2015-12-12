@@ -1,65 +1,55 @@
 import React, { Component, PropTypes } from 'react';
+import { DropTarget } from 'react-dnd';
 
-const RuleListItem = ({
-  item: { regexp, valid, disable, isolate },
-  onModifyRegExpAt,
-  onToggleDisableAt,
-  onToggleIsolateAt,
-  onMoveToPreviousAt,
-  onMoveToNextAt,
-  onRemoveAt
-}) => {
-  return (
-    <li>
-      <input
-        type="text"
-        className={valid ? 'valid' : 'invalid'}
-        value={regexp}
-        onChange={(event) => onModifyRegExpAt(event.target.value)}
-      />
-      <input type="checkbox" checked={disable} onChange={onToggleDisableAt} />
-      <input type="checkbox" checked={isolate} onChange={onToggleIsolateAt} />
-      <input type="button" value="Up" onClick={onMoveToPreviousAt} />
-      <input type="button" value="Down" onClick={onMoveToNextAt} />
-      <input type="button" value="Remove" onClick={onRemoveAt} />
-    </li>
-  );
+import RuleGroup from '../components/RuleGroup';
+import * as ItemTypes from '../constants/ItemTypes';
+
+const ruleTarget = {
+  canDrop(props, monitor) {
+    const { regexp } = monitor.getItem();
+
+    return !!regexp;
+  },
+
+  drop(props, monitor) {
+    if (monitor.didDrop()) {
+      return;
+    }
+
+    const { regexp } = monitor.getItem();
+
+    return {
+      moved: true
+    };
+  }
 };
 
-export default class RuleList extends Component {
+const collect = (connect, monitor) => {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+};
+
+class RuleList extends Component {
   render() {
     const {
-      items,
-      onModifyRegExpAt,
-      onToggleDisableAt,
-      onToggleIsolateAt,
-      onMoveToPreviousAt,
-      onMoveToNextAt,
-      onAdd,
-      onRemoveAt
+      connectDropTarget,
+      isOver,
+      ...restProps
     } = this.props;
 
-    return (
+    return connectDropTarget(
       <div>
         <label>Rules</label>
         <ul>
-          {items.map((item, i) => {
-            return (
-              <RuleListItem
-                key={i}
-                item={item}
-                onModifyRegExpAt={(text) => onModifyRegExpAt(i, text)}
-                onToggleDisableAt={() => onToggleDisableAt(i)}
-                onToggleIsolateAt={() => onToggleIsolateAt(i)}
-                onMoveToPreviousAt={() => onMoveToPreviousAt(i)}
-                onMoveToNextAt={() => onMoveToNextAt(i)}
-                onRemoveAt={() => onRemoveAt(i)}
-              />
-            );
-          })}
+          <li>
+            <RuleGroup
+              {...restProps}
+            />
+          </li>
         </ul>
         <div>
-        <input type="button" value="Add Rule" onClick={onAdd} />
         </div>
       </div>
     );
@@ -67,12 +57,8 @@ export default class RuleList extends Component {
 }
 
 RuleList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onModifyRegExpAt: PropTypes.func.isRequired,
-  onToggleDisableAt: PropTypes.func.isRequired,
-  onToggleIsolateAt: PropTypes.func.isRequired,
-  onMoveToPreviousAt: PropTypes.func.isRequired,
-  onMoveToNextAt: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired,
-  onRemoveAt: PropTypes.func.isRequired
+  connectDropTarget: PropTypes.func.isRequired,
+  isOver: PropTypes.bool.isRequired,
 };
+
+export default DropTarget(ItemTypes.RULE, ruleTarget, collect)(RuleList);

@@ -1,6 +1,10 @@
 export const validateId = (id) => Number.isFinite(id);
 
 export const validateRegExp = (input) => {
+  if (!input) {
+    return false;
+  }
+
   try {
     new RegExp(input); // eslint-disable-line no-new
     return true;

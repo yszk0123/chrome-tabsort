@@ -1,7 +1,21 @@
 import assert from 'power-assert';
-import { reverse } from '../../src/utils/utils';
+import { validateRegExp, reverse } from '../../src/utils/utils';
 
 describe('utils', () => {
+  describe('validateRegExp()', () => {
+    it('returns false if input is empty', () => {
+      assert(!validateRegExp(''));
+    });
+
+    it('returns false if input is a invalid regular expression', () => {
+      assert(!validateRegExp('\\'));
+    });
+
+    it('otherwise returns true', () => {
+      assert(validateRegExp('foo'));
+    });
+  });
+
   describe('reverse()', () => {
     it('returns an empty array if input is an empty arrray', () => {
       assert.deepEqual(reverse([]), []);

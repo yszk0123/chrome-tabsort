@@ -1,12 +1,11 @@
 import {
   RULES_MOVE_TO_PREVIOUS,
   RULES_MOVE_TO_NEXT,
-  RULES_SELECT,
-  RULES_MODIFY_REGEXP_AT,
-  RULES_TOGGLE_DISABLE_AT,
-  RULES_TOGGLE_ISOLATE_AT,
+  RULES_MODIFY_REGEXP_BY_ID,
+  RULES_TOGGLE_DISABLE_BY_ID,
+  RULES_TOGGLE_ISOLATE_BY_ID,
   RULES_ADD,
-  RULES_REMOVE_AT
+  RULES_REMOVE_BY_ID
 } from '../constants/Actions';
 
 export const moveToPrevious = (index) => {
@@ -23,43 +22,38 @@ export const moveToNext = (index) => {
   };
 };
 
-export const select = () => {
+export const modifyRegExpAt = (id, text) => {
   return {
-    type: RULES_SELECT
+    type: RULES_MODIFY_REGEXP_BY_ID,
+    id,
+    text
   };
 };
 
-export const modifyRegExpAt = (index, text) => {
+export const toggleDisableAt = (id) => {
   return {
-    type: RULES_MODIFY_REGEXP_AT,
-    text,
-    index
+    type: RULES_TOGGLE_DISABLE_BY_ID,
+    id
   };
 };
 
-export const toggleDisableAt = (index) => {
+export const toggleIsolateAt = (id) => {
   return {
-    type: RULES_TOGGLE_DISABLE_AT,
-    index
+    type: RULES_TOGGLE_ISOLATE_BY_ID,
+    id
   };
 };
 
-export const toggleIsolateAt = (index) => {
+export const add = (value) => {
   return {
-    type: RULES_TOGGLE_ISOLATE_AT,
-    index
+    type: RULES_ADD,
+    value
   };
 };
 
-export const add = () => {
+export const removeAt = (id) => {
   return {
-    type: RULES_ADD
-  };
-};
-
-export const removeAt = (index) => {
-  return {
-    type: RULES_REMOVE_AT,
-    index
+    type: RULES_REMOVE_BY_ID,
+    id
   };
 };

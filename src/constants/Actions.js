@@ -20,12 +20,11 @@ const keys = keyMirror({
 
   RULES_MOVE_TO_PREVIOUS: null,
   RULES_MOVE_TO_NEXT: null,
-  RULES_SELECT: null,
-  RULES_MODIFY_REGEXP_AT: null,
-  RULES_TOGGLE_DISABLE_AT: null,
-  RULES_TOGGLE_ISOLATE_AT: null,
+  RULES_MODIFY_REGEXP_BY_ID: null,
+  RULES_TOGGLE_DISABLE_BY_ID: null,
+  RULES_TOGGLE_ISOLATE_BY_ID: null,
   RULES_ADD: null,
-  RULES_REMOVE_AT: null
+  RULES_REMOVE_BY_ID: null
 });
 
 module.exports = keys;

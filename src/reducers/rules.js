@@ -1,23 +1,22 @@
 import { compose } from 'redux';
 
-import { setIn, updateIn, pushIn, removeIn } from '../utils/Mutation';
-import { createRule } from '../utils/Rule';
+import { setIn, updateIn, pushIn, removeIn, omitIn } from '../utils/Mutation';
 import { validateRegExp } from '../utils/utils';
 import {
   RULES_MOVE_TO_PREVIOUS,
   RULES_MOVE_TO_NEXT,
   RULES_SELECT_PREVIOUS,
   RULES_SELECT_NEXT,
-  RULES_SELECT,
-  RULES_MODIFY_REGEXP_AT,
-  RULES_TOGGLE_DISABLE_AT,
-  RULES_TOGGLE_ISOLATE_AT,
+  RULES_MODIFY_REGEXP_BY_ID,
+  RULES_TOGGLE_DISABLE_BY_ID,
+  RULES_TOGGLE_ISOLATE_BY_ID,
   RULES_ADD,
-  RULES_REMOVE_AT
+  RULES_REMOVE_BY_ID
 } from '../constants/Actions';
 
 const initialState = {
-  items: []
+  itemIds: [],
+  itemsById: {}
 };
 
 const swapInArrayIfPossible = (array, i, j) => {
@@ -50,35 +49,42 @@ const not = (x) => !x;
 
 export default (state = initialState, action) => {
   const { index: i } = action;
-  const { items } = state;
 
   switch (action.type) {
     case RULES_MOVE_TO_PREVIOUS: {
-      return setIn(['items'], swapInArrayIfPossible(items, i - 1, i), state);
+      return setIn(['itemIds'], swapInArrayIfPossible(state.itemIds, i - 1, i), state);
     }
     case RULES_MOVE_TO_NEXT: {
-      return setIn(['items'], swapInArrayIfPossible(items, i, i + 1), state);
+      return setIn(['itemIds'], swapInArrayIfPossible(state.itemIds, i, i + 1), state);
     }
-    case RULES_SELECT: {
-      return setIn(['selectedIndex'], i, state);
-    }
-    case RULES_MODIFY_REGEXP_AT: {
+    case RULES_MODIFY_REGEXP_BY_ID: {
       return compose(
-        setIn(['items', action.index, 'regexp'], action.text),
-        setIn(['items', action.index, 'valid'], validateRegExp(action.text))
+        setIn(['itemsById', action.id, 'regexp'], action.text),
+        setIn(['itemsById', action.id, 'valid'], validateRegExp(action.text))
       )(state);
     }
-    case RULES_TOGGLE_DISABLE_AT: {
-      return updateIn(['items', action.index, 'disable'], not, state);
+    case RULES_TOGGLE_DISABLE_BY_ID: {
+      return updateIn(['itemsById', action.id, 'disable'], not, state);
     }
-    case RULES_TOGGLE_ISOLATE_AT: {
-      return updateIn(['items', action.index, 'isolate'], not, state);
+    case RULES_TOGGLE_ISOLATE_BY_ID: {
+      return updateIn(['itemsById', action.id, 'isolate'], not, state);
     }
     case RULES_ADD: {
-      return pushIn(['items'], [createRule()], state);
+      return compose(
+        pushIn(['itemIds'], [action.value.id]),
+        setIn(['itemsById', action.value.id], action.value)
+      )(state);
     }
-    case RULES_REMOVE_AT: {
-      return removeIn(['items'], action.index, state);
+    case RULES_REMOVE_BY_ID: {
+      const index = state.itemIds.findIndex((id) => id === action.id);
+      if (index < 0) {
+        return state;
+      }
+
+      return compose(
+        removeIn(['itemIds'], index),
+        omitIn(['itemsById'], action.id)
+      )(state);
     }
     default: {
       return state;

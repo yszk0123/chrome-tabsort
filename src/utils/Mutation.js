@@ -1,7 +1,7 @@
 // TODO: Extract this file as a module
 // This file is duplicated. Don't modify this file directly
 import update from 'react-addons-update';
-import { curry } from 'lodash';
+import _, { curry } from 'lodash';
 
 export const isEqualPath = (pathA, pathB) => {
   if (!pathA || !pathB || pathA.length !== pathB.length) {
@@ -77,4 +77,8 @@ export const pushIn = curry((path, value, data) => {
 
 export const unshiftIn = curry((path, value, data) => {
   return update(data, wrapPath(path, { $unshift: value }));
+});
+
+export const omitIn = curry((path, key, data) => {
+  return update(data, wrapPath(path, { $apply: (o) => _.omit(o, key) }));
 });

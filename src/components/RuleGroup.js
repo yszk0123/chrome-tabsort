@@ -6,9 +6,9 @@ import * as ItemTypes from '../constants/ItemTypes';
 
 const ruleTarget = {
   canDrop(props, monitor) {
-    const { regexp } = monitor.getItem();
+    const { id } = monitor.getItem();
 
-    return !!regexp;
+    return !!id;
   },
 
   drop(props, monitor) {
@@ -16,7 +16,8 @@ const ruleTarget = {
       return;
     }
 
-    const { regexp } = monitor.getItem();
+    const { id } = monitor.getItem();
+    props.onMoveToGroupById(id, props.id);
 
     return {
       moved: true
@@ -86,7 +87,8 @@ RuleGroup.propTypes = {
   onToggleIsolateAt: PropTypes.func.isRequired,
   onMoveToPreviousAt: PropTypes.func.isRequired,
   onMoveToNextAt: PropTypes.func.isRequired,
-  onRemoveAt: PropTypes.func.isRequired
+  onRemoveAt: PropTypes.func.isRequired,
+  onMoveToGroupById: PropTypes.func.isRequired
 };
 
 export default DropTarget(ItemTypes.RULE, ruleTarget, collect)(RuleGroup);

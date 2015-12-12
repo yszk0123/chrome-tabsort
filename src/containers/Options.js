@@ -68,6 +68,7 @@ export class Options extends Component {
           onMoveToNextAt={rulesActions.moveToNext}
           onAdd={rulesActions.add}
           onRemoveAt={rulesActions.removeAt}
+          onMoveToGroupById={rulesActions.moveToGroupById}
         />
         <OptionsOutput
           output={options.serializedState}

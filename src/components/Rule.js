@@ -4,9 +4,9 @@ import { DragSource } from 'react-dnd';
 import * as ItemTypes from '../constants/ItemTypes';
 
 const ruleItemSource = {
-  beginDrag({ regexp }) {
+  beginDrag({ id }) {
     return {
-      regexp
+      id
     };
   }
 };

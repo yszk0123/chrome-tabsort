@@ -7,9 +7,9 @@ import { createRule } from '../utils/Rule';
 
 const ruleTarget = {
   canDrop(props, monitor) {
-    const { regexp } = monitor.getItem();
+    const { id } = monitor.getItem();
 
-    return !!regexp;
+    return !!id;
   },
 
   drop(props, monitor) {
@@ -17,7 +17,7 @@ const ruleTarget = {
       return;
     }
 
-    const { regexp } = monitor.getItem();
+    const { id } = monitor.getItem();
 
     return {
       moved: true
@@ -52,7 +52,6 @@ class RuleList extends Component {
       ...restProps
     } = this.props;
 
-    console.log(groupsById);
     return connectDropTarget(
       <div>
         <label>Rules</label>
@@ -62,6 +61,7 @@ class RuleList extends Component {
               return (
                 <RuleGroup
                   key={id}
+                  id={id}
                   {...restProps}
                   onAdd={this.handleAdd}
                   items={groupsById[id]}

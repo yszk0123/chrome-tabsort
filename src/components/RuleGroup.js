@@ -3,6 +3,7 @@ import { DropTarget } from 'react-dnd';
 
 import Rule from '../components/Rule';
 import * as ItemTypes from '../constants/ItemTypes';
+import { createRule } from '../utils/Rule';
 
 const ruleTarget = {
   canDrop(props, monitor) {
@@ -36,13 +37,12 @@ class RuleGroup extends Component {
   render() {
     const {
       connectDropTarget,
+      id: groupId,
       items,
       onAdd,
       onModifyRegExpAt,
       onToggleDisableAt,
       onToggleIsolateAt,
-      onMoveToPreviousAt,
-      onMoveToNextAt,
       onRemoveAt
     } = this.props;
 
@@ -60,15 +60,13 @@ class RuleGroup extends Component {
                 onModifyRegExpAt={(text) => onModifyRegExpAt(id, text)}
                 onToggleDisableAt={() => onToggleDisableAt(id)}
                 onToggleIsolateAt={() => onToggleIsolateAt(id)}
-                onMoveToPreviousAt={() => onMoveToPreviousAt(id)}
-                onMoveToNextAt={() => onMoveToNextAt(id)}
                 onRemoveAt={() => onRemoveAt(id)}
               />
             );
           })}
         </ul>
         <div>
-          <input type="button" value="Add Rule" onClick={onAdd} />
+          <input type="button" value="Add Rule" onClick={() => onAdd(createRule(groupId))} />
         </div>
       </div>
     );
@@ -85,8 +83,6 @@ RuleGroup.propTypes = {
   onModifyRegExpAt: PropTypes.func.isRequired,
   onToggleDisableAt: PropTypes.func.isRequired,
   onToggleIsolateAt: PropTypes.func.isRequired,
-  onMoveToPreviousAt: PropTypes.func.isRequired,
-  onMoveToNextAt: PropTypes.func.isRequired,
   onRemoveAt: PropTypes.func.isRequired,
   onMoveToGroupById: PropTypes.func.isRequired
 };

@@ -63,7 +63,6 @@ class RuleList extends Component {
                   key={id}
                   id={id}
                   {...restProps}
-                  onAdd={this.handleAdd}
                   items={groupsById[id]}
                 />
               );

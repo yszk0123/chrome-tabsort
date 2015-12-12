@@ -64,8 +64,6 @@ export class Options extends Component {
           onModifyRegExpAt={rulesActions.modifyRegExpAt}
           onToggleDisableAt={rulesActions.toggleDisableAt}
           onToggleIsolateAt={rulesActions.toggleIsolateAt}
-          onMoveToPreviousAt={rulesActions.moveToPrevious}
-          onMoveToNextAt={rulesActions.moveToNext}
           onAdd={rulesActions.add}
           onRemoveAt={rulesActions.removeAt}
           onMoveToGroupById={rulesActions.moveToGroupById}

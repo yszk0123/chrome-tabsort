@@ -60,5 +60,22 @@ describe('Divider#divide', () => {
       const division = new Divider(rules).divide(items, 3);
       assert.deepEqual(division.map(getIds), [[5], [1, 3], [2, 4]]);
     });
+
+    it('with groupId', () => {
+      const items = [
+        { id: 1, url: 'http://a.com/1' },
+        { id: 2, url: 'http://a.com/2' },
+        { id: 3, url: 'http://b.co.jp/c' },
+        { id: 4, url: 'http://b.co.jp/d' },
+        { id: 5, url: 'http://a.org/d' }
+      ];
+      const rules = [
+        { id: 0, groupId: 0, matchingText: '.com' },
+        { id: 1, groupId: 0, matchingText: '.org' },
+        { id: 2, groupId: 1, matchingText: '.jp' }
+      ];
+      const division = new Divider(rules).divide(items, 3);
+      assert.deepEqual(division.map(getIds), [[1, 2, 5], [3, 4]]);
+    });
   });
 });

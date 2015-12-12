@@ -1,4 +1,4 @@
-import { find, findKey, flatten } from 'lodash';
+import { find, flatten } from 'lodash';
 
 import { arrayGroupBy } from '../utils/utils';
 
@@ -9,6 +9,7 @@ export default class Divider {
     this.rules = rulesArray
       .filter((rule) => !rule.disable)
       .reduce((rules, rule) => {
+        // TODO: rule.type === REGEXP の時 matchingText を regexp に変換する
         rules[rule.id] = rule;
         return rules;
       }, {});
@@ -18,7 +19,7 @@ export default class Divider {
   // そうでなければドメイン名をグループ名とみなして返す
   // ドメイン名も取得できない場合は空文字''を返す
   getGroupName(url) {
-    const ruleName = findKey(this.rules, (rule) => {
+    const foundRule = find(this.rules, (rule) => {
       if (!rule.matchingText) {
         return false;
       }
@@ -27,8 +28,8 @@ export default class Divider {
       }
       return rule.matchingText.test(url);
     });
-    if (ruleName) {
-      return ruleName;
+    if (foundRule) {
+      return foundRule.groupId;
     }
 
     const match = DOMAIN_RE.exec(url);

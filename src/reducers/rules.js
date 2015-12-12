@@ -5,6 +5,7 @@ import { validateRegExp } from '../utils/utils';
 import {
   RULES_MOVE_TO_PREVIOUS,
   RULES_MOVE_TO_NEXT,
+  RULES_MOVE_TO_GROUP_BY_ID,
   RULES_SELECT_PREVIOUS,
   RULES_SELECT_NEXT,
   RULES_MODIFY_REGEXP_BY_ID,
@@ -56,6 +57,9 @@ export default (state = initialState, action) => {
     }
     case RULES_MOVE_TO_NEXT: {
       return setIn(['itemIds'], swapInArrayIfPossible(state.itemIds, i, i + 1), state);
+    }
+    case RULES_MOVE_TO_GROUP_BY_ID: {
+      return setIn(['itemsById', action.id, 'groupId'], action.groupId, state);
     }
     case RULES_MODIFY_REGEXP_BY_ID: {
       return compose(

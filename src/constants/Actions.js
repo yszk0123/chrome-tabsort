@@ -20,6 +20,7 @@ const keys = keyMirror({
 
   RULES_MOVE_TO_PREVIOUS: null,
   RULES_MOVE_TO_NEXT: null,
+  RULES_MOVE_TO_GROUP_BY_ID: null,
   RULES_MODIFY_REGEXP_BY_ID: null,
   RULES_TOGGLE_DISABLE_BY_ID: null,
   RULES_TOGGLE_ISOLATE_BY_ID: null,

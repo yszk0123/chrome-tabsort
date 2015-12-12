@@ -10,13 +10,14 @@ import OptionsButtons from '../components/OptionsButtons';
 import * as OptionsActions from '../actions/options';
 import * as TabsActions from '../actions/tabs';
 import * as RulesActions from '../actions/rules';
+import rulesSelector from '../selectors/rulesSelector';
 
 import '../styles/app.css';
 
 const mapStateToProps = ({ options, rules, tabs }) => {
   return {
     options,
-    rules,
+    rules: rulesSelector(rules),
     tabs
   };
 };

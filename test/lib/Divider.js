@@ -14,8 +14,8 @@ describe('Divider#divide', () => {
         { id: 3, url: 'http://a.com/3' },
         { id: 4, url: 'http://b.co.jp/4' }
       ];
-      const divider = new Divider([]);
-      assert.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2, 3], [4]]);
+      const division = new Divider([]).divide(items, 3);
+      assert.deepEqual(division.map(getIds), [[1, 2, 3], [4]]);
     });
 
     it('too much tabs per window', () => {
@@ -25,8 +25,8 @@ describe('Divider#divide', () => {
         { id: 3, url: 'http://c.com/3' },
         { id: 4, url: 'http://d.com/4' }
       ];
-      const divider = new Divider([]);
-      assert.deepEqual(divider.divide(items, 2).map(getIds), [[1, 2], [3, 4]]);
+      const division = new Divider([]).divide(items, 2);
+      assert.deepEqual(division.map(getIds), [[1, 2], [3, 4]]);
     });
   });
 
@@ -41,8 +41,8 @@ describe('Divider#divide', () => {
       const rules = [
         { matchingText: '.com' }
       ];
-      const divider = new Divider(rules);
-      assert.deepEqual(divider.divide(items, 3).map(getIds), [[1, 2], [3, 4]]);
+      const division = new Divider(rules).divide(items, 3);
+      assert.deepEqual(division.map(getIds), [[1, 2], [3, 4]]);
     });
 
     it('too much tabs per window', () => {
@@ -57,8 +57,8 @@ describe('Divider#divide', () => {
         { matchingText: '.com' },
         { matchingText: 'doc', isolate: true }
       ];
-      const divider = new Divider(rules);
-      assert.deepEqual(divider.divide(items, 3).map(getIds), [[5], [1, 3], [2, 4]]);
+      const division = new Divider(rules).divide(items, 3);
+      assert.deepEqual(division.map(getIds), [[5], [1, 3], [2, 4]]);
     });
   });
 });

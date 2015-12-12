@@ -3,6 +3,7 @@ import { DropTarget } from 'react-dnd';
 
 import RuleGroup from '../components/RuleGroup';
 import * as ItemTypes from '../constants/ItemTypes';
+import { createRule } from '../utils/Rule';
 
 const ruleTarget = {
   canDrop(props, monitor) {
@@ -32,24 +33,45 @@ const collect = (connect, monitor) => {
 };
 
 class RuleList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  handleAdd() {
+    this.props.onAdd(createRule());
+  }
+
   render() {
     const {
       connectDropTarget,
       isOver,
+      groupIds,
+      groupsById,
       ...restProps
     } = this.props;
 
+    console.log(groupsById);
     return connectDropTarget(
       <div>
         <label>Rules</label>
         <ul>
           <li>
-            <RuleGroup
-              {...restProps}
-            />
+            {groupIds.map((id) => {
+              return (
+                <RuleGroup
+                  key={id}
+                  {...restProps}
+                  onAdd={this.handleAdd}
+                  items={groupsById[id]}
+                />
+              );
+            })}
           </li>
         </ul>
         <div>
+          <input type="button" value="Add Rule" onClick={this.handleAdd} />
         </div>
       </div>
     );
@@ -59,6 +81,11 @@ class RuleList extends Component {
 RuleList.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,
+
+  groupIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  groupsById: PropTypes.object.isRequired,
+
+  onAdd: PropTypes.func.isRequired,
 };
 
 export default DropTarget(ItemTypes.RULE, ruleTarget, collect)(RuleList);

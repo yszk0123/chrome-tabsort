@@ -10,7 +10,7 @@ import OptionsButtons from '../components/OptionsButtons';
 import * as OptionsActions from '../actions/options';
 import * as TabsActions from '../actions/tabs';
 import * as RulesActions from '../actions/rules';
-import rulesSelector from '../selectors/rulesSelector';
+import rulesSelector from '../selectors/rules';
 
 import '../styles/app.css';
 

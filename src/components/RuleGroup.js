@@ -49,23 +49,25 @@ class RuleGroup extends Component {
       <div>
         <label>Rules</label>
         <ul>
-          {items.map((item, i) => {
+          {items.map((item) => {
+            const { id } = item;
+
             return (
               <Rule
-                key={i}
+                key={id}
                 {...item}
-                onModifyRegExpAt={(text) => onModifyRegExpAt(i, text)}
-                onToggleDisableAt={() => onToggleDisableAt(i)}
-                onToggleIsolateAt={() => onToggleIsolateAt(i)}
-                onMoveToPreviousAt={() => onMoveToPreviousAt(i)}
-                onMoveToNextAt={() => onMoveToNextAt(i)}
-                onRemoveAt={() => onRemoveAt(i)}
+                onModifyRegExpAt={(text) => onModifyRegExpAt(id, text)}
+                onToggleDisableAt={() => onToggleDisableAt(id)}
+                onToggleIsolateAt={() => onToggleIsolateAt(id)}
+                onMoveToPreviousAt={() => onMoveToPreviousAt(id)}
+                onMoveToNextAt={() => onMoveToNextAt(id)}
+                onRemoveAt={() => onRemoveAt(id)}
               />
             );
           })}
         </ul>
         <div>
-        <input type="button" value="Add Rule" onClick={onAdd} />
+          <input type="button" value="Add Rule" onClick={onAdd} />
         </div>
       </div>
     );

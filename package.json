@@ -4,6 +4,7 @@
   "version": "0.1.2",
   "dependencies": {
     "key-mirror": "^1.0.1",
+    "ramda": "^0.18.0",
     "react": "^0.14.3",
     "react-addons-update": "^0.14.3",
     "react-dnd": "^2.0.2",

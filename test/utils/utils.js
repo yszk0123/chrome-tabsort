@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'power-assert';
 import { reverse } from '../../src/utils/utils';
 
 describe('utils', () => {

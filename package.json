@@ -22,6 +22,7 @@
     "css-loader": "^0.23.0",
     "del": "^1.2.0",
     "envify": "^3.4.0",
+    "espower-babel": "^4.0.0",
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-changed": "^1.2.1",
@@ -44,6 +45,7 @@
     "minimist": "^1.1.1",
     "mocha": "^2.3.4",
     "object-assign": "^3.0.0",
+    "power-assert": "^1.2.0",
     "redux-logger": "^2.0.4",
     "style-loader": "^0.13.0",
     "tape": "^4.0.1",
@@ -59,8 +61,8 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register",
-    "test-bail": "mocha --compilers js:babel-core/register --bail",
+    "test": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js",
+    "test-bail": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js test/**/*_test.js --bail",
     "lint": "eslint src/ test/",
     "build-assets": "mkdir -p dist/images/ && cp src/boot/*.{html,json} dist/ && cp src/images/*.png dist/images/",
     "build": "webpack --config configs/webpack.development.js",

@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'power-assert';
 import { buildGroupProps, groupTabs } from '../../src/utils/WindowUtils';
 import { cloneDeep } from 'lodash';
 

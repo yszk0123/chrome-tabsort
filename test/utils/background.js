@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'power-assert';
 import { getTabsNeedToBeSorted } from '../../src/utils/backgroundUtils';
 
 describe('background', () => {

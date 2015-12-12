@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'power-assert';
 import Divider from '../../src/utils/Divider';
 
 const getIds = (array) => {

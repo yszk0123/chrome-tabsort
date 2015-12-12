@@ -53,10 +53,9 @@ class RuleList extends Component {
     } = this.props;
 
     return connectDropTarget(
-      <div>
-        <label>Rules</label>
-        <ul>
-          <li>
+      <div className="RuleList">
+        <h2>Rules</h2>
+        <div className="RuleGroupContainer">
             {groupIds.map((id) => {
               return (
                 <RuleGroup
@@ -67,8 +66,7 @@ class RuleList extends Component {
                 />
               );
             })}
-          </li>
-        </ul>
+        </div>
         <div>
           <input type="button" value="Add Rule" onClick={this.handleAdd} />
         </div>

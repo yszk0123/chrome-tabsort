@@ -33,6 +33,7 @@ const mapDispatchToProps = (dispatch) => {
 const OptionsOutput = ({ output, onChange }) => {
   return (
     <textarea
+      className="OptionsOutput"
       value={output}
       onChange={(event) => onChange(event.target.value)}
     />
@@ -52,7 +53,7 @@ export class Options extends Component {
 
     return (
       <div>
-        <div>Options Page</div>
+        <h1>Options Page</h1>
         <TabOptions
           {...tabs}
           onTabsPerWindowChange={(event) => {

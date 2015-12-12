@@ -9,6 +9,7 @@ export default class TabOptions extends Component {
 
     return (
       <div>
+        <h2>Tabs</h2>
         <label htmlFor="tabs-per-window">ウィンドウ毎のタブ数</label>
         <input type="number" value={tabsPerWindow} onChange={onTabsPerWindowChange} />
       </div>

@@ -5,3 +5,44 @@
 .valid {
   background: #cfc
 }
+
+/* .RuleList { */
+.RuleListContainer {
+  margin: 1em;
+  padding: 1em;
+  border: 1px solid #f88;
+}
+
+.RuleGroup {
+  display: inline-block;
+  margin: 0.5em;
+  padding: 1.5em;
+  box-shadow: 1px 1px 5px rgba(24, 24, 24, 0.5);
+}
+
+.Rule {
+  display: inline-block;
+  margin: 0.5em;
+  padding: 0.5em;
+  border: 1px solid #88f;
+}
+
+.RemoveRuleByIdButton {
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: bold;
+  background: #88f;
+  color: #fff;
+}
+
+.RemoveRuleByIdButton:hover {
+  border-radius: 50%;
+  background: #44f;
+}
+
+.OptionsOutput {
+  min-width: 40em;
+  min-height: 6em;
+}

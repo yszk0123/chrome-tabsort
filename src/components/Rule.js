@@ -33,7 +33,7 @@ class Rule extends Component {
     } = this.props;
 
     return connectDragSource(
-      <li>
+      <div className="Rule">
         <input
           type="text"
           className={valid ? 'valid' : 'invalid'}
@@ -42,8 +42,8 @@ class Rule extends Component {
         />
         <input type="checkbox" checked={disable} onChange={onToggleDisableAt} />
         <input type="checkbox" checked={isolate} onChange={onToggleIsolateAt} />
-        <input type="button" value="Remove" onClick={onRemoveAt} />
-      </li>
+        <input type="button" className="RemoveRuleByIdButton" value="×" onClick={onRemoveAt} />
+      </div>
     );
   }
 }

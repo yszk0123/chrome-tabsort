@@ -7,9 +7,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import RuleList from '../components/RuleList';
 import TabOptions from '../components/TabOptions';
 import OptionsButtons from '../components/OptionsButtons';
-import * as OptionsActions from '../actions/options';
-import * as TabsActions from '../actions/tabs';
-import * as RulesActions from '../actions/rules';
+import * as OptionsActions from '../actions/Options';
+import * as TabsActions from '../actions/Tabs';
+import * as RulesActions from '../actions/Rules';
 import rulesSelector from '../selectors/rules';
 
 import '../styles/app.css';

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import Options from '../containers/Options';
 import store from '../store';
-import * as optionsActions from '../actions/options';
+import * as optionsActions from '../actions/Options';
 
 store.dispatch(optionsActions.load());
 

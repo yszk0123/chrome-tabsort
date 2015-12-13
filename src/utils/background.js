@@ -1,7 +1,7 @@
 import { debounce } from 'lodash';
 
 import { validateId } from '../utils/utils';
-import * as optionsActions from '../actions/options';
+import * as optionsActions from '../actions/Options';
 import store from '../store';
 import OptionsConfig from '../constants/Options';
 import Divider from '../utils/Divider';

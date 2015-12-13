@@ -2,7 +2,7 @@ import assert from 'power-assert';
 import _ from 'lodash';
 
 import rulesReducer from '../../src/reducers/rules';
-import * as RulesActions from '../../src/actions/rules';
+import * as RulesActions from '../../src/actions/Rules';
 import { createRule } from '../../src/utils/Rule';
 import generateUniqueId from '../../src/utils/generateUniqueId';
 

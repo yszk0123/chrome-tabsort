@@ -16,12 +16,12 @@ import {
   OPTIONS_UPDATE_SERIALIZED_STATE
 } from '../constants/Actions';
 import OptionsConfig from '../constants/Options';
-import * as storage from '../utils/storage';
+import * as Storage from '../utils/Storage';
 
 export const load = () => (dispatch) => {
   dispatch({ type: OPTIONS_LOAD_START });
 
-  storage.get(OptionsConfig.storageKey)
+  Storage.get(OptionsConfig.storageKey)
     .then((state) => {
       dispatch({ type: OPTIONS_LOAD_SUCCESS, state });
       dispatch({ type: OPTIONS_UPDATE_STATE, state });
@@ -42,7 +42,7 @@ export const save = () => (dispatch, getState) => {
 
   const state = getState();
 
-  storage.set(OptionsConfig.storageKey, state)
+  Storage.set(OptionsConfig.storageKey, state)
     .then(() => {
       const message = {
         type: CHROME_OPTIONS_UPDATE_STATE,

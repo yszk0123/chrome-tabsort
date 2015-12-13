@@ -47,19 +47,22 @@ class RuleGroup extends Component {
 
     return connectDropTarget(
       <div className="RuleGroup">
-        {items.map((item) => {
-          const { id } = item;
+        <label className="RuleGroupLabel">Window</label>
+        <div>
+          {items.map((item) => {
+            const { id } = item;
 
-          return (
-            <Rule
-              key={id}
-              {...item}
-              onModifyRegExpAt={(text) => onModifyRegExpAt(id, text)}
-              onRemoveAt={() => onRemoveAt(id)}
-            />
-          );
-        })}
-        <EmptyRule onAdd={() => onAdd(createRule(groupId))} />
+            return (
+              <Rule
+                key={id}
+                {...item}
+                onModifyRegExpAt={(text) => onModifyRegExpAt(id, text)}
+                onRemoveAt={() => onRemoveAt(id)}
+              />
+            );
+          })}
+          <EmptyRule onAdd={() => onAdd(createRule(groupId))} />
+        </div>
       </div>
     );
   }

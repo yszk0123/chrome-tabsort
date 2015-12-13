@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import Button from '../components/Button';
+
 export default class OptionsButtons extends Component {
   render() {
     const {
@@ -10,11 +12,11 @@ export default class OptionsButtons extends Component {
     } = this.props;
 
     return (
-      <div>
-        <input type="button" value="Load" onClick={onLoad} />
-        <input type="button" value="Save" onClick={onSave} />
-        <input type="button" value="Import" onClick={onImport} />
-        <input type="button" value="Export" onClick={onExport} />
+      <div className="OptionsButtons">
+        <Button value="Load" onClick={onLoad} />
+        <Button value="Save" onClick={onSave} />
+        <Button value="Import" onClick={onImport} />
+        <Button value="Export" onClick={onExport} />
       </div>
     );
   }

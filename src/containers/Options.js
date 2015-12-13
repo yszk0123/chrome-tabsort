@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
+import Layout from '../components/Layout';
 import RuleList from '../components/RuleList';
 import TabOptions from '../components/TabOptions';
 import OptionsButtons from '../components/OptionsButtons';
@@ -32,11 +33,14 @@ const mapDispatchToProps = (dispatch) => {
 
 const OptionsOutput = ({ output, onChange }) => {
   return (
-    <textarea
-      className="OptionsOutput"
-      value={output}
-      onChange={(event) => onChange(event.target.value)}
-    />
+    <div>
+      <h2>Output</h2>
+      <textarea
+        className="OptionsOutput"
+        value={output}
+        onChange={(event) => onChange(event.target.value)}
+      />
+    </div>
   );
 };
 
@@ -52,20 +56,20 @@ export class Options extends Component {
     } = this.props;
 
     return (
-      <div>
+      <Layout>
         <h1>Options Page</h1>
-        <TabOptions
-          {...tabs}
-          onTabsPerWindowChange={(event) => {
-            tabsActions.updateTabsPerWindow(Number(event.target.value));
-          }}
-        />
         <RuleList
           {...rules}
           onModifyRegExpAt={rulesActions.modifyRegExpAt}
           onAdd={rulesActions.add}
           onRemoveAt={rulesActions.removeAt}
           onMoveToGroupById={rulesActions.moveToGroupById}
+        />
+        <TabOptions
+          {...tabs}
+          onTabsPerWindowChange={(event) => {
+            tabsActions.updateTabsPerWindow(Number(event.target.value));
+          }}
         />
         <OptionsOutput
           output={options.serializedState}
@@ -77,7 +81,7 @@ export class Options extends Component {
           onImport={() => optionsActions.deserialize(options.serializedState)}
           onExport={optionsActions.serialize}
         />
-      </div>
+      </Layout>
     );
   }
 }

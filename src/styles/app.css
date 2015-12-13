@@ -1,3 +1,12 @@
+body {
+  background: #fcfcff;
+}
+
+.Layout {
+  margin: 1em;
+  padding: 2em;
+}
+
 .invalid {
   background: #fcc
 }
@@ -8,22 +17,31 @@
 
 /* .RuleList { */
 .RuleListContainer {
-  margin: 1em;
+  margin: 2em;
   padding: 1em;
   border: 1px solid #f88;
 }
 
 .RuleGroup {
   display: inline-block;
-  margin: 0.5em;
+  margin: 1em;
   padding: 1.5em;
   box-shadow: 1px 1px 5px rgba(24, 24, 24, 0.5);
 }
 
+.RuleGroupLabel {
+  position: absolute;
+  margin-left: -0.8em;
+  margin-top: -1em;
+  font-size: 130%;
+  font-weight: bold;
+}
+
 .Rule {
   display: inline-block;
+  cursor: move;
   margin: 0.5em;
-  padding: 0.5em;
+  padding: 0.6em;
   border: 1px solid #88f;
 }
 
@@ -34,6 +52,7 @@
 .EmptyRuleGroup {
   border: 4px #88f dotted;
   background: #ccf;
+  color: #224;
   font-size: 140%;
   font-weight: bold;
   opacity: 0.8;
@@ -46,6 +65,7 @@
 .EmptyRule {
   border: 3px #88f dotted;
   background: #ccf;
+  color: #224;
   font-size: 130%;
   font-weight: bold;
   opacity: 0.8;
@@ -56,6 +76,8 @@
 }
 
 .RemoveRuleByIdButton {
+  cursor: pointer;
+  margin-left: 0.5em;
   border: none;
   outline: none;
   border-radius: 50%;
@@ -73,4 +95,28 @@
 .OptionsOutput {
   min-width: 40em;
   min-height: 6em;
+}
+
+.Button {
+  display: inline-block;
+  cursor: pointer;
+  min-width: 4em;
+  min-height: 1.5em;
+  margin: 0.5em;
+  padding: 0.5em;
+  border-radius: 4px;
+  background: #44f;
+  color: #eef;
+  text-align: center;
+  font-size: 120%;
+  font-weight: bold;
+  box-shadow: 1px 1px 8px rgba(24, 24, 24, 0.5);
+}
+
+.Button:hover {
+  box-shadow: 1px 1px 3px rgba(24, 24, 24, 0.5);
+}
+
+.Button:active {
+  box-shadow: none;
 }

@@ -12,12 +12,13 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js",
+    "test": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js test/**/*_test.js",
     "test-bail": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js test/**/*_test.js --bail",
     "lint": "eslint src/ test/",
     "build-assets": "mkdir -p dist/images/ && cp src/boot/*.{html,json} dist/ && cp src/images/*.png dist/images/",
-    "build": "webpack --config configs/webpack.development.js",
-    "release": "webpack --config configs/webpack.production.js"
+    "build": "rimraf dist/ && npm run build-assets && webpack --config configs/webpack.development.js",
+    "watch": "rimraf dist/ && npm run build-assets && webpack --config configs/webpack.development.js --watch",
+    "release": "rimraf dist/ && npm run build-assets && webpack --config configs/webpack.production.js"
   },
   "dependencies": {
     "key-mirror": "^1.0.1",
@@ -43,6 +44,7 @@
     "mocha": "^2.3.4",
     "power-assert": "^1.2.0",
     "redux-logger": "^2.0.4",
+    "rimraf": "^2.4.4",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9"
   }

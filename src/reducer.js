@@ -15,12 +15,8 @@ const reducer = combineReducers({
 });
 
 export default (state, action) => {
-  // if (action.type === OPTIONS_UPDATE_STATE || action.type === OPTIONS_LOAD_SUCCESS) {
-  //   return state;
-  // }
-
   if (action.type === OPTIONS_UPDATE_STATE) {
-    return action.state;
+    state = action.state;
   }
 
   return reducer(state, action);

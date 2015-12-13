@@ -1,4 +1,6 @@
 /* global chrome */
+import _ from 'lodash';
+
 import {
   CHROME_OPTIONS_UPDATE_STATE,
   OPTIONS_LOAD_START_WITH_STATE,
@@ -66,7 +68,7 @@ export const save = () => (dispatch, getState) => {
 export const serialize = () => (dispatch, getState) => {
   dispatch({
     type: OPTIONS_SERIALIZE,
-    value: JSON.stringify(getState())
+    value: JSON.stringify(_.omit(getState(), ['options']))
   });
 };
 

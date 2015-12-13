@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 
 import { setIn, updateIn, pushIn, removeIn, omitIn } from '../utils/Mutation';
-import { validateRegExp } from '../utils/utils';
+import { validateRegExp } from '../utils/Utils';
 import {
   RULES_MOVE_TO_PREVIOUS,
   RULES_MOVE_TO_NEXT,

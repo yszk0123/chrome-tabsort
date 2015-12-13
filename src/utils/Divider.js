@@ -1,6 +1,6 @@
 import { find, flatten } from 'lodash';
 
-import { arrayGroupBy } from '../utils/utils';
+import { arrayGroupBy } from '../utils/Utils';
 
 const DOMAIN_RE = /^[^:]+:\/+([^\/]+)/;
 

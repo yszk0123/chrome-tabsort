@@ -1,11 +1,11 @@
 import { debounce } from 'lodash';
 
-import { validateId } from '../utils/utils';
+import { validateId } from '../utils/Utils';
 import * as optionsActions from '../actions/Options';
 import store from '../store';
 import OptionsConfig from '../constants/Options';
 import Divider from '../utils/Divider';
-import { getTabsNeedToBeSorted } from '../utils/backgroundUtils';
+import { getTabsNeedToBeSorted } from '../utils/BackgroundUtils';
 import {
   createWindow,
   getAllWindows,

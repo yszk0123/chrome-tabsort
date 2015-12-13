@@ -1,5 +1,5 @@
 import assert from 'power-assert';
-import { validateRegExp, reverse } from '../../src/utils/utils';
+import { validateRegExp, reverse } from '../../src/utils/Utils';
 
 describe('utils', () => {
   describe('validateRegExp()', () => {

@@ -18,13 +18,15 @@ export default class Divider {
   // ルールに合致する場合はルール名を
   // そうでなければドメイン名をグループ名とみなして返す
   // ドメイン名も取得できない場合は空文字''を返す
-  getGroupName(url) {
+  getGroupName(rawUrl) {
+    const url = rawUrl.toLowerCase();
+
     const foundRule = find(this.rules, (rule) => {
       if (!rule.matchingText) {
         return false;
       }
       if (typeof rule.matchingText === 'string') {
-        return url.indexOf(rule.matchingText) > -1;
+        return url.indexOf(rule.matchingText.toLowerCase()) > -1;
       }
       return rule.matchingText.test(url);
     });

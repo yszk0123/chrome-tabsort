@@ -6,22 +6,22 @@ const DOMAIN_RE = /^[^:]+:\/+([^\/]+)/;
 
 export default class Divider {
   constructor(rulesArray = []) {
-    this.rules = rulesArray
+    this.rulesById = rulesArray
       .filter((rule) => !rule.disable)
-      .reduce((rules, rule) => {
+      .reduce((rulesById, rule) => {
         // TODO: rule.type === REGEXP の時 matchingText を regexp に変換する
-        rules[rule.id] = rule;
-        return rules;
+        rulesById[rule.id] = rule;
+        return rulesById;
       }, {});
   }
 
   // ルールに合致する場合はルール名を
   // そうでなければドメイン名をグループ名とみなして返す
   // ドメイン名も取得できない場合は空文字''を返す
-  getGroupName(rawUrl) {
+  getGroupId(rawUrl) {
     const url = rawUrl.toLowerCase();
 
-    const foundRule = find(this.rules, (rule) => {
+    const foundRule = find(this.rulesById, (rule) => {
       if (!rule.matchingText) {
         return false;
       }
@@ -40,16 +40,16 @@ export default class Divider {
 
   groupByName(input) {
     return input
-      .map(({ id, url }) => ({ id, url, name: this.getGroupName(url) }))
+      .map(({ id, url }) => ({ id, url, groupId: this.getGroupId(url) }))
       .reduce((newGroups, item) => {
-        let newGroup = find(newGroups, (group) => group.name === item.name);
+        let newGroup = find(newGroups, (group) => group.id === item.groupId);
         if (newGroup) {
           newGroup.push(item);
         }
         else {
           newGroup = [item];
-          newGroup.name = item.name;
-          newGroup.isolate = Boolean((this.rules[item.name] || {}).isolate);
+          newGroup.id = item.groupId;
+          newGroup.isolate = Boolean((this.rulesById[item.groupId] || {}).isolate);
           newGroups.push(newGroup);
         }
         return newGroups;
@@ -113,6 +113,6 @@ export default class Divider {
   }
 
   _canDivide() {
-    return Boolean(this.rules);
+    return Boolean(this.rulesById);
   }
 }

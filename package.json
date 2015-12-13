@@ -2,8 +2,26 @@
   "private": true,
   "name": "tab-sort",
   "version": "0.1.2",
+  "author": "Yuji Suzuki",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:yszk0123/chrome-tabsort.git"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js",
+    "test-bail": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js test/**/*_test.js --bail",
+    "lint": "eslint src/ test/",
+    "build-assets": "mkdir -p dist/images/ && cp src/boot/*.{html,json} dist/ && cp src/images/*.png dist/images/",
+    "build": "webpack --config configs/webpack.development.js",
+    "release": "webpack --config configs/webpack.production.js"
+  },
   "dependencies": {
     "key-mirror": "^1.0.1",
+    "lodash": "^3.10.0",
     "ramda": "^0.18.0",
     "react": "^0.14.3",
     "react-addons-update": "^0.14.3",
@@ -21,56 +39,11 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-2": "^6.3.13",
     "css-loader": "^0.23.0",
-    "del": "^1.2.0",
-    "envify": "^3.4.0",
     "espower-babel": "^4.0.0",
-    "gulp": "^3.8.11",
-    "gulp-autoprefixer": "^2.3.1",
-    "gulp-changed": "^1.2.1",
-    "gulp-csscomb": "^3.0.4",
-    "gulp-if": "^1.2.5",
-    "gulp-jade": "^1.0.1",
-    "gulp-less": "^3.0.3",
-    "gulp-load-plugins": "^0.10.0",
-    "gulp-minify-css": "^1.2.0",
-    "gulp-plumber": "^1.0.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-size": "^1.2.3",
-    "gulp-sourcemaps": "^1.5.2",
-    "gulp-stylus": "^2.0.5",
-    "gulp-uglify": "^1.2.0",
-    "gulp-util": "^3.0.6",
-    "jade": "^1.11.0",
-    "lodash": "^3.10.0",
-    "merge-stream": "^0.1.8",
-    "minimist": "^1.1.1",
     "mocha": "^2.3.4",
-    "object-assign": "^3.0.0",
     "power-assert": "^1.2.0",
     "redux-logger": "^2.0.4",
     "style-loader": "^0.13.0",
-    "tape": "^4.0.1",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
     "webpack": "^1.12.9"
-  },
-  "repository": {
-    "type": "git",
-    "url": "/Users/suzukiyuuji/Dropbox/git/chrome-overlay-scroll.git"
-  },
-  "engines": {
-    "node": ">=0.8.0"
-  },
-  "scripts": {
-    "test": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js",
-    "test-bail": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js test/**/*_test.js --bail",
-    "lint": "eslint src/ test/",
-    "build-assets": "mkdir -p dist/images/ && cp src/boot/*.{html,json} dist/ && cp src/images/*.png dist/images/",
-    "build": "webpack --config configs/webpack.development.js",
-    "release": "webpack --config configs/webpack.production.js",
-    "old-build": "gulp build",
-    "old-release": "NODE_ENV=production gulp build --release"
-  },
-  "author": "Yuji Suzuki",
-  "license": "MIT"
+  }
 }

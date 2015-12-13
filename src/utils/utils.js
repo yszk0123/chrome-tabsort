@@ -20,14 +20,6 @@ export const createMapper = (fns, defaultFn = () => null) => {
   };
 };
 
-// 該当要素を配列の最後尾に移動する
-export const moveToTail = (arr, target) => {
-  const index = arr.indexOf(target);
-  if (index > -1) {
-    arr.push(arr.splice(index, 1)[0]);
-  }
-};
-
 export const arrayGroupBy = (items, getIndex, maxSize) => {
   const dest = [];
   dest.length = maxSize;

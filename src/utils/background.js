@@ -5,9 +5,6 @@ import * as optionsActions from '../actions/options';
 import store from '../store';
 import OptionsConfig from '../constants/Options';
 import Divider from '../utils/Divider';
-import {
-  CHROME_OPTIONS_UPDATE_STATE
-} from '../constants/Actions';
 import { getTabsNeedToBeSorted } from '../utils/backgroundUtils';
 import {
   createWindow,
@@ -25,6 +22,9 @@ import {
   setBadgeText,
   updateWindow
 } from '../utils/ChromeAPIWrapper';
+import {
+  CHROME_OPTIONS_UPDATE_STATE
+} from '../constants/Actions';
 
 let state = store.getState();
 store.subscribe(() => state = store.getState());

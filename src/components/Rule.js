@@ -29,8 +29,6 @@ class Rule extends Component {
       disable,
       isolate,
       onModifyRegExpAt,
-      onToggleDisableAt,
-      onToggleIsolateAt,
       onRemoveAt
     } = this.props;
 
@@ -43,8 +41,6 @@ class Rule extends Component {
           placeholder="google.com"
           onChange={(event) => onModifyRegExpAt(event.target.value)}
         />
-        <input type="checkbox" checked={disable} onChange={onToggleDisableAt} />
-        <input type="checkbox" checked={isolate} onChange={onToggleIsolateAt} />
         <input type="button" className="RemoveRuleByIdButton" value="×" onClick={onRemoveAt} />
       </div>
     );
@@ -61,8 +57,6 @@ Rule.propTypes = {
   isolate: PropTypes.bool.isRequired,
 
   onModifyRegExpAt: PropTypes.func.isRequired,
-  onToggleDisableAt: PropTypes.func.isRequired,
-  onToggleIsolateAt: PropTypes.func.isRequired,
   onRemoveAt: PropTypes.func.isRequired
 };
 

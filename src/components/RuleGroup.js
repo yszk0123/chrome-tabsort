@@ -42,8 +42,6 @@ class RuleGroup extends Component {
       items,
       onAdd,
       onModifyRegExpAt,
-      onToggleDisableAt,
-      onToggleIsolateAt,
       onRemoveAt
     } = this.props;
 
@@ -57,8 +55,6 @@ class RuleGroup extends Component {
               key={id}
               {...item}
               onModifyRegExpAt={(text) => onModifyRegExpAt(id, text)}
-              onToggleDisableAt={() => onToggleDisableAt(id)}
-              onToggleIsolateAt={() => onToggleIsolateAt(id)}
               onRemoveAt={() => onRemoveAt(id)}
             />
           );
@@ -77,8 +73,6 @@ RuleGroup.propTypes = {
 
   onAdd: PropTypes.func.isRequired,
   onModifyRegExpAt: PropTypes.func.isRequired,
-  onToggleDisableAt: PropTypes.func.isRequired,
-  onToggleIsolateAt: PropTypes.func.isRequired,
   onRemoveAt: PropTypes.func.isRequired,
   onMoveToGroupById: PropTypes.func.isRequired
 };

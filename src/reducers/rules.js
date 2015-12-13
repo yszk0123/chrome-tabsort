@@ -6,8 +6,6 @@ import {
   RULES_MOVE_TO_PREVIOUS,
   RULES_MOVE_TO_NEXT,
   RULES_MOVE_TO_GROUP_BY_ID,
-  RULES_SELECT_PREVIOUS,
-  RULES_SELECT_NEXT,
   RULES_MODIFY_REGEXP_BY_ID,
   RULES_TOGGLE_DISABLE_BY_ID,
   RULES_TOGGLE_ISOLATE_BY_ID,
@@ -32,18 +30,6 @@ const swapInArrayIfPossible = (array, i, j) => {
     array[i],
     ...array.slice(j + 1)
   ];
-};
-
-const wrapInRange = (n, start, end) => {
-  if (n < start) {
-    return n + (end - start);
-  }
-
-  if (n >= end) {
-    return n - (end - start);
-  }
-
-  return n;
 };
 
 const not = (x) => !x;

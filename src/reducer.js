@@ -4,8 +4,7 @@ import options from './reducers/options';
 import rules from './reducers/rules';
 import tabs from './reducers/tabs';
 import {
-  OPTIONS_UPDATE_STATE,
-  OPTIONS_LOAD_SUCCESS
+  OPTIONS_UPDATE_STATE
 } from './constants/Actions';
 
 const reducer = combineReducers({

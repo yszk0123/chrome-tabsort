@@ -24,7 +24,7 @@ describe('rules', () => {
   };
 
   it('adds groupIds and groupsById', () => {
-    const { initialState, itemIds, groupIds } = setup();
+    const { initialState, groupIds } = setup();
     const nextProps = rulesSelector(initialState);
     assert.deepEqual(nextProps.groupIds, groupIds);
     assert(nextProps.groupsById[groupIds[0]].every((group) => group.groupId === groupIds[0]));

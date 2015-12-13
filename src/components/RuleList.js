@@ -82,7 +82,7 @@ RuleList.propTypes = {
   groupIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   groupsById: PropTypes.object.isRequired,
 
-  onAdd: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired
 };
 
 export default DropTarget(ItemTypes.RULE, ruleTarget, collect)(RuleList);

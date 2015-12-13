@@ -1,7 +1,7 @@
 import keyMirror from 'key-mirror';
 
 const keys = keyMirror({
-  RULE: null,
+  RULE: null
 });
 
 module.exports = keys;

@@ -1,4 +1,4 @@
-import { find, debounce } from 'lodash';
+import { debounce } from 'lodash';
 
 import { validateId } from '../utils/utils';
 import * as optionsActions from '../actions/options';

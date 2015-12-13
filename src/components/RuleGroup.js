@@ -9,7 +9,7 @@ const ruleTarget = {
   canDrop(props, monitor) {
     const { id } = monitor.getItem();
 
-    return !!id;
+    return Boolean(id);
   },
 
   drop(props, monitor) {

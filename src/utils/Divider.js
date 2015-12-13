@@ -38,11 +38,7 @@ export default class Divider {
 
   groupByName(input) {
     return input
-      .map((item) => ({
-        id: item.id,
-        url: item.url,
-        name: this.getGroupName(item.url)
-      }))
+      .map(({ id, url }) => ({ id, url, name: this.getGroupName(url) }))
       .reduce((newGroups, item) => {
         let newGroup = find(newGroups, (group) => group.name === item.name);
         if (newGroup) {
@@ -51,7 +47,7 @@ export default class Divider {
         else {
           newGroup = [item];
           newGroup.name = item.name;
-          newGroup.isolate = !!(this.rules[item.name] || {}).isolate;
+          newGroup.isolate = Boolean((this.rules[item.name] || {}).isolate);
           newGroups.push(newGroup);
         }
         return newGroups;
@@ -115,6 +111,6 @@ export default class Divider {
   }
 
   _canDivide() {
-    return !!this.rules;
+    return Boolean(this.rules);
   }
 }

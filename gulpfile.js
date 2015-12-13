@@ -14,7 +14,7 @@ var watchify = require('watchify');
 var babelify = require('babelify');
 
 // 各種設定
-var RELEASE = !!argv.release;
+var RELEASE = Boolean(argv.release);
 var pkg = require('./package.json');
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
 
 import Rule from '../components/Rule';
+import EmptyRule from '../components/EmptyRule';
 import * as ItemTypes from '../constants/ItemTypes';
 import { createRule } from '../utils/Rule';
 
@@ -48,25 +49,21 @@ class RuleGroup extends Component {
 
     return connectDropTarget(
       <div className="RuleGroup">
-        <div>
-          {items.map((item) => {
-            const { id } = item;
+        {items.map((item) => {
+          const { id } = item;
 
-            return (
-              <Rule
-                key={id}
-                {...item}
-                onModifyRegExpAt={(text) => onModifyRegExpAt(id, text)}
-                onToggleDisableAt={() => onToggleDisableAt(id)}
-                onToggleIsolateAt={() => onToggleIsolateAt(id)}
-                onRemoveAt={() => onRemoveAt(id)}
-              />
-            );
-          })}
-        </div>
-        <div>
-          <input type="button" value="Add Rule" onClick={() => onAdd(createRule(groupId))} />
-        </div>
+          return (
+            <Rule
+              key={id}
+              {...item}
+              onModifyRegExpAt={(text) => onModifyRegExpAt(id, text)}
+              onToggleDisableAt={() => onToggleDisableAt(id)}
+              onToggleIsolateAt={() => onToggleIsolateAt(id)}
+              onRemoveAt={() => onRemoveAt(id)}
+            />
+          );
+        })}
+        <EmptyRule onAdd={() => onAdd(createRule(groupId))} />
       </div>
     );
   }

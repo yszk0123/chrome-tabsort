@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
 
 import RuleGroup from '../components/RuleGroup';
+import EmptyRuleGroup from '../components/EmptyRuleGroup';
+import EmptyRule from '../components/EmptyRule';
 import * as ItemTypes from '../constants/ItemTypes';
 import { createRule } from '../utils/Rule';
 
@@ -10,18 +12,6 @@ const ruleTarget = {
     const { id } = monitor.getItem();
 
     return Boolean(id);
-  },
-
-  drop(props, monitor) {
-    if (monitor.didDrop()) {
-      return;
-    }
-
-    const { id } = monitor.getItem();
-
-    return {
-      moved: true
-    };
   }
 };
 
@@ -56,19 +46,22 @@ class RuleList extends Component {
       <div className="RuleList">
         <h2>Rules</h2>
         <div className="RuleGroupContainer">
-            {groupIds.map((id) => {
-              return (
-                <RuleGroup
-                  key={id}
-                  id={id}
-                  {...restProps}
-                  items={groupsById[id]}
-                />
-              );
-            })}
+          {groupIds.map((id) => {
+            return (
+              <RuleGroup
+                key={id}
+                id={id}
+                {...restProps}
+                items={groupsById[id]}
+              />
+            );
+          })}
+          {isOver &&
+            <EmptyRuleGroup {...restProps} />
+          }
         </div>
         <div>
-          <input type="button" value="Add Rule" onClick={this.handleAdd} />
+          <EmptyRule onAdd={this.handleAdd} />
         </div>
       </div>
     );

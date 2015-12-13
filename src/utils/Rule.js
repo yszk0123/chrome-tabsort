@@ -5,7 +5,7 @@ export const createRule = (groupId) => {
     id: generateUniqueId(),
     groupId: groupId || generateUniqueId(),
     matchingText: '',
-    valid: true,
+    valid: false,
     disable: false,
     isolate: false
   };

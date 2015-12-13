@@ -27,6 +27,34 @@
   border: 1px solid #88f;
 }
 
+.Rule.dragging {
+  opacity: 0.3;
+}
+
+.EmptyRuleGroup {
+  border: 4px #88f dotted;
+  background: #ccf;
+  font-size: 140%;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.EmptyRuleGroup:hover {
+  box-shadow: 1px 1px 8px rgba(24, 24, 24, 0.5);
+}
+
+.EmptyRule {
+  border: 3px #88f dotted;
+  background: #ccf;
+  font-size: 130%;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.EmptyRule:hover {
+  box-shadow: 1px 1px 8px rgba(24, 24, 24, 0.5);
+}
+
 .RemoveRuleByIdButton {
   border: none;
   outline: none;

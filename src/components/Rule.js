@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { DragSource } from 'react-dnd';
+import cx from 'classnames';
 
 import * as ItemTypes from '../constants/ItemTypes';
 
@@ -22,6 +23,7 @@ class Rule extends Component {
   render() {
     const {
       connectDragSource,
+      isDragging,
       matchingText,
       valid,
       disable,
@@ -33,11 +35,12 @@ class Rule extends Component {
     } = this.props;
 
     return connectDragSource(
-      <div className="Rule">
+      <div className={cx({ Rule: true, dragging: isDragging })}>
         <input
           type="text"
           className={valid ? 'valid' : 'invalid'}
           value={matchingText}
+          placeholder="google.com"
           onChange={(event) => onModifyRegExpAt(event.target.value)}
         />
         <input type="checkbox" checked={disable} onChange={onToggleDisableAt} />
@@ -49,6 +52,9 @@ class Rule extends Component {
 }
 
 Rule.propTypes = {
+  connectDragSource: PropTypes.func.isRequired,
+  isDragging: PropTypes.bool.isRequired,
+
   matchingText: PropTypes.string.isRequired,
   valid: PropTypes.bool.isRequired,
   disable: PropTypes.bool.isRequired,

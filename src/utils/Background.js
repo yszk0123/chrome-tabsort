@@ -31,12 +31,12 @@ let state = store.getState();
 store.subscribe(() => state = store.getState());
 store.dispatch(optionsActions.load());
 
-registerMessageReceived((request, sender, sendResponse) => {
+const onMessageReceived = (request, sender, sendResponse) => {
   if (request.type === CHROME_OPTIONS_UPDATE_STATE) {
     store.dispatch(optionsActions.loadWithState(request.state));
     sendResponse({ error: null });
   }
-});
+};
 
 // ------------------------------------------------------------------------------
 // 補助関数
@@ -109,38 +109,30 @@ const divideIntoWindows = (list, tabsPerWindow, oneWindow = false) => {
 //   both:   カレントウィンドウ+カレントウィンドウのタブ数
 //           戻り値は次のような配列として返される
 //           [<カレントウィンドウのタブ数>, <全ウィンドウのタブ数>]
-const getTabCount = (opts, callback) => {
-  if (typeof (callback) !== 'function') {
-    return;
-  }
-
+const getTabCount = (opts) => {
   // デフォルトは全ウィンドウのタブ数
-  if (!opts) {
-    opts = { multi: true };
-  }
+  opts = opts || { multi: true };
 
   if (opts.single) {
-    return getCurrentWindow({ populate: true }).then((wnd) => {
-      callback(null, wnd.tabs.length);
-    });
+    return getCurrentWindow({ populate: true })
+      .then((wnd) => wnd.tabs.length);
   }
 
   if (opts.multi || opts.all) {
-    return getAllWindows({ populate: true }).then((wnds) => {
-      const count = wnds.reduce((sum, wnd) => sum + wnd.tabs.length, 0);
-      callback(null, count);
-    });
+    return getAllWindows({ populate: true })
+      .then((wnds) => wnds.reduce((sum, wnd) => sum + wnd.tabs.length, 0))
   }
 
   if (opts.both) {
-    return getTabCount({ single: true }, (err1, current) => {
-      getTabCount({ multi: true }, (err2, all) => {
-        callback(err1 || err2, [current, all]);
-      });
-    });
+    return Promise
+      .all(
+        getTabCount({ single: true }),
+        getTabCount({ multi: true })
+      )
+      .then((current, all) => [current, all]);
   }
 
-  callback(new Error('Invalid options'));
+  return Promise.reject(new Error('Invalid options'));
 };
 
 const condition = (...args) => {
@@ -156,21 +148,20 @@ const condition = (...args) => {
 };
 
 const setBadge = () => {
-  return getTabCount({ multi: true }, (err, count) => {
-    if (err) {
-      return;
-    }
-
-    const color = condition(
-      count < 10, [24, 24, 240, 255],
-      count < 20, [24, 240, 240, 255],
-      count < 30, [24, 240, 24, 255],
-      count < 40, [240, 240, 24, 255],
-      [240, 24, 24, 255]
-    );
-    setBadgeText({ text: String(count) });
-    setBadgeBackgroundColor({ color });
-  });
+  return getTabCount({ multi: true })
+    .then((count) => {
+      const color = condition(
+        count < 10, [24, 24, 240, 255],
+        count < 20, [24, 240, 240, 255],
+        count < 30, [24, 240, 24, 255],
+        count < 40, [240, 240, 24, 255],
+        [240, 24, 24, 255]
+      );
+      setBadgeText({ text: String(count) });
+      setBadgeBackgroundColor({ color });
+    })
+    // TODO: Better error handling
+    .catch((error) => console.error(error));
 };
 
 const debouncedSetBadge = _.debounce(setBadge, OptionsConfig.setBadgeDebounce);
@@ -182,7 +173,7 @@ const debouncedSetBadge = _.debounce(setBadge, OptionsConfig.setBadgeDebounce);
 // ウィンドウにタブが追加された時にウィンドウ内のタブをソート
 // 今は、タブが新規作成された場合のみで
 // 別ウィンドウから持ってきた時などは無視している
-registerTabsCreated(() => {
+const onTabsCreated = () => {
   getCurrentWindow({ populate: true }).then(({ tabs }) => {
     const { tabsPerWindow } = state.tabs;
 
@@ -194,12 +185,10 @@ registerTabsCreated(() => {
   });
 
   debouncedSetBadge();
-});
-
-registerTabsRemoved(debouncedSetBadge);
+};
 
 // タブ更新時にソート
-registerTabsUpdated((newTabId, { status }, { url: newTabUrl }) => {
+const onTabsUpdated = (newTabId, { status }, { url: newTabUrl }) => {
   if (status !== 'complete' || newTabUrl === 'chrome://newtab/') {
     return;
   }
@@ -218,11 +207,20 @@ registerTabsUpdated((newTabId, { status }, { url: newTabUrl }) => {
       return true;
     });
   });
-});
+};
 
 // ブラウザ右上のボタンクリックで全ウィンドウのタブをソート
-registerBrowserActionClicked(() => {
+const onBrowserActionClicked = () => {
   getAllWindows({ populate: true }).then((windows) => {
     divideIntoWindows(getTabsNeedToBeSorted(windows), state.tabs.tabsPerWindow);
   });
-});
+};
+
+const onTabsRemoved = debouncedSetBadge;
+
+// Event handlers
+registerMessageReceived(onMessageReceived);
+registerTabsCreated(onTabsCreated);
+registerTabsUpdated(onTabsUpdated);
+registerBrowserActionClicked(onBrowserActionClicked);
+registerTabsRemoved(onTabsRemoved);

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { validateId } from '../utils/CommonUtils';
+import { condition, validateId } from '../utils/CommonUtils';
 import divide from '../utils/divide';
 import {
   createWindow,
@@ -103,18 +103,6 @@ const getTabCount = (opts) => {
   }
 
   return Promise.reject(new Error('Invalid options'));
-};
-
-const condition = (...args) => {
-  const last = args.length - (args.length % 2);
-
-  for (let i = 0; i < last; i += 2) {
-    if (args[i]) {
-      return args[i + 1];
-    }
-  }
-
-  return args[last];
 };
 
 const setBadge = () => {

@@ -41,6 +41,18 @@ export const reverse = (array) => {
   return result;
 };
 
+export const condition = (...args) => {
+  const last = args.length - (args.length % 2);
+
+  for (let i = 0; i < last; i += 2) {
+    if (args[i]) {
+      return args[i + 1];
+    }
+  }
+
+  return args[last];
+};
+
 export const promisify = (api) => (...args) => {
   return new Promise((resolve, reject) => {
     api(...args, (error, result) => {

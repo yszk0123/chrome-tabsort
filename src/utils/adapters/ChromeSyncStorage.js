@@ -1,22 +1,49 @@
 /* global chrome */
-export const get = (key, defaultValue) => {
+import zlib from 'zlib';
+
+import { promisifyChromeExtensionsAPI } from '../ChromeAPIWrapper';
+
+const ENCODING = 'base64';
+
+const promisify = (api) => (...args) => {
   return new Promise((resolve, reject) => {
-    chrome.storage.sync.get(defaultValue, (value) => {
-      if (chrome.runtime.lastError) {
-        return reject(chrome.runtime.lastError);
+    api(...args, (error, result) => {
+      if (error) {
+        return reject(error);
       }
-      resolve(value);
+
+      resolve(result);
     });
   });
 };
 
+const deflateAsync = promisify(zlib.deflate);
+
+const unzipAsync = promisify(zlib.unzip);
+
+const storageSyncGet =
+  promisifyChromeExtensionsAPI(chrome.storage.sync.get.bind(chrome.storage.sync));
+
+const storageSyncSet =
+  promisifyChromeExtensionsAPI(chrome.storage.sync.set.bind(chrome.storage.sync));
+
+const deflate = (input) => {
+  return deflateAsync(input)
+    .then((buffer) => buffer.toString(ENCODING));
+};
+
+const unzip = (input) => {
+  return unzipAsync(new Buffer(input, ENCODING))
+    .then((buffer) => buffer.toString());
+};
+
+export const get = (key, defaultValue) => {
+  return storageSyncGet(defaultValue)
+    .then((data) => unzip(data[key]))
+    .then(JSON.parse);
+};
+
 export const set = (key, value) => {
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.set(value, () => {
-      if (chrome.runtime.lastError) {
-        return reject(chrome.runtime.lastError);
-      }
-      resolve();
-    });
-  });
+  return deflate(JSON.stringify(value))
+    .then((deflated) => storageSyncSet({ [key]: deflated }));
 };

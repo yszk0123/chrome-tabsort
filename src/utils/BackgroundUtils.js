@@ -42,11 +42,8 @@ export const divideTabsIntoWindows = (list, tabsPerWindow, rulesById, oneWindow 
       capacity: tabsPerWindow
     });
   }
-  catch (err) {
-    // TODO: Better error handling
-    console.log('Error: Maybe rules are invalid. Please open options page and correct rules');
-    console.log(err);
-    return Promise.reject(err);
+  catch (error) {
+    return Promise.reject(error);
   }
 
   if (oneWindow && groups.length === 1) {
@@ -133,8 +130,6 @@ const setBadge = () => {
       setBadgeText({ text: String(count) });
       setBadgeBackgroundColor({ color });
     })
-    // TODO: Better error handling
-    .catch((error) => console.error(error));
 };
 
 export const debouncedSetBadge = _.debounce(setBadge, OptionsConfig.setBadgeDebounce);

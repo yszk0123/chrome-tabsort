@@ -1,27 +1,22 @@
-import { find, flatten } from 'lodash';
+import _ from 'lodash';
 
 import { arrayGroupBy } from '../utils/Utils';
 
 const DOMAIN_RE = /^[^:]+:\/+([^\/]+)/;
+const DEFAULT_GROUP = 'DEFAULT';
 
-export default class Divider {
-  constructor(rulesArray = []) {
-    this.rulesById = rulesArray
-      .filter((rule) => !rule.disable)
-      .reduce((rulesById, rule) => {
-        // TODO: rule.type === REGEXP の時 matchingText を regexp に変換する
-        rulesById[rule.id] = rule;
-        return rulesById;
-      }, {});
+class Divider {
+  constructor(rules, items, capacity) {
+    this.rules = rules
+      .filter((rule) => !rule.disable);
+    this.items = items;
+    this.capacity = capacity;
   }
 
-  // ルールに合致する場合はルール名を
-  // そうでなければドメイン名をグループ名とみなして返す
-  // ドメイン名も取得できない場合は空文字''を返す
   getGroupId(rawUrl) {
     const url = rawUrl.toLowerCase();
 
-    const foundRule = find(this.rulesById, (rule) => {
+    const foundRule = _.find(this.rules, (rule) => {
       if (!rule.matchingText) {
         return false;
       }
@@ -30,89 +25,35 @@ export default class Divider {
       }
       return rule.matchingText.test(url);
     });
+
     if (foundRule) {
       return foundRule.groupId;
     }
 
-    const match = DOMAIN_RE.exec(url);
-    return match ? match[1] : '';
+    return DEFAULT_GROUP;
   }
 
-  groupByName(input) {
-    return input
-      .map(({ id, url }) => ({ id, url, groupId: this.getGroupId(url) }))
-      .reduce((newGroups, item) => {
-        let newGroup = find(newGroups, (group) => group.id === item.groupId);
-        if (newGroup) {
-          newGroup.push(item);
-        }
-        else {
-          newGroup = [item];
-          newGroup.id = item.groupId;
-          newGroup.isolate = Boolean((this.rulesById[item.groupId] || {}).isolate);
-          newGroups.push(newGroup);
-        }
-        return newGroups;
-      }, []);
-  }
-
-  pack(_groups, capacity) {
-    const newGroups = [];
-
-    // isolateオプションが付いているグループは
-    // capacityによらず強制的に別個のグループに分ける
-    const [groups, isolatedGroups] = arrayGroupBy(_groups, (group) => {
-      return group.isolate ? 1 : 0;
-    }, 2);
-
-    while (groups.length) {
-      let newGroup = groups.pop();
-      let count = newGroup.length;
-      if (groups.length) {
-        for (let i = groups.length - 1; i >= 0; i -= 1) {
-          const group = groups[i];
-          const len = group.length;
-          if (count + len <= capacity) {
-            newGroup = newGroup.concat(group);
-            groups.splice(i, 1);
-            count += len;
-          }
-        }
-      }
-      newGroups.unshift(newGroup);
-    }
-
-    return isolatedGroups.concat(newGroups);
-  }
-
-  // ここで言うgroupはchromeのウィンドウ、itemはchromeのタブに相当する
-  //
-  // 分割手順は次のようになる
-  //  1. それぞれの要素にグループ名をつける(デフォルトではドメイン名)
-  //  2. グループ名でグループ分けしてグループの配列を作る
-  //     => [ [<グループ名1を持つ要素>, ...],
-  //          [<グループ名2を持つ要素>, ...],
-  //          ...]
-  //  3. グループの配列をグループの要素数が多い順にソートする
-  //  4. 要素の多いグループから順にcapacityを超えないように新しいグループの配列へと詰め込んでいく
-  //     要素の多いグループを詰め込めるか試す
-  //     capacityを超えるなら次に要素の少ないグループが詰め込めるか試す
-  // rules:
-  //   グループ名の生成ルール
-  //   グループは正規表現による一致か、グループ名(文字列)のリストを指定できる
-  //   例
-  //   [ /\bdoc/, /game/, /^chrome|extensions/, ['http://docs.angularjs.org/', 'backbonejs.org'] ]
-  divide(input, size) {
+  divide() {
     if (!this._canDivide()) {
       throw new Error('cannot divide');
     }
 
-    const groups = this.groupByName(input).sort((a, b) => b.length - a.length);
-    return this.pack(groups, size)
-      .map((div) => flatten(div).sort((a, b) => a.url > b.url));
+    return _(this.items)
+      .map(({ id, url }) => ({ id, url, groupId: this.getGroupId(url) }))
+      .groupBy('groupId')
+      .values()
+      .map((group) => group.slice(0).sort((a, b) => a.url > b.url))
+      .map((item) => _.chunk(item, this.capacity))
+      .flatten()
+      .value();
   }
 
   _canDivide() {
-    return Boolean(this.rulesById);
+    return Boolean(this.rules);
   }
+}
+
+export default ({ rulesById, items, capacity }) => {
+  const divider = new Divider(_.values(rulesById), items, capacity);
+  return divider.divide();
 }

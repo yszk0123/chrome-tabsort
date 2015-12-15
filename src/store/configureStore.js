@@ -11,6 +11,8 @@ if (process.env.NODE_ENV !== 'production') {
   }));
 }
 
-export default compose(
-  applyMiddleware(...middleware)
-)(createStore)(reducer, {});
+export default () => {
+  return compose(
+    applyMiddleware(...middleware)
+  )(createStore)(reducer, {});
+};

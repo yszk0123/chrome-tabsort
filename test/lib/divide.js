@@ -1,6 +1,6 @@
 import assert from 'power-assert';
 
-import divide from '../../src/utils/Divider';
+import divide from '../../src/utils/divide';
 
 describe('divide', () => {
   const getIds = (division) => {

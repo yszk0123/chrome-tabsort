@@ -4,7 +4,7 @@ import { validateId } from '../utils/Utils';
 import * as optionsActions from '../actions/Options';
 import store from '../store';
 import OptionsConfig from '../constants/Options';
-import Divider from '../utils/Divider';
+import divide from '../utils/divide';
 import { getTabsNeedToBeSorted } from '../utils/BackgroundUtils';
 import {
   createWindow,
@@ -45,12 +45,15 @@ const getObjectValues = (object) => {
   return Object.keys(object).map((key) => object[key]);
 };
 
-const divide = (list, tabsPerWindow, oneWindow = false) => {
+const divideIntoWindows = (list, tabsPerWindow, oneWindow = false) => {
   let groups = null;
 
   try {
-    const divider = new Divider(getObjectValues(state.rules.itemsById));
-    groups = divider.divide(list, tabsPerWindow);
+    groups = divide({
+      rulesById: state.rules.itemsById,
+      items: list,
+      capacity: tabsPerWindow
+    });
   }
   catch (err) {
     // TODO: Better error handling
@@ -58,6 +61,7 @@ const divide = (list, tabsPerWindow, oneWindow = false) => {
     console.log(err);
     return Promise.reject(err);
   }
+
   if (oneWindow && groups.length === 1) {
     return Promise.resolve();
   }
@@ -180,7 +184,7 @@ registerTabsCreated(() => {
       return;
     }
 
-    divide(tabs, tabsPerWindow, true);
+    divideIntoWindows(tabs, tabsPerWindow, true);
   });
 
   debouncedSetBadge();
@@ -213,6 +217,6 @@ registerTabsUpdated((newTabId, { status }, { url: newTabUrl }) => {
 // ブラウザ右上のボタンクリックで全ウィンドウのタブをソート
 registerBrowserActionClicked(() => {
   getAllWindows({ populate: true }).then((windows) => {
-    divide(getTabsNeedToBeSorted(windows), state.tabs.tabsPerWindow);
+    divideIntoWindows(getTabsNeedToBeSorted(windows), state.tabs.tabsPerWindow);
   });
 });

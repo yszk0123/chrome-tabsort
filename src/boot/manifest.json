@@ -1,15 +1,14 @@
 {
   "manifest_version": 2,
   "name": "TabSort",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "タブのソートとか",
   "permissions": [
     "tabs",
     "storage",
     "http://*/*",
     "https://*/*",
-    "chrome://favicon/*",
-    "<all_urls>"
+    "chrome://favicon/*"
   ],
   "background": {
     "scripts": [

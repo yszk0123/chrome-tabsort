@@ -60,9 +60,9 @@ export class Options extends Component {
         <h1>Options Page</h1>
         <RuleList
           {...rules}
-          onModifyRegExpAt={rulesActions.modifyRegExpAt}
+          onModifyRegExpById={rulesActions.modifyRegExpById}
           onAdd={rulesActions.add}
-          onRemoveAt={rulesActions.removeAt}
+          onRemoveById={rulesActions.removeById}
           onMoveToGroupById={rulesActions.moveToGroupById}
         />
         <TabOptions

@@ -31,7 +31,7 @@ export const moveToGroupById = (ruleId, groupId) => {
   };
 };
 
-export const modifyRegExpAt = (id, text) => {
+export const modifyRegExpById = (id, text) => {
   return {
     type: RULES_MODIFY_REGEXP_BY_ID,
     id,
@@ -39,14 +39,14 @@ export const modifyRegExpAt = (id, text) => {
   };
 };
 
-export const toggleDisableAt = (id) => {
+export const toggleDisableById = (id) => {
   return {
     type: RULES_TOGGLE_DISABLE_BY_ID,
     id
   };
 };
 
-export const toggleIsolateAt = (id) => {
+export const toggleIsolateById = (id) => {
   return {
     type: RULES_TOGGLE_ISOLATE_BY_ID,
     id
@@ -60,7 +60,7 @@ export const add = (value) => {
   };
 };
 
-export const removeAt = (id) => {
+export const removeById = (id) => {
   return {
     type: RULES_REMOVE_BY_ID,
     id

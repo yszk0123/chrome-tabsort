@@ -41,8 +41,8 @@ class RuleGroup extends Component {
       id: groupId,
       items,
       onAdd,
-      onModifyRegExpAt,
-      onRemoveAt
+      onModifyRegExpById,
+      onRemoveById
     } = this.props;
 
     return connectDropTarget(
@@ -56,8 +56,8 @@ class RuleGroup extends Component {
               <Rule
                 key={id}
                 {...item}
-                onModifyRegExpAt={(text) => onModifyRegExpAt(id, text)}
-                onRemoveAt={() => onRemoveAt(id)}
+                onModifyRegExpById={(text) => onModifyRegExpById(id, text)}
+                onRemoveById={() => onRemoveById(id)}
               />
             );
           })}
@@ -75,8 +75,8 @@ RuleGroup.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
 
   onAdd: PropTypes.func.isRequired,
-  onModifyRegExpAt: PropTypes.func.isRequired,
-  onRemoveAt: PropTypes.func.isRequired,
+  onModifyRegExpById: PropTypes.func.isRequired,
+  onRemoveById: PropTypes.func.isRequired,
   onMoveToGroupById: PropTypes.func.isRequired
 };
 

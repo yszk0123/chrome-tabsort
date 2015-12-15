@@ -28,8 +28,8 @@ class Rule extends Component {
       valid,
       disable,
       isolate,
-      onModifyRegExpAt,
-      onRemoveAt
+      onModifyRegExpById,
+      onRemoveById
     } = this.props;
 
     return connectDragSource(
@@ -39,9 +39,9 @@ class Rule extends Component {
           className={valid ? 'valid' : 'invalid'}
           value={matchingText}
           placeholder="google.com"
-          onChange={(event) => onModifyRegExpAt(event.target.value)}
+          onChange={(event) => onModifyRegExpById(event.target.value)}
         />
-        <input type="button" className="RemoveRuleByIdButton" value="×" onClick={onRemoveAt} />
+        <input type="button" className="RemoveRuleByIdButton" value="×" onClick={onRemoveById} />
       </div>
     );
   }
@@ -56,8 +56,8 @@ Rule.propTypes = {
   disable: PropTypes.bool.isRequired,
   isolate: PropTypes.bool.isRequired,
 
-  onModifyRegExpAt: PropTypes.func.isRequired,
-  onRemoveAt: PropTypes.func.isRequired
+  onModifyRegExpById: PropTypes.func.isRequired,
+  onRemoveById: PropTypes.func.isRequired
 };
 
 export default DragSource(ItemTypes.RULE, ruleItemSource, collect)(Rule);

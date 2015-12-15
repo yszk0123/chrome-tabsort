@@ -28,11 +28,11 @@ describe('rules', () => {
     assert.deepEqual(result, { itemIds: [], itemsById: {} });
   });
 
-  context('when modifyRegExpAt is called', () => {
+  context('when modifyRegExpById is called', () => {
     it('modifies matchingText', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[0];
-      const action = RulesActions.modifyRegExpAt(id, 'bar');
+      const action = RulesActions.modifyRegExpById(id, 'bar');
 
       const nextState = rulesReducer(initialState, action);
       assert(nextState.itemsById[id].matchingText === 'bar');
@@ -41,18 +41,18 @@ describe('rules', () => {
     specify('validation fails when the input is invalid', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[0];
-      const action = RulesActions.modifyRegExpAt(id, '\\');
+      const action = RulesActions.modifyRegExpById(id, '\\');
 
       const nextState = rulesReducer(initialState, action);
       assert(nextState.itemsById[id].valid === false);
     });
   });
 
-  context('when toggleDisableAt is called', () => {
+  context('when toggleDisableById is called', () => {
     it('toggles disable', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[0];
-      const action = RulesActions.toggleDisableAt(id);
+      const action = RulesActions.toggleDisableById(id);
 
       const first = rulesReducer(initialState, action);
       assert(first.itemsById[id].disable === true);
@@ -62,11 +62,11 @@ describe('rules', () => {
     });
   });
 
-  context('when toggleIsolateAt is called', () => {
+  context('when toggleIsolateById is called', () => {
     it('toggles isolate', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[0];
-      const action = RulesActions.toggleIsolateAt(id);
+      const action = RulesActions.toggleIsolateById(id);
 
       const first = rulesReducer(initialState, action);
       assert(first.itemsById[id].isolate === true);
@@ -89,11 +89,11 @@ describe('rules', () => {
     });
   });
 
-  context('when removeAt is called', () => {
+  context('when removeById is called', () => {
     it('remove the specified item from items', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[1];
-      const action = RulesActions.removeAt(id);
+      const action = RulesActions.removeById(id);
 
       const nextState = rulesReducer(initialState, action);
       assert(nextState.itemIds.length === initialState.itemIds.length - 1);

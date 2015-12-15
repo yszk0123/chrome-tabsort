@@ -11,11 +11,11 @@ import {
   onTabsCreated,
   onTabsRemoved,
   onTabsUpdated
-} from '../handlers/Background';
+} from '../actions/Background';
 
 // Event handlers
+registerBrowserActionClicked(onBrowserActionClicked);
 registerMessageReceived(onMessageReceived);
 registerTabsCreated(onTabsCreated);
-registerTabsUpdated(onTabsUpdated);
-registerBrowserActionClicked(onBrowserActionClicked);
 registerTabsRemoved(onTabsRemoved);
+registerTabsUpdated(onTabsUpdated);

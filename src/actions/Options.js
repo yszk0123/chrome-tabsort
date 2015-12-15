@@ -44,16 +44,8 @@ export const save = () => (dispatch, getState) => {
 
   Storage.set(OptionsConfig.storageKey, state)
     .then(() => {
-      const message = {
-        type: CHROME_OPTIONS_UPDATE_STATE,
-        state
-      };
-
-      chrome.runtime.sendMessage(message);
-
-      setTimeout(() => {
-        dispatch({ type: OPTIONS_SAVE_SUCCESS });
-      }, OptionsConfig.timeout);
+      chrome.runtime.sendMessage({ type: CHROME_OPTIONS_UPDATE_STATE, state });
+      dispatch({ type: OPTIONS_SAVE_SUCCESS });
     })
     .catch((error) => {
       dispatch({ type: OPTIONS_SAVE_FAILURE, error });

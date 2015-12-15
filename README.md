@@ -22,12 +22,12 @@ Screenshot
 
 Build with development settings
 
-`$ npm build`
+`$ npm run build`
 
 Build with development settings (watch)
 
-`$ npm watch`
+`$ npm run watch`
 
 Build with production settings
 
-`$ npm release`
+`$ npm run release`

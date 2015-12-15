@@ -1,21 +1,10 @@
 /* global chrome */
 import zlib from 'zlib';
 
-import { promisifyChromeExtensionsAPI } from '../ChromeAPIWrapper';
+import { promisifyChromeExtensionsAPI } from '../ChromeUtils';
+import { promisify } from '../Utils';
 
 const ENCODING = 'base64';
-
-const promisify = (api) => (...args) => {
-  return new Promise((resolve, reject) => {
-    api(...args, (error, result) => {
-      if (error) {
-        return reject(error);
-      }
-
-      resolve(result);
-    });
-  });
-};
 
 const deflateAsync = promisify(zlib.deflate);
 

@@ -40,3 +40,15 @@ export const reverse = (array) => {
 
   return result;
 };
+
+export const promisify = (api) => (...args) => {
+  return new Promise((resolve, reject) => {
+    api(...args, (error, result) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve(result);
+    });
+  });
+};

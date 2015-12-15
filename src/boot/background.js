@@ -8,7 +8,7 @@ import {
 } from '../utils/ChromeExtensionsAPIWrapper';
 import * as BackgroundActions from '../actions/Background';
 import * as OptionsActions from '../actions/Options';
-import { CHROME_OPTIONS_UPDATE_STATE } from '../constants/Actions';
+import { CHROME_OPTIONS_UPDATE_STATE } from '../constants/ActionTypes';
 
 const store = configureStore();
 

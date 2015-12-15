@@ -11,7 +11,7 @@ import {
   RULES_TOGGLE_ISOLATE_BY_ID,
   RULES_ADD,
   RULES_REMOVE_BY_ID
-} from '../constants/Actions';
+} from '../constants/ActionTypes';
 
 const initialState = {
   itemIds: [],

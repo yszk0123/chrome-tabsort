@@ -7,7 +7,7 @@ import {
   RULES_MOVE_TO_GROUP_BY_ID,
   RULES_ADD,
   RULES_REMOVE_BY_ID
-} from '../constants/Actions';
+} from '../constants/ActionTypes';
 
 export const moveToPrevious = (index) => {
   return {

@@ -3,7 +3,7 @@ import {
   OPTIONS_SAVE_SUCCESS,
   OPTIONS_SERIALIZE,
   OPTIONS_UPDATE_SERIALIZED_STATE
-} from '../constants/Actions';
+} from '../constants/ActionTypes';
 
 const initialState = {
   saving: false

@@ -5,7 +5,7 @@ import rules from '../reducers/rules';
 import tabs from '../reducers/tabs';
 import {
   OPTIONS_UPDATE_STATE
-} from '../constants/Actions';
+} from '../constants/ActionTypes';
 
 const reducer = combineReducers({
   options,

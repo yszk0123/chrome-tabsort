@@ -1,7 +1,7 @@
 import {
   TABS_UPDATE_TABS_PER_WINDOW_BY,
   TABS_UPDATE_TABS_PER_WINDOW
-} from '../constants/Actions';
+} from '../constants/ActionTypes';
 import OptionsConfig from '../constants/Options';
 
 const initialState = {

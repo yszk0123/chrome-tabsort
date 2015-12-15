@@ -14,7 +14,7 @@ import {
   OPTIONS_SERIALIZE,
   OPTIONS_DESERIALIZE_FAILURE,
   OPTIONS_UPDATE_SERIALIZED_STATE
-} from '../constants/Actions';
+} from '../constants/ActionTypes';
 import OptionsConfig from '../constants/Options';
 import * as StorageUtils from '../utils/StorageUtils';
 

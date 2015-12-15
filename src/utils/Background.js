@@ -2,7 +2,7 @@ import { debounce } from 'lodash';
 
 import { validateId } from '../utils/Utils';
 import * as optionsActions from '../actions/Options';
-import store from '../store';
+import configureStore from '../store/configureStore';
 import OptionsConfig from '../constants/Options';
 import divide from '../utils/divide';
 import { getTabsNeedToBeSorted } from '../utils/BackgroundUtils';
@@ -26,6 +26,7 @@ import {
   CHROME_OPTIONS_UPDATE_STATE
 } from '../constants/Actions';
 
+const store = configureStore();
 let state = store.getState();
 store.subscribe(() => state = store.getState());
 store.dispatch(optionsActions.load());

@@ -5,7 +5,7 @@ import {
   registerTabsCreated,
   registerTabsRemoved,
   registerTabsUpdated
-} from '../utils/ChromeAPIWrapper';
+} from '../utils/ChromeExtensionsAPIWrapper';
 import * as BackgroundActions from '../actions/Background';
 import * as optionsActions from '../actions/Options';
 import { CHROME_OPTIONS_UPDATE_STATE } from '../constants/Actions';

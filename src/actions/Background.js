@@ -7,7 +7,7 @@ import {
   getAllWindows,
   getCurrentWindow,
   moveTabs
-} from '../utils/ChromeAPIWrapper';
+} from '../utils/ChromeExtensionsAPIWrapper';
 
 // ウィンドウ内のタブをソート
 // 現状では、タブが新規作成された場合のみで

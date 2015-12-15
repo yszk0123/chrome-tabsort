@@ -1,5 +1,5 @@
 /* global chrome */
-import { promisifyChromeExtensionsAPI } from '../utils/ChromeUtils';
+import { promisifyChromeExtensionsAPI } from '../utils/ChromeExtensionsUtils';
 
 export const createWindow = promisifyChromeExtensionsAPI(chrome.windows.create);
 export const getAllWindows = promisifyChromeExtensionsAPI(chrome.windows.getAll);

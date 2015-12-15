@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import rulesReducer from '../../src/reducers/rules';
 import * as RulesActions from '../../src/actions/Rules';
-import { createRule } from '../../src/utils/Rule';
+import { createRule } from '../../src/utils/RuleUtils';
 import generateUniqueId from '../../src/utils/generateUniqueId';
 
 describe('rules', () => {

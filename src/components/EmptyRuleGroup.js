@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
 
 import * as ItemTypes from '../constants/ItemTypes';
-import { createRule } from '../utils/Rule';
+import { createRule } from '../utils/RuleUtils';
 import generateUniqueId from '../utils/generateUniqueId';
 
 const ruleTarget = {

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { validateId } from '../utils/Utils';
+import { validateId } from '../utils/CommonUtils';
 import divide from '../utils/divide';
 import {
   createWindow,
@@ -12,7 +12,7 @@ import {
   setBadgeBackgroundColor,
   setBadgeText,
   updateWindow
-} from '../utils/ChromeAPIWrapper';
+} from '../utils/ChromeExtensionsAPIWrapper';
 import OptionsConfig from '../constants/Options';
 
 const moveTabsToNewWindowById = (tabIds) => {

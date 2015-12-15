@@ -27,6 +27,7 @@ body {
   margin: 1em;
   padding: 1.5em;
   box-shadow: 1px 1px 5px rgba(24, 24, 24, 0.5);
+  background: linear-gradient(#fff, #fff, #fff, #f6f6f6);
 }
 
 .RuleGroupLabel {
@@ -35,6 +36,7 @@ body {
   margin-top: -1em;
   font-size: 130%;
   font-weight: bold;
+  color: #aaa;
 }
 
 .Rule {

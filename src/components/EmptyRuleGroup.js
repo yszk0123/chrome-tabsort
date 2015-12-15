@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
 
-import Rule from '../components/Rule';
 import * as ItemTypes from '../constants/ItemTypes';
 import { createRule } from '../utils/Rule';
 import generateUniqueId from '../utils/generateUniqueId';
@@ -38,7 +37,7 @@ class EmptyRuleGroup extends Component {
   render() {
     const {
       connectDropTarget,
-      onAdd,
+      onAdd
     } = this.props;
 
     return connectDropTarget(

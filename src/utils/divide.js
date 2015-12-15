@@ -1,8 +1,5 @@
 import _ from 'lodash';
 
-import { arrayGroupBy } from '../utils/Utils';
-
-const DOMAIN_RE = /^[^:]+:\/+([^\/]+)/;
 const DEFAULT_GROUP = 'DEFAULT';
 
 class Divider {
@@ -56,4 +53,4 @@ class Divider {
 export default ({ rulesById, items, capacity }) => {
   const divider = new Divider(_.values(rulesById), items, capacity);
   return divider.divide();
-}
+};

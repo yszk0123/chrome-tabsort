@@ -26,8 +26,6 @@ class Rule extends Component {
       isDragging,
       matchingText,
       valid,
-      disable,
-      isolate,
       onModifyRegExpById,
       onRemoveById
     } = this.props;
@@ -53,8 +51,6 @@ Rule.propTypes = {
 
   matchingText: PropTypes.string.isRequired,
   valid: PropTypes.bool.isRequired,
-  disable: PropTypes.bool.isRequired,
-  isolate: PropTypes.bool.isRequired,
 
   onModifyRegExpById: PropTypes.func.isRequired,
   onRemoveById: PropTypes.func.isRequired

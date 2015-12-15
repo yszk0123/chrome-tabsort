@@ -14,7 +14,7 @@ describe('divide', () => {
       { id: 1, url: 'http://a.com' },
       { id: 2, url: 'http://b.com' },
       { id: 3, url: 'http://d.com' },
-      { id: 4, url: 'http://c.com' },
+      { id: 4, url: 'http://c.com' }
     ];
     const division = divide({ rulesById: {}, items, capacity: 10 });
     assert.deepEqual(getIds(division), [[1, 2, 4, 3]]);

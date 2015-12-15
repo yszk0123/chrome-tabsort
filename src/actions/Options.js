@@ -49,16 +49,11 @@ export const save = () => (dispatch, getState) => {
         state
       };
 
-      chrome.runtime.sendMessage(message, (response) => {
-        if (!response || response.error) {
-          dispatch({ type: OPTIONS_SAVE_FAILURE, error: response.error });
-          return;
-        }
+      chrome.runtime.sendMessage(message);
 
-        setTimeout(() => {
-          dispatch({ type: OPTIONS_SAVE_SUCCESS });
-        }, OptionsConfig.timeout);
-      });
+      setTimeout(() => {
+        dispatch({ type: OPTIONS_SAVE_SUCCESS });
+      }, OptionsConfig.timeout);
     })
     .catch((error) => {
       dispatch({ type: OPTIONS_SAVE_FAILURE, error });

@@ -1,77 +1,67 @@
-import * as optionsActions from '../actions/Options';
-import configureStore from '../store/configureStore';
 import {
   getTabsNeedToBeSorted,
   debouncedSetBadge,
-  divideIntoWindows
+  divideTabsIntoWindows
 } from '../utils/BackgroundUtils';
 import {
   getAllWindows,
   getCurrentWindow,
   moveTabs
 } from '../utils/ChromeAPIWrapper';
-import { CHROME_OPTIONS_UPDATE_STATE } from '../constants/Actions';
 
-const store = configureStore();
-let state = store.getState();
-store.subscribe(() => state = store.getState());
-store.dispatch(optionsActions.load());
-
-export const onMessageReceived = (request, sender, sendResponse) => {
-  if (request.type === CHROME_OPTIONS_UPDATE_STATE) {
-    store.dispatch(optionsActions.loadWithState(request.state));
-    sendResponse({ error: null });
-  }
-};
-
-// ------------------------------------------------------------------------------
-// 各種イベントハンドラ
-// ------------------------------------------------------------------------------
-
-// ウィンドウにタブが追加された時にウィンドウ内のタブをソート
-// 今は、タブが新規作成された場合のみで
+// ウィンドウ内のタブをソート
+// 現状では、タブが新規作成された場合のみで
 // 別ウィンドウから持ってきた時などは無視している
-export const onTabsCreated = () => {
-  getCurrentWindow({ populate: true }).then(({ tabs }) => {
-    const { tabsPerWindow } = state.tabs;
+export const executeDivideTabsInOneWindow = () => (dispatch, getState) => {
+  const {
+    tabs: { tabsPerWindow },
+    rules: { itemsById }
+  } = getState();
 
-    if (tabs.length <= tabsPerWindow) {
-      return;
-    }
+  return getCurrentWindow({ populate: true })
+    .then(({ tabs }) => {
+      if (tabs.length <= tabsPerWindow) {
+        return;
+      }
 
-    divideIntoWindows(tabs, tabsPerWindow, state.rules.itemsById, true);
-  });
-
-  debouncedSetBadge();
+      divideTabsIntoWindows(tabs, tabsPerWindow, itemsById, true);
+    });
 };
 
-// タブ更新時にソート
-export const onTabsUpdated = (newTabId, { status }, { url: newTabUrl }) => {
+export const sortTabsInWindow = (newTabId, status, newTabUrl) => (dispatch, getState) => {
   if (status !== 'complete' || newTabUrl === 'chrome://newtab/') {
     return;
   }
 
-  getCurrentWindow({ populate: true }).then((wnd) => {
-    wnd.tabs.some(({ id, url }, index) => {
-      if (newTabUrl > url) {
-        return false;
-      }
+  return getCurrentWindow({ populate: true })
+    .then((wnd) => {
+      wnd.tabs.some(({ id, url }, index) => {
+        if (newTabUrl > url) {
+          return false;
+        }
 
-      if (newTabId === id) {
+        if (newTabId === id) {
+          return true;
+        }
+
+        moveTabs(newTabId, { index });
         return true;
-      }
-
-      moveTabs(newTabId, { index });
-      return true;
+      });
     });
-  });
 };
 
-// ブラウザ右上のボタンクリックで全ウィンドウのタブをソート
-export const onBrowserActionClicked = () => {
-  getAllWindows({ populate: true }).then((windows) => {
-    divideIntoWindows(getTabsNeedToBeSorted(windows), state.tabs.tabsPerWindow, state.rules.itemsById);
-  });
+export const executeDivideTabsInAllWindows = () => (dispatch, getState) => {
+  const {
+    tabs: { tabsPerWindow },
+    rules: { itemsById }
+  } = getState();
+
+  return getAllWindows({ populate: true })
+    .then((windows) => {
+      divideTabsIntoWindows(getTabsNeedToBeSorted(windows), tabsPerWindow, itemsById);
+    });
 };
 
-export const onTabsRemoved = debouncedSetBadge;
+export const setBadge = () => (dispatch) => {
+  return debouncedSetBadge();
+};

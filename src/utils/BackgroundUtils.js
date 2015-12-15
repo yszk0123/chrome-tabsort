@@ -32,7 +32,7 @@ const moveTabsToNewWindowById = (tabIds) => {
     });
 };
 
-export const divideIntoWindows = (list, tabsPerWindow, rulesById, oneWindow = false) => {
+export const divideTabsIntoWindows = (list, tabsPerWindow, rulesById, oneWindow = false) => {
   let groups = null;
 
   try {

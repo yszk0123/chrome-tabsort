@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import _ from 'lodash';
 
 import { validateId } from '../utils/Utils';
 import * as optionsActions from '../actions/Options';
@@ -42,8 +42,21 @@ registerMessageReceived((request, sender, sendResponse) => {
 // 補助関数
 // ------------------------------------------------------------------------------
 
-const getObjectValues = (object) => {
-  return Object.keys(object).map((key) => object[key]);
+const moveTabsToNewWindowById = (tabIds) => {
+  if (!tabIds.length || !tabIds.every(validateId)) {
+    return Promise.resolve();
+  }
+
+  const [firstTabId, ...restTabIds] = tabIds;
+
+  return createWindow({ tabId: firstTabId })
+    .then(({ id: windowId }) => {
+      if (!restTabIds.length) {
+        return;
+      }
+
+      return moveTabs(tabIds, { windowId, index: -1 });
+    });
 };
 
 const divideIntoWindows = (list, tabsPerWindow, oneWindow = false) => {
@@ -72,24 +85,16 @@ const divideIntoWindows = (list, tabsPerWindow, oneWindow = false) => {
       if (!activeTabs.length) {
         return Promise.resolve();
       }
-      const { id: currentTabId } = activeTabs[0];
 
-      return Promise
-        .all(groups.map((tabGroup) => {
-          const tabIds = tabGroup.map(({ id }) => id);
-          if (!tabIds.length || !tabIds.every(validateId)) {
-            return Promise.resolve();
-          }
+      const currentTabId = activeTabs[0].id;
 
-          return createWindow({ tabId: tabIds.shift() })
-            .then(({ id: windowId }) => {
-              if (!tabIds.length) {
-                return Promise.resolve();
-              }
+      const promises = groups
+        .map((group) => {
+          const tabIds = group.map(({ id }) => id)
+          return moveTabsToNewWindowById(tabIds);
+        });
 
-              return moveTabs(tabIds, { windowId, index: -1 });
-            });
-        }))
+      return Promise.all(promises)
         .then(() => getTab(currentTabId))
         .then(({ windowId }) => {
           return updateWindow(windowId, { focused: true });
@@ -168,7 +173,7 @@ const setBadge = () => {
   });
 };
 
-const debouncedSetBadge = debounce(setBadge, OptionsConfig.setBadgeDebounce);
+const debouncedSetBadge = _.debounce(setBadge, OptionsConfig.setBadgeDebounce);
 
 // ------------------------------------------------------------------------------
 // 各種イベントハンドラ

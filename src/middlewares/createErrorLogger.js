@@ -7,7 +7,7 @@ export default (options = {}) => {
     // catch 後の Promise を返すと
     // テストなどで reject された Promise を受け取れなくなる
     if (returnedValue && returnedValue.catch) {
-      returnedValue.catch((error) => console.error(error));
+      returnedValue.catch((error) => console.error(error)); // eslint-disable-line no-console
     }
 
     return returnedValue;

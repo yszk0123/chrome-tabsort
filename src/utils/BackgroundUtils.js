@@ -117,7 +117,7 @@ const setBadge = () => {
       );
       setBadgeText({ text: String(count) });
       setBadgeBackgroundColor({ color });
-    })
+    });
 };
 
 export const debouncedSetBadge = _.debounce(setBadge, OptionsConfig.setBadgeDebounce);

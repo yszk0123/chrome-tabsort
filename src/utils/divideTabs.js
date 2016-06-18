@@ -44,6 +44,28 @@ class TabsDivider {
       .map((group) => group.slice(0).sort((a, b) => a.url > b.url))
       .map((group) => _.chunk(group, this.capacity))
       .flatten()
+      .map((group) => {
+        const histgram = group.reduce((acc, tab) => {
+          acc[tab.windowId] = (acc[tab.windowId] || 0) + 1;
+          return acc;
+        }, {});
+        let maxCount = 0;
+        let maxWindowId = group[0].windowId;
+        _.forEach(histgram, (count, windowId) => {
+          if (count > maxCount) {
+            maxCount = count;
+            maxWindowId = windowId;
+          }
+        });
+        const wnd = this.windowsById[maxWindowId];
+        return {
+          left: wnd.left,
+          top: wnd.top,
+          width: wnd.width,
+          height: wnd.height,
+          tabs: group
+        };
+      })
       .value();
   }
 

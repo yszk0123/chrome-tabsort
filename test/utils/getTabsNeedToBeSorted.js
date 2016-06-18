@@ -18,13 +18,13 @@ describe('getTabsNeedToBeSorted()', () => {
 
   it('returns only id and url', () => {
     const windows = [
-      { type: 'normal', tabs: [{ id: 1, url: 'http://a.com/1' }] },
-      { type: 'normal', tabs: [{ id: 2, url: 'http://b.com/2', foo: 3 }] }
+      { type: 'normal', tabs: [{ id: 1, windowId: 1, url: 'http://a.com/1' }] },
+      { type: 'normal', tabs: [{ id: 2, windowId: 1, url: 'http://b.com/2', foo: 3 }] }
     ];
 
     assert.deepEqual(getTabsNeedToBeSorted(windows), [
-      { id: 1, url: 'http://a.com/1' },
-      { id: 2, url: 'http://b.com/2' }
+      { id: 1, url: 'http://a.com/1', windowId: 1 },
+      { id: 2, url: 'http://b.com/2', windowId: 1 }
     ]);
   });
 });

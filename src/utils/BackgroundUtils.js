@@ -15,14 +15,20 @@ import {
 } from '../utils/ChromeExtensionsAPIWrapper';
 import OptionsConfig from '../constants/Options';
 
-const moveTabsToNewWindowById = (tabIds) => {
+const moveTabsToNewWindowById = (tabIds, windowRect) => {
   if (!tabIds.length || !tabIds.every(validateId)) {
     return Promise.resolve();
   }
 
   const [firstTabId, ...restTabIds] = tabIds;
 
-  return createWindow({ tabId: firstTabId })
+  return createWindow({
+    tabId: firstTabId,
+    left: windowRect.left,
+    top: windowRect.top,
+    width: windowRect.width,
+    height: windowRect.height
+  })
     .then(({ id: windowId }) => {
       if (!restTabIds.length) {
         return;
@@ -33,10 +39,10 @@ const moveTabsToNewWindowById = (tabIds) => {
 };
 
 export const divideIntoWindows = (windows, tabsPerWindow, rulesById, oneWindow = false) => {
-  let groups = null;
+  let dividedWindows = null;
 
   try {
-    groups = divideTabs({
+    dividedWindows = divideTabs({
       rulesById,
       windows,
       capacity: tabsPerWindow
@@ -46,7 +52,7 @@ export const divideIntoWindows = (windows, tabsPerWindow, rulesById, oneWindow =
     return Promise.reject(error);
   }
 
-  if (oneWindow && groups.length === 1) {
+  if (oneWindow && dividedWindows.length === 1) {
     return Promise.resolve();
   }
 
@@ -58,10 +64,10 @@ export const divideIntoWindows = (windows, tabsPerWindow, rulesById, oneWindow =
 
       const currentTabId = activeTabs[0].id;
 
-      const promises = groups
-        .map((group) => {
-          const tabIds = group.map(({ id }) => id);
-          return moveTabsToNewWindowById(tabIds);
+      const promises = dividedWindows
+        .map((wnd) => {
+          const tabIds = wnd.tabs.map((tab) => tab.id);
+          return moveTabsToNewWindowById(tabIds, wnd);
         });
 
       return Promise.all(promises)

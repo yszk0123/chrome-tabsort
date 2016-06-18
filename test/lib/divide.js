@@ -3,9 +3,9 @@ import assert from 'power-assert';
 import divideTabs from '../../src/utils/divideTabs';
 
 describe('divideTabs', () => {
-  const getIds = (division) => {
-    return division
-      .map((array) => array.map((element) => element.id))
+  const getIds = (windows) => {
+    return windows
+      .map((wnd) => wnd.tabs.map((tab) => tab.id))
       .sort((a, b) => a[0] - b[0]);
   };
 
@@ -19,8 +19,8 @@ describe('divideTabs', () => {
     const windows = [
       { tabs, id: 1, type: 'normal' }
     ];
-    const division = divideTabs({ rulesById: {}, windows, capacity: 10 });
-    assert.deepEqual(getIds(division), [[1, 2, 4, 3]]);
+    const dividedWindows = divideTabs({ rulesById: {}, windows, capacity: 10 });
+    assert.deepEqual(getIds(dividedWindows), [[1, 2, 4, 3]]);
   });
 
   context('without rules', () => {
@@ -34,8 +34,8 @@ describe('divideTabs', () => {
       const windows = [
         { tabs, id: 1, type: 'normal' }
       ];
-      const division = divideTabs({ rulesById: {}, windows, capacity: 3 });
-      assert.deepEqual(getIds(division), [[1, 2, 3], [4]]);
+      const dividedWindows = divideTabs({ rulesById: {}, windows, capacity: 3 });
+      assert.deepEqual(getIds(dividedWindows), [[1, 2, 3], [4]]);
     });
 
     it('too much tabs per window', () => {
@@ -48,8 +48,8 @@ describe('divideTabs', () => {
       const windows = [
         { tabs, id: 1, type: 'normal' }
       ];
-      const division = divideTabs({ rulesById: {}, windows, capacity: 2 });
-      assert.deepEqual(getIds(division), [[1, 2], [3, 4]]);
+      const dividedWindows = divideTabs({ rulesById: {}, windows, capacity: 2 });
+      assert.deepEqual(getIds(dividedWindows), [[1, 2], [3, 4]]);
     });
   });
 
@@ -67,8 +67,8 @@ describe('divideTabs', () => {
       const rulesById = {
         1: { groupId: 10, matchingText: '.com' }
       };
-      const division = divideTabs({ rulesById, windows, capacity: 3 });
-      assert.deepEqual(getIds(division), [[1, 2], [3, 4]]);
+      const dividedWindows = divideTabs({ rulesById, windows, capacity: 3 });
+      assert.deepEqual(getIds(dividedWindows), [[1, 2], [3, 4]]);
     });
 
     it('too much tabs per window', () => {
@@ -86,8 +86,8 @@ describe('divideTabs', () => {
         1: { groupId: 10, isolate: true, matchingText: '.com' },
         2: { groupId: 11, isolate: true, matchingText: 'doc' }
       };
-      const division = divideTabs({ rulesById, windows, capacity: 3 });
-      assert.deepEqual(getIds(division), [[1, 3], [2, 4], [5]]);
+      const dividedWindows = divideTabs({ rulesById, windows, capacity: 3 });
+      assert.deepEqual(getIds(dividedWindows), [[1, 3], [2, 4], [5]]);
     });
 
     it('with groupId', () => {
@@ -106,8 +106,8 @@ describe('divideTabs', () => {
         2: { groupId: 10, isolate: true, matchingText: '.org' },
         3: { groupId: 11, isolate: true, matchingText: '.jp' }
       };
-      const division = divideTabs({ rulesById, windows, capacity: 3 });
-      assert.deepEqual(getIds(division), [[1, 2, 5], [3, 4]]);
+      const dividedWindows = divideTabs({ rulesById, windows, capacity: 3 });
+      assert.deepEqual(getIds(dividedWindows), [[1, 2, 5], [3, 4]]);
     });
   });
 });

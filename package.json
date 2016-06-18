@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "tab-sort",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "author": "Yuji Suzuki",
   "description": "Chrome extension to automatically split tabs into windows",
   "license": "MIT",

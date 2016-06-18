@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { condition, validateId } from '../utils/CommonUtils';
-import divide from '../utils/divide';
+import divideTabs from '../utils/divideTabs';
 import {
   createWindow,
   getAllWindows,
@@ -36,9 +36,9 @@ export const divideTabsIntoWindows = (list, tabsPerWindow, rulesById, oneWindow 
   let groups = null;
 
   try {
-    groups = divide({
+    groups = divideTabs({
       rulesById,
-      items: list,
+      tabs: list,
       capacity: tabsPerWindow
     });
   }

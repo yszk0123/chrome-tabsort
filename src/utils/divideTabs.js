@@ -2,11 +2,11 @@ import _ from 'lodash';
 
 const DEFAULT_GROUP = 'DEFAULT';
 
-class Divider {
-  constructor(rules, items, capacity) {
+class TabsDivider {
+  constructor(rules, tabs, capacity) {
     this.rules = rules
       .filter((rule) => !rule.disable);
-    this.items = items;
+    this.tabs = tabs;
     this.capacity = capacity;
   }
 
@@ -35,7 +35,7 @@ class Divider {
       throw new Error('cannot divide');
     }
 
-    return _(this.items)
+    return _(this.tabs)
       .map(({ id, url }) => ({ id, url, groupId: this.getGroupId(url) }))
       .groupBy('groupId')
       .values()
@@ -50,7 +50,6 @@ class Divider {
   }
 }
 
-export default ({ rulesById, items, capacity }) => {
-  const divider = new Divider(_.values(rulesById), items, capacity);
-  return divider.divide();
+export default ({ rulesById, tabs, capacity }) => {
+  return new TabsDivider(_.values(rulesById), tabs, capacity).divide();
 };

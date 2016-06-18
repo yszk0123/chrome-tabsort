@@ -32,13 +32,13 @@ const moveTabsToNewWindowById = (tabIds) => {
     });
 };
 
-export const divideTabsIntoWindows = (list, tabsPerWindow, rulesById, oneWindow = false) => {
+export const divideIntoWindows = (windows, tabsPerWindow, rulesById, oneWindow = false) => {
   let groups = null;
 
   try {
     groups = divideTabs({
       rulesById,
-      tabs: list,
+      windows,
       capacity: tabsPerWindow
     });
   }
@@ -121,11 +121,3 @@ const setBadge = () => {
 };
 
 export const debouncedSetBadge = _.debounce(setBadge, OptionsConfig.setBadgeDebounce);
-
-export const getTabsNeedToBeSorted = (windows) => {
-  return windows
-    .filter((wnd) => wnd.type === 'normal')
-    .reduce((list, wnd) => {
-      return list.concat(wnd.tabs.map(({ id, url }) => ({ id, url })));
-    }, []);
-};

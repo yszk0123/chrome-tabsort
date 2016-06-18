@@ -1,7 +1,6 @@
 import {
-  getTabsNeedToBeSorted,
   debouncedSetBadge,
-  divideTabsIntoWindows
+  divideIntoWindows
 } from '../utils/BackgroundUtils';
 import {
   getAllWindows,
@@ -19,12 +18,12 @@ export const executeDivideTabsInOneWindow = () => (dispatch, getState) => {
   } = getState();
 
   return getCurrentWindow({ populate: true })
-    .then(({ tabs }) => {
-      if (tabs.length <= tabsPerWindow) {
+    .then((wnd) => {
+      if (wnd.tabs.length <= tabsPerWindow) {
         return;
       }
 
-      divideTabsIntoWindows(tabs, tabsPerWindow, itemsById, true);
+      divideIntoWindows([wnd], tabsPerWindow, itemsById, true);
     });
 };
 
@@ -58,7 +57,7 @@ export const executeDivideTabsInAllWindows = () => (dispatch, getState) => {
 
   return getAllWindows({ populate: true })
     .then((windows) => {
-      divideTabsIntoWindows(getTabsNeedToBeSorted(windows), tabsPerWindow, itemsById);
+      divideIntoWindows(windows, tabsPerWindow, itemsById);
     });
 };
 

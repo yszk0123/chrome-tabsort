@@ -13,8 +13,8 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js test/**/*.js",
-    "test-bail": "mocha --compilers js:espower-babel/guess --require espower-babel --require ./test/setup.js test/**/*.js --bail",
+    "test": "mocha --compilers js:espower-babel/guess --reporter dot --require espower-babel --require ./test/setup.js test/**/*.js",
+    "test-bail": "mocha --compilers js:espower-babel/guess --reporter dot --require espower-babel --require ./test/setup.js test/**/*.js --bail",
     "lint": "eslint src/ test/",
     "build-assets": "mkdir -p dist/images/ && cp src/boot/*.{html,json} dist/ && cp src/images/*.png dist/images/",
     "build": "rimraf dist/ && npm run build-assets && webpack --config configs/webpack.development.js",

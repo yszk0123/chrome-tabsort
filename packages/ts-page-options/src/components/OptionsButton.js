@@ -16,5 +16,5 @@ OptionsButtons.propTypes = {
   onLoad: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onImport: PropTypes.func.isRequired,
-  onExport: PropTypes.func.isRequired
+  onExport: PropTypes.func.isRequired,
 };

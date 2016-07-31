@@ -10,7 +10,7 @@ import {
   queryAgainstTabs,
   setBadgeBackgroundColor,
   setBadgeText,
-  updateWindow
+  updateWindow,
 } from '../utils/ChromeExtensionsAPIWrapper';
 
 const SET_BADGE_DEBOUNCE = 200;
@@ -27,7 +27,7 @@ const moveTabsToNewWindowById = (tabIds, windowRect) => {
     left: windowRect.left,
     top: windowRect.top,
     width: windowRect.width,
-    height: windowRect.height
+    height: windowRect.height,
   })
     .then(({ id: windowId }) => {
       if (!restTabIds.length) {
@@ -45,7 +45,7 @@ export const divideIntoWindows = (windows, tabsPerWindow, rulesById, oneWindow =
     dividedWindows = divideTabs({
       rulesById,
       windows,
-      capacity: tabsPerWindow
+      capacity: tabsPerWindow,
     });
   }
   catch (error) {

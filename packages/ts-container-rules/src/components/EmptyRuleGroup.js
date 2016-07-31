@@ -20,15 +20,15 @@ const ruleTarget = {
     props.onMoveToGroupById(id, generateUniqueId());
 
     return {
-      moved: true
+      moved: true,
     };
-  }
+  },
 };
 
 const collect = (connect, monitor) => {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOverCurrent: monitor.isOver({ shallow: true })
+    isOverCurrent: monitor.isOver({ shallow: true }),
   };
 };
 
@@ -36,7 +36,7 @@ class EmptyRuleGroup extends Component {
   render() {
     const {
       connectDropTarget,
-      onAdd
+      onAdd,
     } = this.props;
 
     return connectDropTarget(
@@ -52,7 +52,7 @@ EmptyRuleGroup.propTypes = {
   isOverCurrent: PropTypes.bool.isRequired,
 
   onAdd: PropTypes.func.isRequired,
-  onMoveToGroupById: PropTypes.func.isRequired
+  onMoveToGroupById: PropTypes.func.isRequired,
 };
 
 export default DropTarget(DND_ITEM_TYPE_RULE, ruleTarget, collect)(EmptyRuleGroup);

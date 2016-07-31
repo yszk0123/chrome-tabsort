@@ -9,5 +9,5 @@ export default function EmptyRule({ onAdd }) {
 }
 
 EmptyRule.propTypes = {
-  onAdd: PropTypes.func.isRequired
+  onAdd: PropTypes.func.isRequired,
 };

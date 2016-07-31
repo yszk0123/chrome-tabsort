@@ -6,15 +6,15 @@ import { DND_ITEM_TYPE_RULE } from '../constants';
 const ruleItemSource = {
   beginDrag({ id }) {
     return {
-      id
+      id,
     };
-  }
+  },
 };
 
 const collect = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
+    isDragging: monitor.isDragging(),
   };
 };
 
@@ -26,7 +26,7 @@ class Rule extends Component {
       matchingText,
       valid,
       onModifyRegExpById,
-      onRemoveById
+      onRemoveById,
     } = this.props;
 
     return connectDragSource(
@@ -52,7 +52,7 @@ Rule.propTypes = {
   valid: PropTypes.bool.isRequired,
 
   onModifyRegExpById: PropTypes.func.isRequired,
-  onRemoveById: PropTypes.func.isRequired
+  onRemoveById: PropTypes.func.isRequired,
 };
 
 export default DragSource(DND_ITEM_TYPE_RULE, ruleItemSource, collect)(Rule);

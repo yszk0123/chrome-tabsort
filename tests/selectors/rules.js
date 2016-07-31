@@ -17,7 +17,7 @@ describe('rules', () => {
             [itemIds[0]]: { groupId: groupIds[0] },
             [itemIds[1]]: { groupId: groupIds[1] },
             [itemIds[2]]: { groupId: groupIds[1] },
-            [itemIds[3]]: { groupId: groupIds[0] }
+            [itemIds[3]]: { groupId: groupIds[0] },
           },
         },
       },

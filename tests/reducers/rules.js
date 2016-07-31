@@ -17,9 +17,9 @@ describe('rules', () => {
           [itemIds[0]]: { matchingText: 'foo', valid: true, isolate: false },
           [itemIds[1]]: { matchingText: 'bar', valid: true, isolate: false },
           [itemIds[2]]: { matchingText: 'baz', valid: true, isolate: false },
-          [itemIds[3]]: { matchingText: 'hoge', valid: true, isolate: false }
-        }
-      }
+          [itemIds[3]]: { matchingText: 'hoge', valid: true, isolate: false },
+        },
+      },
     };
   };
 

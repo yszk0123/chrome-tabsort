@@ -1,11 +1,11 @@
 import {
   debouncedSetBadge,
-  divideIntoWindows
+  divideIntoWindows,
 } from '../utils/BackgroundUtils';
 import {
   getAllWindows,
   getCurrentWindow,
-  moveTabs
+  moveTabs,
 } from '../utils/ChromeExtensionsAPIWrapper';
 
 // ウィンドウ内のタブをソート
@@ -14,7 +14,7 @@ import {
 export const executeDivideTabsInOneWindow = () => (dispatch, getState) => {
   const {
     tabs: { tabsPerWindow },
-    rules: { itemsById }
+    rules: { itemsById },
   } = getState();
 
   return getCurrentWindow({ populate: true })
@@ -52,7 +52,7 @@ export const sortTabsInWindow = (newTabId, status, newTabUrl) => (dispatch, getS
 export const executeDivideTabsInAllWindows = () => (dispatch, getState) => {
   const {
     tabs: { tabsPerWindow },
-    rules: { itemsById }
+    rules: { itemsById },
   } = getState();
 
   return getAllWindows({ populate: true })

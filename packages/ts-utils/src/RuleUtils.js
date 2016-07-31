@@ -7,6 +7,6 @@ export const createRule = (groupId) => {
     matchingText: '',
     valid: false,
     disable: false,
-    isolate: true
+    isolate: true,
   };
 };

@@ -68,7 +68,7 @@ export function Options({
 
 Options.propTypes = {
   options: PropTypes.object.isRequired,
-  tabs: PropTypes.object.isRequired
+  tabs: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Options);

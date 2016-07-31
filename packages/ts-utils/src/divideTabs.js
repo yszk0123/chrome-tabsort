@@ -63,7 +63,7 @@ class TabsDivider {
           top: wnd.top,
           width: wnd.width,
           height: wnd.height,
-          tabs: group
+          tabs: group,
         };
       })
       .value();

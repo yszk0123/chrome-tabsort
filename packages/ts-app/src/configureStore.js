@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
   middleware.unshift(createErrorLogger());
 
   middleware.push(createLogger({
-    collapsed: true
+    collapsed: true,
   }));
 }
 

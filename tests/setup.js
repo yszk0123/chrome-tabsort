@@ -5,5 +5,5 @@ global.chrome = {
   browserAction: {},
   runtime: {},
   tabs: {},
-  windows: {}
+  windows: {},
 };

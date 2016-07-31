@@ -12,5 +12,5 @@ export default function TabOptions({ tabsPerWindow, onTabsPerWindowChange }) {
 
 TabOptions.propTypes = {
   tabsPerWindow: PropTypes.number.isRequired,
-  onTabsPerWindowChange: PropTypes.func.isRequired
+  onTabsPerWindowChange: PropTypes.func.isRequired,
 };

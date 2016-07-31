@@ -21,15 +21,15 @@ const ruleTarget = {
     props.onMoveToGroupById(id, props.id);
 
     return {
-      moved: true
+      moved: true,
     };
-  }
+  },
 };
 
 const collect = (connect, monitor) => {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOverCurrent: monitor.isOver({ shallow: true })
+    isOverCurrent: monitor.isOver({ shallow: true }),
   };
 };
 
@@ -41,7 +41,7 @@ class RuleGroup extends Component {
       items,
       onAdd,
       onModifyRegExpById,
-      onRemoveById
+      onRemoveById,
     } = this.props;
 
     return connectDropTarget(
@@ -76,7 +76,7 @@ RuleGroup.propTypes = {
   onAdd: PropTypes.func.isRequired,
   onModifyRegExpById: PropTypes.func.isRequired,
   onRemoveById: PropTypes.func.isRequired,
-  onMoveToGroupById: PropTypes.func.isRequired
+  onMoveToGroupById: PropTypes.func.isRequired,
 };
 
 export default DropTarget(DND_ITEM_TYPE_RULE, ruleTarget, collect)(RuleGroup);

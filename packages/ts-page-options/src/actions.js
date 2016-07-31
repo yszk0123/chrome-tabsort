@@ -12,7 +12,7 @@ import {
   OPTIONS_UPDATE_STATE,
   OPTIONS_SERIALIZE,
   OPTIONS_DESERIALIZE_FAILURE,
-  OPTIONS_UPDATE_SERIALIZED_STATE
+  OPTIONS_UPDATE_SERIALIZED_STATE,
 } from './constants';
 import * as StorageUtils from '../utils/StorageUtils';
 
@@ -55,7 +55,7 @@ export const save = () => (dispatch, getState) => {
 export const serialize = () => (dispatch, getState) => {
   dispatch({
     type: OPTIONS_SERIALIZE,
-    value: JSON.stringify(_.omit(getState(), ['options']))
+    value: JSON.stringify(_.omit(getState(), ['options'])),
   });
 };
 
@@ -67,7 +67,7 @@ export const deserialize = (value) => {
   }
   catch (err) {
     return {
-      type: OPTIONS_DESERIALIZE_FAILURE
+      type: OPTIONS_DESERIALIZE_FAILURE,
     };
   }
 
@@ -77,6 +77,6 @@ export const deserialize = (value) => {
 export const updateSerializedState = (value) => {
   return {
     type: OPTIONS_UPDATE_SERIALIZED_STATE,
-    value
+    value,
   };
 };

@@ -6,7 +6,7 @@ import {
   registerMessageReceived,
   registerTabsCreated,
   registerTabsRemoved,
-  registerTabsUpdated
+  registerTabsUpdated,
 } from '../utils/ChromeExtensionsAPIWrapper';
 import * as OptionsActions from '../actions/Options';
 

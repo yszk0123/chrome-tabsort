@@ -11,7 +11,7 @@ export function Options({ groupPropsList }) {
 }
 
 Options.propTypes = {
-  groupPropsList: PropTypes.array.isRequired
+  groupPropsList: PropTypes.array.isRequired,
 };
 
 export default connect((state) => {}, {}, Options);

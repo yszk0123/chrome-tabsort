@@ -1,3 +1,4 @@
 import { OPTIONS_UPDATE_STATE } from './src/constants';
+import bootstrap from './src/bootstrap';
 
-export { OPTIONS_UPDATE_STATE };
+export { bootstrap, OPTIONS_UPDATE_STATE };

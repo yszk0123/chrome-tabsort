@@ -1,8 +1,7 @@
 /* global chrome */
 import _ from 'lodash';
-
-import { CHROME_OPTIONS_UPDATE_STATE } from 'ts-page-background';
 import {
+  CHROME_OPTIONS_UPDATE_STATE,
   OPTIONS_LOAD_START_WITH_STATE,
   OPTIONS_LOAD_START,
   OPTIONS_LOAD_SUCCESS,

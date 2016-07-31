@@ -1,9 +1,8 @@
-import { applyMiddleware, createStore, compose } from 'redux';
-import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
-
-import createErrorLogger from '../middlewares/createErrorLogger';
-import reducer from '../reducers';
+import thunk from 'redux-thunk';
+import { applyMiddleware, createStore, compose } from 'redux';
+import { createErrorLogger } from 'ts-middlewares';
+import reducer from './reducer';
 
 const middleware = [thunk];
 if (process.env.NODE_ENV !== 'production') {

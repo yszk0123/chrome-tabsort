@@ -1,7 +1,6 @@
 import assert from 'power-assert';
 import _ from 'lodash';
-
-import rulesSelector from '../../src/selectors/rules';
+import { getRules } from '../src/selectors';
 import generateUniqueId from '../../src/utils/generateUniqueId';
 
 describe('rules', () => {
@@ -27,7 +26,7 @@ describe('rules', () => {
 
   it('adds groupIds and groupsById', () => {
     const { initialState, groupIds } = setup();
-    const nextProps = rulesSelector(initialState);
+    const nextProps = getRules(initialState);
     assert.deepEqual(nextProps.groupIds, groupIds);
     assert(nextProps.groupsById[groupIds[0]].every((group) => group.groupId === groupIds[0]));
     assert(nextProps.groupsById[groupIds[1]].every((group) => group.groupId === groupIds[1]));

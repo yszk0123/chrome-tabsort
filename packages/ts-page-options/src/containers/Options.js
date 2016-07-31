@@ -1,32 +1,26 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
-import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import React, { PropTypes } from 'react';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
+import * as Background from 'ts-page-background';
+import * as Options from 'ts-page-options';
+import { Rules } from 'ts-container-rules';
 import Layout from '../components/Layout';
-import RuleList from '../components/RuleList';
-import TabOptions from '../components/TabOptions';
 import OptionsButtons from '../components/OptionsButtons';
-import * as OptionsActions from '../actions/Options';
-import * as TabsActions from '../actions/Tabs';
-import * as RulesActions from '../actions/Rules';
-import rulesSelector from '../selectors/rules';
-
+import TabOptions from '../components/TabOptions';
 import '../styles/app.css';
 
-const mapStateToProps = ({ options, rules, tabs }) => {
+const mapStateToProps = (state) => {
   return {
-    options,
-    rules: rulesSelector(rules),
-    tabs
+    options: Options.getOptions(state),
+    tabs: Background.getTabs(state),
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    optionsActions: bindActionCreators(OptionsActions, dispatch),
-    tabsActions: bindActionCreators(TabsActions, dispatch),
-    rulesActions: bindActionCreators(RulesActions, dispatch)
+    optionsActions: bindActionCreators(Options.actions, dispatch),
+    backgroundActions: bindActionCreators(Background.actions, dispatch),
   };
 };
 
@@ -43,55 +37,39 @@ const OptionsOutput = ({ output, onChange }) => {
   );
 };
 
-export class Options extends Component {
-  render() {
-    const {
-      options,
-      rules,
-      tabs,
-      optionsActions,
-      rulesActions,
-      tabsActions
-    } = this.props;
-
-    return (
-      <Layout>
-        <h1>Options Page</h1>
-        <RuleList
-          {...rules}
-          onModifyRegExpById={rulesActions.modifyRegExpById}
-          onAdd={rulesActions.add}
-          onRemoveById={rulesActions.removeById}
-          onMoveToGroupById={rulesActions.moveToGroupById}
-        />
-        <TabOptions
-          {...tabs}
-          onTabsPerWindowChange={(event) => {
-            tabsActions.updateTabsPerWindow(Number(event.target.value));
-          }}
-        />
-        <OptionsOutput
-          output={options.serializedState}
-          onChange={optionsActions.updateSerializedState}
-        />
-        <OptionsButtons
-          onLoad={optionsActions.load}
-          onSave={optionsActions.save}
-          onImport={() => optionsActions.deserialize(options.serializedState)}
-          onExport={optionsActions.serialize}
-        />
-      </Layout>
-    );
-  }
+export function Options({
+  options,
+  tabs,
+  optionsActions,
+  backgroundActions,
+}) {
+  return (
+    <Layout>
+      <h1>Options Page</h1>
+      <Rules />
+      <TabOptions
+        {...tabs}
+        onTabsPerWindowChange={(event) => {
+          backgroundActions.updateTabsPerWindow(Number(event.target.value));
+        }}
+      />
+      <OptionsOutput
+        output={options.serializedState}
+        onChange={optionsActions.updateSerializedState}
+      />
+      <OptionsButtons
+        onLoad={optionsActions.load}
+        onSave={optionsActions.save}
+        onImport={() => optionsActions.deserialize(options.serializedState)}
+        onExport={optionsActions.serialize}
+      />
+    </Layout>
+  );
 }
 
 Options.propTypes = {
   options: PropTypes.object.isRequired,
-  rules: PropTypes.object.isRequired,
   tabs: PropTypes.object.isRequired
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  DragDropContext(HTML5Backend)
-)(Options);
+export default connect(mapStateToProps, mapDispatchToProps)(Options);

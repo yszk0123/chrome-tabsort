@@ -1,5 +1,4 @@
 import _ from 'lodash';
-
 import { condition, validateId } from '../utils/CommonUtils';
 import divideTabs from '../utils/divideTabs';
 import {
@@ -13,7 +12,8 @@ import {
   setBadgeText,
   updateWindow
 } from '../utils/ChromeExtensionsAPIWrapper';
-import OptionsConfig from '../constants/Options';
+
+const SET_BADGE_DEBOUNCE = 200;
 
 const moveTabsToNewWindowById = (tabIds, windowRect) => {
   if (!tabIds.length || !tabIds.every(validateId)) {
@@ -126,4 +126,4 @@ const setBadge = () => {
     });
 };
 
-export const debouncedSetBadge = _.debounce(setBadge, OptionsConfig.setBadgeDebounce);
+export const debouncedSetBadge = _.debounce(setBadge, SET_BADGE_DEBOUNCE);

@@ -4,6 +4,9 @@ import {
 } from '../constants/ActionTypes';
 import OptionsConfig from '../constants/Options';
 
+const MIN_TABS_PER_WINDOW = 1;
+const MAX_TABS_PER_WINDOW = 10000;
+
 const initialState = {
   tabsPerWindow: 10
 };
@@ -27,8 +30,8 @@ export default (state = initialState, action) => {
         ...state,
         tabsPerWindow: clipInRange(
           state.tabsPerWindow + action.value,
-          OptionsConfig.minTabsPerWindow,
-          OptionsConfig.maxTabsPerWindow
+          MIN_TABS_PER_WINDOW,
+          MAX_TABS_PER_WINDOW
         )
       };
     case TABS_UPDATE_TABS_PER_WINDOW:
@@ -36,8 +39,8 @@ export default (state = initialState, action) => {
         ...state,
         tabsPerWindow: clipInRange(
           action.value,
-          OptionsConfig.minTabsPerWindow,
-          OptionsConfig.maxTabsPerWindow
+          MIN_TABS_PER_WINDOW,
+          MAX_TABS_PER_WINDOW
         )
       };
     default:

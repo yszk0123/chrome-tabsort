@@ -1,8 +1,8 @@
 /* global chrome */
 import _ from 'lodash';
 
+import { CHROME_OPTIONS_UPDATE_STATE } from 'ts-page-background';
 import {
-  CHROME_OPTIONS_UPDATE_STATE,
   OPTIONS_LOAD_START_WITH_STATE,
   OPTIONS_LOAD_START,
   OPTIONS_LOAD_SUCCESS,
@@ -14,14 +14,15 @@ import {
   OPTIONS_SERIALIZE,
   OPTIONS_DESERIALIZE_FAILURE,
   OPTIONS_UPDATE_SERIALIZED_STATE
-} from '../constants/ActionTypes';
-import OptionsConfig from '../constants/Options';
+} from './constants';
 import * as StorageUtils from '../utils/StorageUtils';
+
+const STORAGE_KEY = 'state';
 
 export const load = () => (dispatch) => {
   dispatch({ type: OPTIONS_LOAD_START });
 
-  StorageUtils.get(OptionsConfig.storageKey)
+  StorageUtils.get(STORAGE_KEY)
     .then((state) => {
       dispatch({ type: OPTIONS_LOAD_SUCCESS, state });
       dispatch({ type: OPTIONS_UPDATE_STATE, state });
@@ -42,7 +43,7 @@ export const save = () => (dispatch, getState) => {
 
   const state = getState();
 
-  StorageUtils.set(OptionsConfig.storageKey, state)
+  StorageUtils.set(STORAGE_KEY, state)
     .then(() => {
       chrome.runtime.sendMessage({ type: CHROME_OPTIONS_UPDATE_STATE, state });
       dispatch({ type: OPTIONS_SAVE_SUCCESS });

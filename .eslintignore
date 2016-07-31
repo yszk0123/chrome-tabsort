@@ -1,0 +1,5 @@
+# /
+config/
+dist/
+node_modules/
+packages/experimental-*/

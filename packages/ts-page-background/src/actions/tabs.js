@@ -1,6 +1,6 @@
 import {
   TABS_UPDATE_TABS_PER_WINDOW_BY,
-  TABS_UPDATE_TABS_PER_WINDOW
+  TABS_UPDATE_TABS_PER_WINDOW,
 } from '../constants';
 
 export const updateTabsPerWindowBy = (value) => {

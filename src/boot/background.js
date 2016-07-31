@@ -6,7 +6,7 @@ import {
   registerTabsRemoved,
   registerTabsUpdated
 } from '../utils/ChromeExtensionsAPIWrapper';
-import * as BackgroundActions from '../actions/Background';
+import * as Background from 'ts-page-background';
 import * as OptionsActions from '../actions/Options';
 import { CHROME_OPTIONS_UPDATE_STATE } from '../constants/ActionTypes';
 
@@ -16,13 +16,13 @@ const bindDispatch = (action) => (...args) => {
   return store.dispatch(action(...args));
 };
 
-registerBrowserActionClicked(bindDispatch(BackgroundActions.executeDivideTabsInAllWindows));
+registerBrowserActionClicked(bindDispatch(Background.actions.executeDivideTabsInAllWindows));
 
-registerTabsCreated(bindDispatch(BackgroundActions.executeDivideTabsInOneWindow));
-registerTabsCreated(bindDispatch(BackgroundActions.setBadge));
-registerTabsRemoved(bindDispatch(BackgroundActions.setBadge));
+registerTabsCreated(bindDispatch(Background.actions.executeDivideTabsInOneWindow));
+registerTabsCreated(bindDispatch(Background.actions.setBadge));
+registerTabsRemoved(bindDispatch(Background.actions.setBadge));
 registerTabsUpdated((newTabId, { status }, { url: newTabUrl }) => {
-  return store.dispatch(BackgroundActions.sortTabsInWindow(newTabId, status, newTabUrl));
+  return store.dispatch(Background.actions.sortTabsInWindow(newTabId, status, newTabUrl));
 });
 
 registerMessageReceived((request) => {

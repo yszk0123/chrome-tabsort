@@ -1,8 +1,7 @@
 /* global chrome */
 import zlib from 'zlib';
-
-import { promisify } from '../../utils/CommonUtils';
-import { promisifyChromeExtensionsAPI } from '../../utils/ChromeExtensionsUtils';
+import { promisify } from '../common';
+import { promisifyChromeExtensionsAPI } from '../ChromeExtensionsUtils';
 
 const ENCODING = 'base64';
 

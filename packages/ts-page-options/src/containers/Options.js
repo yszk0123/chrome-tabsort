@@ -8,7 +8,6 @@ import { Rules } from 'ts-container-rules';
 import Layout from '../components/Layout';
 import OptionsButtons from '../components/OptionsButtons';
 import TabOptions from '../components/TabOptions';
-import '../styles/app.css';
 
 const mapStateToProps = (state) => {
   return {

@@ -9,7 +9,6 @@ import OptionsButtons from '../components/OptionsButtons';
 import RuleList from '../components/RuleList';
 import TabOptions from '../components/TabOptions';
 import { getRules } from '../selectors';
-import '../styles/app.css';
 
 const mapStateToProps = (state) => {
   return {

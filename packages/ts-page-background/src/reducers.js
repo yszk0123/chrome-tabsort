@@ -1,8 +1,7 @@
 import {
   TABS_UPDATE_TABS_PER_WINDOW_BY,
   TABS_UPDATE_TABS_PER_WINDOW
-} from '../constants/ActionTypes';
-import OptionsConfig from '../constants/Options';
+} from './constants';
 
 const MIN_TABS_PER_WINDOW = 1;
 const MAX_TABS_PER_WINDOW = 10000;
@@ -23,7 +22,7 @@ const clipInRange = (n, min, max) => {
   return n;
 };
 
-export default (state = initialState, action) => {
+function backgroundReducer(state = initialState, action) {
   switch (action.type) {
     case TABS_UPDATE_TABS_PER_WINDOW_BY:
       return {
@@ -46,4 +45,8 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
+}
+
+export default {
+  background: backgroundReducer,
 };

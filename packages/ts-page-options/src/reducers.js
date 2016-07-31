@@ -3,13 +3,13 @@ import {
   OPTIONS_SAVE_SUCCESS,
   OPTIONS_SERIALIZE,
   OPTIONS_UPDATE_SERIALIZED_STATE
-} from '../constants/ActionTypes';
+} from './constants';
 
 const initialState = {
   saving: false
 };
 
-export default (state = initialState, action) => {
+function optionsReducer(state = initialState, action) {
   switch (action.type) {
     case OPTIONS_SAVE_START:
       return {
@@ -34,4 +34,8 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
+}
+
+export default {
+  options: optionsReducer
 };

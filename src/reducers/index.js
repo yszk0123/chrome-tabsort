@@ -1,14 +1,15 @@
+import assign from 'object-assign';
 import { combineReducers } from 'redux';
+import * as Background from 'ts-page-background';
+import * as Options from 'ts-page-options';
+import * as Rules from 'ts-containers-rules';
 import { OPTIONS_UPDATE_STATE } from 'ts-page-options';
-import options from '../reducers/options';
-import rules from '../reducers/rules';
-import tabs from '../reducers/tabs';
 
-const reducer = combineReducers({
-  options,
-  rules,
-  tabs
-});
+const reducer = combineReducers(assign(
+  Options.reducers,
+  Rules.reducers,
+  Background.reducers
+));
 
 export default (state, action) => {
   if (action.type === OPTIONS_UPDATE_STATE) {

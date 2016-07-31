@@ -1,5 +1,4 @@
 import { compose } from 'redux';
-
 import { setIn, updateIn, pushIn, removeIn, omitIn } from '../utils/MutationUtils';
 import { validateRegExp } from '../utils/CommonUtils';
 import {
@@ -11,7 +10,7 @@ import {
   RULES_TOGGLE_ISOLATE_BY_ID,
   RULES_ADD,
   RULES_REMOVE_BY_ID
-} from '../constants/ActionTypes';
+} from './constants';
 
 const initialState = {
   itemIds: [],
@@ -34,7 +33,7 @@ const swapInArrayIfPossible = (array, i, j) => {
 
 const not = (x) => !x;
 
-export default (state = initialState, action) => {
+function rulesReducer(state = initialState, action) {
   const { index: i } = action;
 
   switch (action.type) {
@@ -80,4 +79,8 @@ export default (state = initialState, action) => {
       return state;
     }
   }
+}
+
+export default {
+  rules: rulesReducer
 };

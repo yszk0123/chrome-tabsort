@@ -1,3 +1,3 @@
-import generateShortUniqueId from '../utils/adapters/generateLongUniqueId';
+import generateShortUniqueId from './adapters/generateLongUniqueId';
 
 export default generateShortUniqueId;

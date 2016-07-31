@@ -1,4 +1,4 @@
-import generateUniqueId from '../utils/generateUniqueId';
+import generateUniqueId from './generateUniqueId';
 
 export const createRule = (groupId) => {
   return {

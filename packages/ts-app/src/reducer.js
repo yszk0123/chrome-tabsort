@@ -3,7 +3,8 @@ import { combineReducers } from 'redux';
 import * as Background from 'ts-page-background';
 import * as Options from 'ts-page-options';
 import * as Rules from 'ts-containers-rules';
-import { OPTIONS_UPDATE_STATE } from 'ts-page-options';
+
+const { OPTIONS_UPDATE_STATE } = Options;
 
 const reducer = combineReducers(assign(
   Options.reducers,
@@ -12,9 +13,10 @@ const reducer = combineReducers(assign(
 ));
 
 export default (state, action) => {
+  let nextState = state;
   if (action.type === OPTIONS_UPDATE_STATE) {
-    state = action.state;
+    nextState = action.state;
   }
 
-  return reducer(state, action);
+  return reducer(nextState, action);
 };

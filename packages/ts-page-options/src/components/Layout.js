@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default ({ children }) => {
+export default function Layout({ children }) {
   return (
     <div className="Layout">
       {children}
     </div>
   );
-};
+}

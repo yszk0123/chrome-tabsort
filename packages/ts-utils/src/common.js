@@ -8,17 +8,13 @@ export const validateRegExp = (input) => {
   try {
     new RegExp(input); // eslint-disable-line no-new
     return true;
-  }
-  catch (err) {
+  } catch (err) {
     return false;
   }
 };
 
-export const createMapper = (fns, defaultFn = () => null) => {
-  return (key) => {
-    return fns.hasOwnProperty(key) ? fns[key] : defaultFn;
-  };
-};
+export const createMapper = (fns, defaultFn = () => null) => (key) =>
+  fns.hasOwnProperty(key) ? fns[key] : defaultFn;
 
 export const arrayGroupBy = (items, getIndex, maxSize) => {
   const dest = [];
@@ -53,14 +49,14 @@ export const condition = (...args) => {
   return args[last];
 };
 
-export const promisify = (api) => (...args) => {
-  return new Promise((resolve, reject) => {
+export const promisify = (api) => (...args) =>
+  new Promise((resolve, reject) => {
     api(...args, (error, result) => {
       if (error) {
-        return reject(error);
+        reject(error);
+        return;
       }
 
       resolve(result);
     });
   });
-};

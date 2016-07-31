@@ -1,3 +1,4 @@
+import assign from 'object-assign';
 import { createSelector } from 'reselect';
 
 export const getRules = createSelector(
@@ -12,10 +13,13 @@ export const getRules = createSelector(
       return memo;
     }, {});
 
-    return {
-      ...rules,
-      groupIds: Object.keys(groupsById),
-      groupsById
-    };
+    return assign(
+      {},
+      rules,
+      {
+        groupIds: Object.keys(groupsById),
+        groupsById
+      }
+    );
   }
 );

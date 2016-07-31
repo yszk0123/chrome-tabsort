@@ -1,5 +1,5 @@
 /* global chrome */
-import { promisifyChromeExtensionsAPI } from '../utils/ChromeExtensionsUtils';
+import { promisifyChromeExtensionsAPI } from './ChromeExtensionsUtils';
 
 export const createWindow = promisifyChromeExtensionsAPI(chrome.windows.create);
 export const getAllWindows = promisifyChromeExtensionsAPI(chrome.windows.getAll);
@@ -10,33 +10,17 @@ export const queryAgainstTabs = promisifyChromeExtensionsAPI(chrome.tabs.query);
 export const updateWindow = promisifyChromeExtensionsAPI(chrome.windows.update);
 
 // TODO: Return a promise
-export const setBadgeText = (text) => {
-  return chrome.browserAction.setBadgeText(text);
-};
+export const setBadgeText = (text) => chrome.browserAction.setBadgeText(text);
 
 // TODO: Return a promise
-export const setBadgeBackgroundColor = (params) => {
-  return chrome.browserAction.setBadgeBackgroundColor(params);
-};
+export const setBadgeBackgroundColor = (params) =>
+  chrome.browserAction.setBadgeBackgroundColor(params);
 
 // Event Listeners
 
-export const registerMessageReceived = (handler) => {
-  return chrome.runtime.onMessage.addListener(handler);
-};
-
-export const registerTabsCreated = (handler) => {
-  return chrome.tabs.onCreated.addListener(handler);
-};
-
-export const registerTabsUpdated = (handler) => {
-  return chrome.tabs.onUpdated.addListener(handler);
-};
-
-export const registerTabsRemoved = (handler) => {
-  return chrome.tabs.onRemoved.addListener(handler);
-};
-
-export const registerBrowserActionClicked = (handler) => {
-  return chrome.browserAction.onClicked.addListener(handler);
-};
+export const registerMessageReceived = (handler) => chrome.runtime.onMessage.addListener(handler);
+export const registerTabsCreated = (handler) => chrome.tabs.onCreated.addListener(handler);
+export const registerTabsUpdated = (handler) => chrome.tabs.onUpdated.addListener(handler);
+export const registerTabsRemoved = (handler) => chrome.tabs.onRemoved.addListener(handler);
+export const registerBrowserActionClicked = (handler) =>
+  chrome.browserAction.onClicked.addListener(handler);

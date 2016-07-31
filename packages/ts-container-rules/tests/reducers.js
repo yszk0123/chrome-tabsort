@@ -1,10 +1,9 @@
 import assert from 'power-assert';
 import _ from 'lodash';
-
-import rulesReducer from '../../src/reducers/rules';
-import * as RulesActions from '../../src/actions/Rules';
-import { createRule } from '../../src/utils/RuleUtils';
-import generateUniqueId from '../../src/utils/generateUniqueId';
+import rulesReducer from '../src/reducers';
+import * as actions from '../src/actions';
+import { createRule } from '../src/utils';
+import generateUniqueId from '../src/generateUniqueId';
 
 describe('rules', () => {
   const setup = () => {
@@ -32,7 +31,7 @@ describe('rules', () => {
     it('modifies matchingText', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[0];
-      const action = RulesActions.modifyRegExpById(id, 'bar');
+      const action = actions.modifyRegExpById(id, 'bar');
 
       const nextState = rulesReducer(initialState, action);
       assert(nextState.itemsById[id].matchingText === 'bar');
@@ -41,7 +40,7 @@ describe('rules', () => {
     specify('validation fails when the input is invalid', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[0];
-      const action = RulesActions.modifyRegExpById(id, '\\');
+      const action = actions.modifyRegExpById(id, '\\');
 
       const nextState = rulesReducer(initialState, action);
       assert(nextState.itemsById[id].valid === false);
@@ -52,7 +51,7 @@ describe('rules', () => {
     it('toggles disable', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[0];
-      const action = RulesActions.toggleDisableById(id);
+      const action = actions.toggleDisableById(id);
 
       const first = rulesReducer(initialState, action);
       assert(first.itemsById[id].disable === true);
@@ -66,7 +65,7 @@ describe('rules', () => {
     it('toggles isolate', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[0];
-      const action = RulesActions.toggleIsolateById(id);
+      const action = actions.toggleIsolateById(id);
 
       const first = rulesReducer(initialState, action);
       assert(first.itemsById[id].isolate === true);
@@ -80,7 +79,7 @@ describe('rules', () => {
     it('appends an item to items', () => {
       const { initialState } = setup();
       const newRule = createRule();
-      const action = RulesActions.add(newRule);
+      const action = actions.add(newRule);
 
       const nextState = rulesReducer(initialState, action);
       const lastId = _.last(nextState.itemIds);
@@ -93,7 +92,7 @@ describe('rules', () => {
     it('remove the specified item from items', () => {
       const { initialState } = setup();
       const id = initialState.itemIds[1];
-      const action = RulesActions.removeById(id);
+      const action = actions.removeById(id);
 
       const nextState = rulesReducer(initialState, action);
       assert(nextState.itemIds.length === initialState.itemIds.length - 1);
@@ -105,7 +104,7 @@ describe('rules', () => {
     it('swaps the item with the previous item', () => {
       const { initialState } = setup();
       const ids = initialState.itemIds;
-      const action = RulesActions.moveToPrevious(ids[1]);
+      const action = actions.moveToPrevious(ids[1]);
 
       const nextState = rulesReducer(initialState, action);
       assert(nextState.itemIds[ids[0]] === initialState.itemIds[ids[1]]);
@@ -117,7 +116,7 @@ describe('rules', () => {
     it('swaps the item with the next item', () => {
       const { initialState } = setup();
       const ids = initialState.itemIds;
-      const action = RulesActions.moveToNext(ids[1]);
+      const action = actions.moveToNext(ids[1]);
 
       const nextState = rulesReducer(initialState, action);
       assert(nextState.itemIds[ids[1]] === initialState.itemIds[ids[2]]);
@@ -130,7 +129,7 @@ describe('rules', () => {
       const { initialState } = setup();
       const ruleId = initialState.itemIds[1];
       const newGroupId = generateUniqueId();
-      const action = RulesActions.moveToGroupById(ruleId, newGroupId);
+      const action = actions.moveToGroupById(ruleId, newGroupId);
 
       const nextState = rulesReducer(initialState, action);
       assert(nextState.itemsById[ruleId].groupId === newGroupId);

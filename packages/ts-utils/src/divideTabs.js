@@ -45,10 +45,10 @@ class TabsDivider {
       .map((group) => _.chunk(group, this.capacity))
       .flatten()
       .map((group) => {
-        const histgram = group.reduce((acc, tab) => {
-          acc[tab.windowId] = (acc[tab.windowId] || 0) + 1;
-          return acc;
-        }, {});
+        const histgram = {};
+        group.forEach((tab) => {
+          histgram[tab.windowId] = (histgram[tab.windowId] || 0) + 1;
+        });
         let maxCount = 0;
         let maxWindowId = group[0].windowId;
         _.forEach(histgram, (count, windowId) => {
@@ -74,6 +74,6 @@ class TabsDivider {
   }
 }
 
-export default ({ rulesById, windows, capacity }) => {
+export default function divideTabs({ rulesById, windows, capacity }) {
   return new TabsDivider(_.values(rulesById), windows, capacity).divide();
-};
+}

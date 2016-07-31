@@ -4,7 +4,7 @@ import EmptyRule from '../components/EmptyRule';
 import EmptyRuleGroup from '../components/EmptyRuleGroup';
 import RuleGroup from '../components/RuleGroup';
 import { DND_ITEM_TYPE_RULE } from '../constants';
-import { createRule } from '../utils/RuleUtils';
+import { createRule } from '../utils';
 
 const ruleTarget = {
   canDrop(props, monitor) {

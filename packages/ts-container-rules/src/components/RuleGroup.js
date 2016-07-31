@@ -3,7 +3,7 @@ import { DropTarget } from 'react-dnd';
 import EmptyRule from '../components/EmptyRule';
 import Rule from '../components/Rule';
 import { DND_ITEM_TYPE_RULE } from '../constants';
-import { createRule } from '../utils/RuleUtils';
+import { createRule } from '../utils';
 
 const ruleTarget = {
   canDrop(props, monitor) {

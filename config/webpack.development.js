@@ -11,9 +11,13 @@ module.exports = {
     path: path.join(__dirname, '..', 'dist'),
     filename: '[name].js',
   },
-  plugins: [
-    new webpack.NoErrorsPlugin(),
-  ],
+  resolve: {
+    root: [
+      path.resolve('./node_modules'),
+      path.resolve('./packages'),
+    ],
+    extensions: ['', '.webpack.js', '.web.js', '.js', '.json', '.react.css'],
+  },
   module: {
     loaders: [
       {
@@ -27,8 +31,11 @@ module.exports = {
         include: path.join(__dirname, '..', 'src'),
         query: {
           cacheDirectory: true
-        }
+        },
       },
     ],
   },
+  plugins: [
+    new webpack.NoErrorsPlugin(),
+  ],
 };

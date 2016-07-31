@@ -1,29 +1,28 @@
-import HTML5Backend from 'react-dnd-html5-backend';
 import React, { PropTypes } from 'react';
-import { bindActionCreators, compose } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Background from 'ts-page-background';
-import * as Options from 'ts-page-options';
+import * as OptionsPage from 'ts-page-options';
 import { Rules } from 'ts-container-rules';
 import Layout from '../components/Layout';
 import OptionsButtons from '../components/OptionsButtons';
 import TabOptions from '../components/TabOptions';
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
   return {
-    options: Options.getOptions(state),
+    options: OptionsPage.getOptions(state),
     tabs: Background.getTabs(state),
   };
-};
+}
 
-const mapDispatchToProps = (dispatch) => {
+function mapDispatchToProps(dispatch) {
   return {
-    optionsActions: bindActionCreators(Options.actions, dispatch),
+    optionsActions: bindActionCreators(OptionsPage.actions, dispatch),
     backgroundActions: bindActionCreators(Background.actions, dispatch),
   };
-};
+}
 
-const OptionsOutput = ({ output, onChange }) => {
+function OptionsOutput({ output, onChange }) {
   return (
     <div>
       <h2>Output</h2>
@@ -34,7 +33,7 @@ const OptionsOutput = ({ output, onChange }) => {
       />
     </div>
   );
-};
+}
 
 export function Options({
   options,

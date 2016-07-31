@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { condition, validateId } from '../utils/CommonUtils';
-import divideTabs from '../utils/divideTabs';
+import { condition, validateId } from './CommonUtils';
+import divideTabs from './divideTabs';
 import {
   createWindow,
   getAllWindows,
@@ -11,7 +11,7 @@ import {
   setBadgeBackgroundColor,
   setBadgeText,
   updateWindow,
-} from '../utils/ChromeExtensionsAPIWrapper';
+} from './ChromeExtensionsAPIWrapper';
 
 const SET_BADGE_DEBOUNCE = 200;
 
@@ -31,7 +31,7 @@ const moveTabsToNewWindowById = (tabIds, windowRect) => {
   })
     .then(({ id: windowId }) => {
       if (!restTabIds.length) {
-        return;
+        return Promise.resolve();
       }
 
       return moveTabs(tabIds, { windowId, index: -1 });
@@ -47,8 +47,7 @@ export const divideIntoWindows = (windows, tabsPerWindow, rulesById, oneWindow =
       windows,
       capacity: tabsPerWindow,
     });
-  }
-  catch (error) {
+  } catch (error) {
     return Promise.reject(error);
   }
 
@@ -72,9 +71,7 @@ export const divideIntoWindows = (windows, tabsPerWindow, rulesById, oneWindow =
 
       return Promise.all(promises)
         .then(() => getTab(currentTabId))
-        .then(({ windowId }) => {
-          return updateWindow(windowId, { focused: true });
-        });
+        .then(({ windowId }) => updateWindow(windowId, { focused: true }));
     });
 };
 

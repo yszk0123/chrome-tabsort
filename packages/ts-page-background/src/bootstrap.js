@@ -13,9 +13,8 @@ import * as OptionsActions from '../actions/Options';
 export default function bootstrap({ store }) {
   const store = configureStore();
 
-  const bindDispatch = (action) => (...args) => {
-    return store.dispatch(action(...args));
-  };
+  const bindDispatch = (action) => (...args) =>
+    store.dispatch(action(...args));
 
   registerBrowserActionClicked(bindDispatch(Background.actions.executeDivideTabsInAllWindows));
 

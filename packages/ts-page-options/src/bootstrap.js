@@ -5,7 +5,7 @@ import * as actions from './actions';
 import Options from '../containers/Options';
 import configureStore from '../store/configureStore';
 
-export default bootstrap({ store }) {
+export default function bootstrap({ store }) {
   store.dispatch(actions.load());
 
   document.addEventListener('DOMContentLoaded', () => {

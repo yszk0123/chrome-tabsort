@@ -1,4 +1,4 @@
-export default (initialState, reducers) => {
+export default function createReducer(initialState, reducers) {
   return (state = initialState, action) => {
     if (!reducers.hasOwnProperty(action.type)) {
       return state;
@@ -6,4 +6,4 @@ export default (initialState, reducers) => {
 
     return reducers[action.type](state, action);
   };
-};
+}

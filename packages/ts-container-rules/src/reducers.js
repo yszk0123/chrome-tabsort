@@ -9,12 +9,12 @@ import {
   RULES_TOGGLE_DISABLE_BY_ID,
   RULES_TOGGLE_ISOLATE_BY_ID,
   RULES_ADD,
-  RULES_REMOVE_BY_ID
+  RULES_REMOVE_BY_ID,
 } from './constants';
 
 const initialState = {
   itemIds: [],
-  itemsById: {}
+  itemsById: {},
 };
 
 const swapInArrayIfPossible = (array, i, j) => {
@@ -27,7 +27,7 @@ const swapInArrayIfPossible = (array, i, j) => {
     array[j],
     ...array.slice(i + 1, j),
     array[i],
-    ...array.slice(j + 1)
+    ...array.slice(j + 1),
   ];
 };
 
@@ -82,5 +82,5 @@ function rulesReducer(state = initialState, action) {
 }
 
 export default {
-  rules: rulesReducer
+  rules: rulesReducer,
 };

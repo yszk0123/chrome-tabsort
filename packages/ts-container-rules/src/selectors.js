@@ -18,7 +18,7 @@ export const getRules = createSelector(
       rules,
       {
         groupIds: Object.keys(groupsById),
-        groupsById
+        groupsById,
       }
     );
   }

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { condition, validateId } from './CommonUtils';
+import { condition, validateId } from 'ts-utils';
 import divideTabs from './divideTabs';
 import {
   createWindow,

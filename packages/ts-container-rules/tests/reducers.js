@@ -1,9 +1,9 @@
 import assert from 'power-assert';
 import _ from 'lodash';
+import { generateUniqueId } from 'ts-utils';
 import rulesReducer from '../src/reducers';
 import * as actions from '../src/actions';
 import { createRule } from '../src/utils';
-import generateUniqueId from '../src/generateUniqueId';
 
 describe('rules', () => {
   const setup = () => {

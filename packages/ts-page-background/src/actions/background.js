@@ -1,12 +1,12 @@
 import {
   debouncedSetBadge,
   divideIntoWindows,
-} from '../utils/BackgroundUtils';
+} from '../utils';
 import {
   getAllWindows,
   getCurrentWindow,
   moveTabs,
-} from '../utils/ChromeExtensionsAPIWrapper';
+} from 'ts-utils-chrome-extensions';
 
 // ウィンドウ内のタブをソート
 // 現状では、タブが新規作成された場合のみで

@@ -1,5 +1,5 @@
 import assert from 'power-assert';
-import getTabsNeedToBeSorted from '../../src/utils/getTabsNeedToBeSorted';
+import getTabsNeedToBeSorted from '../src/getTabsNeedToBeSorted';
 
 describe('getTabsNeedToBeSorted()', () => {
   it('include only normal windows', () => {

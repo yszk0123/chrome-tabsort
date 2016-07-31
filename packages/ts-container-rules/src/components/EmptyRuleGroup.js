@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
-import generateUniqueId from '../utils/generateUniqueId';
+import { generateUniqueId } from 'ts-utils';
 import { DND_ITEM_TYPE_RULE } from '../constants';
 import { createRule } from '../utils';
 

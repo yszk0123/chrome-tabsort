@@ -1,6 +1,5 @@
 import assert from 'power-assert';
-
-import divideTabs from '../../src/utils/divideTabs';
+import divideTabs from '../src/divideTabs';
 
 describe('divideTabs', () => {
   const getIds = (windows) => {

@@ -1,6 +1,6 @@
 import { compose } from 'redux';
-import { setIn, updateIn, pushIn, removeIn, omitIn } from '../utils/MutationUtils';
-import { validateRegExp } from '../utils/CommonUtils';
+import { setIn, updateIn, pushIn, removeIn, omitIn } from 'ts-utils-mutation';
+import { validateRegExp } from 'ts-utils';
 import {
   RULES_MOVE_TO_PREVIOUS,
   RULES_MOVE_TO_NEXT,

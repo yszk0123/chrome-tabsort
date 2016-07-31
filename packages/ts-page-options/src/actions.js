@@ -14,7 +14,7 @@ import {
   OPTIONS_DESERIALIZE_FAILURE,
   OPTIONS_UPDATE_SERIALIZED_STATE,
 } from './constants';
-import * as StorageUtils from '../utils/StorageUtils';
+import { StorageUtils } from 'ts-utils';
 
 const STORAGE_KEY = 'state';
 

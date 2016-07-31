@@ -1,21 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
-class EmptyRule extends Component {
-  render() {
-    const {
-      onAdd
-    } = this.props;
-
-    return (
-      <div className="Rule EmptyRule" onClick={onAdd}>
-        Add Rule
-      </div>
-    );
-  }
+export default function EmptyRule({ onAdd }) {
+  return (
+    <div className="Rule EmptyRule" onClick={onAdd}>
+      Add Rule
+    </div>
+  );
 }
 
 EmptyRule.propTypes = {
   onAdd: PropTypes.func.isRequired
 };
-
-export default EmptyRule;

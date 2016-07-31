@@ -1,0 +1,2 @@
+// React DnD
+export DND_ITEM_TYPE_RULE = 'DND_ITEM_TYPE_RULE';

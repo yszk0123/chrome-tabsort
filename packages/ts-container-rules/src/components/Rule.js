@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { DragSource } from 'react-dnd';
 import cx from 'classnames';
-
-import * as ItemTypes from '../constants/ItemTypes';
+import { DND_ITEM_TYPE_RULE } from '../constants';
 
 const ruleItemSource = {
   beginDrag({ id }) {
@@ -56,4 +55,4 @@ Rule.propTypes = {
   onRemoveById: PropTypes.func.isRequired
 };
 
-export default DragSource(ItemTypes.RULE, ruleItemSource, collect)(Rule);
+export default DragSource(DND_ITEM_TYPE_RULE, ruleItemSource, collect)(Rule);

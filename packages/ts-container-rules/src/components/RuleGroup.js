@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
-
-import Rule from '../components/Rule';
 import EmptyRule from '../components/EmptyRule';
-import * as ItemTypes from '../constants/ItemTypes';
+import Rule from '../components/Rule';
+import { DND_ITEM_TYPE_RULE } from '../constants';
 import { createRule } from '../utils/RuleUtils';
 
 const ruleTarget = {
@@ -80,4 +79,4 @@ RuleGroup.propTypes = {
   onMoveToGroupById: PropTypes.func.isRequired
 };
 
-export default DropTarget(ItemTypes.RULE, ruleTarget, collect)(RuleGroup);
+export default DropTarget(DND_ITEM_TYPE_RULE, ruleTarget, collect)(RuleGroup);

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
 import Layout from '../components/Layout';
 import RuleList from '../components/RuleList';
 import TabOptions from '../components/TabOptions';
